@@ -52,7 +52,7 @@ h1,h2,h3{margin:0}
 .hero .bg{position:absolute;right:-30px;top:-20px;width:220px;opacity:.5;pointer-events:none}
 .kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:6px}
 .hero .kicker{color:var(--gold)}
-.hero h1{font-size:46px;margin:0 0 4px}
+.hero h1{font-size:42px;margin:0 0 4px}
 .hero .sub{color:var(--ink2);font-size:14px;margin-bottom:14px}
 .muted{color:var(--ink2);font-size:14px}
 .tiny{font-size:12px;color:var(--ink3)}
@@ -195,7 +195,7 @@ h1,h2,h3{margin:0}
 .nutri .it span{font-size:14px;color:var(--card-ink2)}
 .check ul{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--card-ink)}
 .check li{margin:5px 0}
-.quote{font-family:var(--disp);font-size:22px;font-weight:800;text-transform:uppercase;line-height:1.05;color:var(--gold);padding:2px 4px 14px;letter-spacing:.01em}
+.quote{font-family:var(--disp);font-size:20px;font-weight:800;text-transform:uppercase;line-height:1.05;color:var(--gold);padding:2px 4px 14px;letter-spacing:.01em}
 .gains{margin:6px 0 0;padding-left:18px;font-size:15px;line-height:1.4}.gains li{margin:4px 0}
 .vid{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 12px;border-radius:10px;background:var(--pitch);color:var(--gold);font-weight:700;font-size:14px;text-decoration:none}
 .alert{display:flex;gap:10px;align-items:flex-start;background:rgba(232,85,61,.12);border:1px solid rgba(232,85,61,.45);border-radius:14px;padding:10px 12px;font-size:13px;color:var(--ink);margin-bottom:12px}
@@ -1324,39 +1324,34 @@ function exRow(it, extra, dark){
 }
 function renderHome(){
   var d = new Date(), w = weekState(d), plan = planFor(d), done = doneOn(today());
-  var h = topBar();
-  h += '<div class="quote">“' + esc(quoteOfDay()) + '”</div>';
-  if (w.game == null){
-    h += '<div class="card gold"><div class="kicker" style="color:#6B5A0A">Esta semana</div><div class="disp" style="font-size:26px">Tens jogo no domingo?</div><div class="q"><button class="btn dark" data-game="yes">Sim</button><button class="btn dark" data-game="no">Não</button><button class="btn dark" data-game="other">Outro dia</button></div></div>';
-  }
-  var dayCards = done.map(function(x){ return '<div class="card" style="border-color:rgba(95,211,141,.5)"><div class="row between"><div><div class="kicker" style="color:var(--green)">Feito hoje</div><div class="disp" style="font-size:22px">' + esc(x.title) + '</div><div class="tiny">' + x.sets + ' · ' + x.mins + ' min</div></div><span class="mono" style="color:var(--green);font-size:22px">✓</span></div></div>'; }).join("");
   var strDone = done.some(function(x){ return isStrength(x.key); });
-  var hero;
-  if (plan.kind === "str" && !strDone){
-    var key = nextKey(), day = resolveSession(key, plan.light);
-    hero = '<div class="card hero">' + HERO_BG + '<div class="kicker">Hoje · ' + DOW_LONG[d.getDay()] + '</div><h1 class="disp">' + esc(day.title) + '</h1><div class="sub">' + esc(day.sub) + ' · ~' + day.mins + ' min · ' + countSets(day) + ' séries</div>' +
-      '<div class="exlist" style="margin-bottom:14px">' + previewRows(day, 4).map(function(it){ return exRow(it, "", true); }).join("") + '<div class="tiny" style="text-align:center">+ aquecimento, prevenção e alongamentos</div></div>' +
-      '<button class="btn primary" data-start="' + key + '" data-light="' + (plan.light ? 1 : 0) + '">' + (st.sess && st.sess.key === key ? "Continuar o treino" : "Começar o treino") + '</button>' +
-      (phase() === 1 ? '<div class="hint" style="margin-top:10px">Semanas 1 a 3: técnica primeiro. Peso leve de propósito, pára sempre quando ainda conseguias fazer 3.</div>' : '') + '</div>';
+  var h = topBar() + '<div class="quote">\u201c' + esc(quoteOfDay()) + '\u201d</div>';
+  if (w.game == null){
+    h += '<div class="card gold"><div class="disp" style="font-size:24px">Tens jogo no domingo?</div><div class="q"><button class="btn dark" data-game="yes">Sim</button><button class="btn dark" data-game="no">Não</button><button class="btn dark" data-game="other">Outro dia</button></div></div>';
+  }
+  var nk = nextKey(), nd = resolveSession(nk, plan.light), title, sub, primary = "", secondary = "", extra = "";
+  if (strDone){
+    var x = done.filter(function(y){ return isStrength(y.key); })[0];
+    title = "Feito"; sub = x.title + " · " + x.sets + " séries · " + x.mins + " min. Agora é comer bem e descansar.";
+  } else if (plan.kind === "str"){
+    title = nd.title; sub = nd.sub + " · ~" + nd.mins + " min";
+    extra = '<div class="exlist" style="margin-bottom:14px">' + previewRows(nd, 4).map(function(it){ return exRow(it, "", true); }).join("") + '</div>';
+    primary = '<button class="btn primary" data-start="' + nk + '" data-light="' + (plan.light ? 1 : 0) + '">' + (st.sess && st.sess.key === nk ? "Continuar" : "Começar") + ' · ' + nk + '</button>';
   } else if (plan.run && !done.some(function(x){ return x.key === plan.run; })){
     var sp = resolveSession(plan.run);
-    hero = '<div class="card hero">' + HERO_BG + '<div class="kicker">Hoje · ' + DOW_LONG[d.getDay()] + '</div><h1 class="disp">' + esc(plan.title) + '</h1><div class="sub">' + esc(plan.sub) + '</div>' +
-      (plan.kind === "game" ? '<button class="btn ghost" data-start="pregame">Ativação antes do jogo · 8 min</button>' : '<button class="btn primary" data-start="' + plan.run + '">Começar · ' + sp.mins + ' min</button>') + '</div>';
+    title = plan.title; sub = plan.sub;
+    primary = '<button class="btn ' + (plan.kind === "game" ? "ghost" : "primary") + '" data-start="' + plan.run + '">' + (plan.kind === "game" ? "Ativação antes do jogo · 8 min" : "Começar · " + sp.mins + " min") + '</button>';
+    secondary = '<button class="btn ghost" data-start="' + nk + '" data-light="1">Ginásio na mesma · ' + nk + ' leve</button>';
+  } else if (plan.kind === "rest"){
+    title = plan.title; sub = plan.sub;
+    secondary = '<button class="btn ghost" data-start="' + nk + '" data-light="0">Ginásio na mesma · ' + nk + '</button>';
   } else {
-    hero = '<div class="card hero">' + HERO_BG + '<div class="kicker">Hoje · ' + DOW_LONG[d.getDay()] + '</div><h1 class="disp">' + esc(strDone && plan.kind === "str" ? "Ginásio feito" : plan.title) + '</h1><div class="sub">' + esc(strDone && plan.kind === "str" ? "Agora é comer bem e descansar." : plan.sub) + '</div>' +
-      (plan.kind === "club" ? '<button class="btn ghost" data-start="mob_clube">Mobilidade antes do clube · 10 min</button>' : '') + '</div>';
+    title = plan.title; sub = "";
+    primary = '<button class="btn primary" data-start="' + nk + '" data-light="0">Ginásio · ' + nk + ' · 40′</button>';
+    secondary = '<button class="btn ghost" data-start="mob_clube">Mobilidade antes do clube · 10 min</button>';
   }
-  h += dayCards + hero;
-  /* quer treinar na mesma? a app sugere, nunca impede */
-  if (plan.kind !== "str" && !strDone){
-    var nk = nextKey(), nd = resolveSession(nk, false), warn = "";
-    if (plan.kind === "vespera" || plan.kind === "game") warn = "Amanhã há jogo. Se fores, faz a versão leve (sem saltos, menos 1 série) para chegares fresco.";
-    else if (plan.kind === "rest") warn = "Hoje era folga. Não faz mal ir, mas lembra-te que descansar também é treinar.";
-    else if (plan.kind === "recup") warn = "Vens de jogo. Se fores, a versão leve chega.";
-    h += '<div class="card"><div class="kicker">Quero treinar na mesma</div><div class="muted" style="margin-bottom:10px">Próximo da sequência: <b style="color:var(--ink)">' + nk + ' · ' + esc(nd.title) + '</b></div>' +
-      (warn ? '<div class="hint" style="margin:0 0 10px">' + esc(warn) + '</div><div class="row"><button class="btn primary grow" data-start="' + nk + '" data-light="1">Versão leve · 30′</button><button class="btn ghost grow" data-start="' + nk + '" data-light="0">Completo · 40′</button></div>'
-            : '<button class="btn primary" data-start="' + nk + '" data-light="0">Começar ' + nk + ' · 40′</button>') + '</div>';
-  }
+  h += '<div class="card hero">' + HERO_BG + '<div class="kicker">Hoje · ' + DOW_LONG[d.getDay()] + '</div><h1 class="disp">' + esc(title) + '</h1>' + (sub ? '<div class="sub">' + esc(sub) + '</div>' : '<div style="height:8px"></div>') + extra +
+    '<div class="acts" style="margin-top:0">' + primary + secondary + '</div></div>';
   /* semana */
   var mon = monday(d), cells = "";
   for (var i = 0; i < 7; i++){
@@ -1365,10 +1360,8 @@ function renderHome(){
     cells += '<div class="' + cls + '"><div class="d">' + DOW[dd.getDay()] + '</div><span class="lab">' + p.lab + '</span><span class="dot"></span></div>';
   }
   var gl = w.game === false ? "Sem jogo" : "Jogo " + DOW[gameDow(w)];
-  h += '<div class="card"><div class="row between" style="margin-bottom:8px"><div class="kicker" style="margin:0">Jornada</div><button class="chip sm" data-week="edit">' + gl + ' · mudar</button></div><div class="week">' + cells + '</div>' +
-    '<label class="sw" style="border:0;padding-top:12px"><span>Semana de jogo importante <span class="tiny">(só 1 ginásio, versão leve)</span></span><input type="checkbox" id="bigWeek" ' + (w.big ? "checked" : "") + '></label></div>';
-  if (plan.kind !== "rest") h += '<div class="card"><div class="kicker">Sem tempo ou sem ginásio?</div><div class="row"><button class="btn ghost grow" data-start="rapido">Rápido 20′</button><button class="btn ghost grow" data-tab="treinos">Mobilidade</button></div></div>';
-  h += '<div class="alert"><span>⚠</span><div><b>Atenção.</b> ' + ALERT.short + ' <button class="chip sm" data-sheet="alert">ler mais</button></div></div>';
+  h += '<div class="card"><div class="row between" style="margin-bottom:8px"><div class="kicker" style="margin:0">Semana</div><button class="chip sm" data-week="edit">' + gl + (w.big ? " · importante" : "") + ' · mudar</button></div><div class="week">' + cells + '</div></div>';
+  h += '<div class="tiny" style="text-align:center;padding:4px 10px 0"><button class="chip sm" data-sheet="alert">Dor no joelho ou no calcanhar? Lê isto</button></div>';
   return h;
 }
 function renderTreinos(){
@@ -1439,7 +1432,8 @@ function openAlert(){ openSheet(sheetHead("Sinais de alarme") + '<div class="car
 function openWeekEdit(){
   var w = weekState(new Date()), g = gameDow(w);
   var h = sheetHead("Jogo desta semana") + '<div class="muted" style="margin-bottom:10px">A app põe a véspera e a recuperação à volta do jogo e afasta o ginásio pelo menos 2 dias.</div><div class="chips">' +
-    DOW_LONG.map(function(n, i){ return '<button class="chip ' + (g === i ? "on" : "") + '" data-gameday="' + i + '">' + n + '</button>'; }).join("") + '<button class="chip ' + (g == null ? "on" : "") + '" data-gameday="none">Sem jogo</button></div>';
+    DOW_LONG.map(function(n, i){ return '<button class="chip ' + (g === i ? "on" : "") + '" data-gameday="' + i + '">' + n + '</button>'; }).join("") + '<button class="chip ' + (g == null ? "on" : "") + '" data-gameday="none">Sem jogo</button></div>' +
+    '<label class="sw" style="border:0;margin-top:14px"><span>Semana de jogo importante <span class="tiny">(só 1 ginásio, versão leve)</span></span><input type="checkbox" id="bigWeek" ' + (w.big ? "checked" : "") + '></label>';
   openSheet(h);
 }
 function openInfo(name){
@@ -1670,7 +1664,7 @@ document.addEventListener("click", function(e){
 });
 document.addEventListener("change", function(e){
   var t = e.target;
-  if (t.id === "bigWeek"){ setWeek(new Date(), {big:t.checked}); return; }
+  if (t.id === "bigWeek"){ setWeek(new Date(), {big:t.checked}); openWeekEdit(); return; }
   if (t.id === "optSound"){ st.sound = t.checked; save(); if (t.checked) unlockAudio(); return; }
   if (t.id === "optWake"){ st.keepAwake = t.checked; save(); return; }
   if (t.id === "optRest"){ st.cfg.restDay = parseInt(t.value, 10); save(); render(); return; }
