@@ -113,28 +113,29 @@ function doneOn(dateIso){ return (st.log || []).filter(function(x){ return x.dat
 function planFor(d){
   var w = weekState(d), g = gameDow(w), dow = d.getDay(), cfg = st.cfg;
   if (g != null){
-    if (dow === g) return {kind:"game", title:"Dia de jogo", sub:"Boa sorte. A app só entra se o clube não aquecer.", run:"pregame", lab:"Jogo"};
+    if (dow === g) return {kind:"game", title:"Dia de jogo", sub:"Hoje jogas. Sem ginásio. Boa sorte!", run:"pregame", lab:"Jogo"};
     var until = (g - dow + 7) % 7, after = (dow - g + 7) % 7;
-    if (until === 1) return {kind:"vespera", title:"Véspera de jogo", sub:"O plano diz 12 min a soltar e ativar.", run:"vespera", lab:"Véspera"};
-    if (after === 1) return {kind:"recup", title:"Recuperação", sub:"15 min a soltar as pernas do jogo.", run:"recup", lab:"Recup."};
+    if (until === 1) return {kind:"vespera", title:"Véspera de jogo", sub:"Amanhã jogas. Hoje só 12 min a soltar o corpo, sem ginásio.", run:"vespera", lab:"Véspera"};
+    if (after === 1) return {kind:"recup", title:"Dia de recuperar", sub:"Jogaste ontem. Hoje 15 min a soltar as pernas, sem ginásio.", run:"recup", lab:"Recup."};
   }
-  if (dow === cfg.restDay) return {kind:"rest", title:"Folga total", sub:"Hoje o corpo cresce. O plano é não fazer nada.", lab:"Folga"};
+  if (dow === cfg.restDay) return {kind:"rest", title:"Dia de folga", sub:"Sem futebol e sem ginásio. É hoje que o corpo cresce.", lab:"Folga"};
   var gym = (g == null ? cfg.gymDaysNoGame : cfg.gymDays);
   if (gym.indexOf(dow) >= 0){
-    if (w.big && gym.indexOf(dow) > 0) return {kind:"club", title:"Treino do clube", sub:"Semana de jogo importante: só 1 ginásio esta semana.", lab:"Clube"};
-    return {kind:"str", title:"Ginásio", sub:"", light:!!w.big, lab:"Ginásio"};
+    if (w.big && gym.indexOf(dow) > 0) return {kind:"club", title:"Dia de futebol", sub:"Semana de jogo importante: o ginásio desta semana já está feito.", lab:"Futebol"};
+    return {kind:"str", title:"Dia de ginásio", sub:"", light:!!w.big, lab:"Ginásio"};
   }
-  return {kind:"club", title:"Treino do clube", sub:"Se quiseres, 10 min de mobilidade antes.", lab:"Clube"};
+  return {kind:"club", title:"Dia de futebol", sub:"Hoje tens treino no clube. O ginásio não está marcado.", lab:"Futebol"};
 }
 
 /* ---------- navegação / render ---------- */
 var TAB_ICON = {
   home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>',
   treinos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6M20 9v6M7 7v10M17 7v10M7 12h10"/></svg>',
+  liga:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7l4.5 3.3-1.7 5.2H9.2L7.5 10.3z"/><path d="M12 7V3M16.5 10.3l3.8-1.4M14.8 15.5l2.4 3.2M9.2 15.5l-2.4 3.2M7.5 10.3L3.7 8.9"/></svg>',
   nutri:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v7a3 3 0 006 0V3M9 3v18M17 3c-2 2-3 5-3 8h3v10"/></svg>',
   perfil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>'
 };
-var TABS = [["home","Hoje"],["treinos","Treinos"],["nutri","Comer"],["perfil","Eu"]];
+var TABS = [["home","Hoje"],["liga","Benfica"],["nutri","Comer"],["treinos","Treinos"],["perfil","Eu"]];
 function renderTabs(){
   document.getElementById("tabs").innerHTML = TABS.map(function(t){ return '<button class="tab ' + (ui.tab === t[0] ? "on" : "") + '" data-tab="' + t[0] + '">' + TAB_ICON[t[0]] + '<span>' + t[1] + '</span></button>'; }).join("");
 }
@@ -144,6 +145,7 @@ function render(){
   if (ui.tab === "home") app.innerHTML = renderHome();
   else if (ui.tab === "treinos") app.innerHTML = renderTreinos();
   else if (ui.tab === "nutri") app.innerHTML = renderNutri();
+  else if (ui.tab === "liga") app.innerHTML = renderLiga();
   else app.innerHTML = renderPerfil();
   window.scrollTo(0, 0);
 }
@@ -177,19 +179,20 @@ function renderHome(){
   } else if (plan.kind === "str"){
     title = nd.title; sub = nd.sub + " · ~" + nd.mins + " min";
     extra = '<div class="exlist" style="margin-bottom:14px">' + previewRows(nd, 4).map(function(it){ return exRow(it, "", true); }).join("") + '</div>';
-    primary = '<button class="btn primary" data-start="' + nk + '" data-light="' + (plan.light ? 1 : 0) + '">' + (st.sess && st.sess.key === nk ? "Continuar" : "Começar") + ' · ' + nk + '</button>';
+    primary = '<button class="btn primary" data-start="' + nk + '" data-light="' + (plan.light ? 1 : 0) + '">' + (st.sess && st.sess.key === nk ? "Continuar o treino" : "Começar o treino") + '</button>';
+    secondary = '<button class="btn ghost" data-preview="' + nk + '">Ver o treino antes</button>';
   } else if (plan.run && !done.some(function(x){ return x.key === plan.run; })){
     var sp = resolveSession(plan.run);
     title = plan.title; sub = plan.sub;
     primary = '<button class="btn ' + (plan.kind === "game" ? "ghost" : "primary") + '" data-start="' + plan.run + '">' + (plan.kind === "game" ? "Ativação antes do jogo · 8 min" : "Começar · " + sp.mins + " min") + '</button>';
-    secondary = '<button class="btn ghost" data-start="' + nk + '" data-light="1">Ginásio na mesma · ' + nk + ' leve</button>';
+    secondary = '<button class="btn ghost" data-start="' + nk + '" data-light="1">Treino de ginásio na mesma (leve)</button>';
   } else if (plan.kind === "rest"){
     title = plan.title; sub = plan.sub;
-    secondary = '<button class="btn ghost" data-start="' + nk + '" data-light="0">Ginásio na mesma · ' + nk + '</button>';
+    secondary = '<button class="btn ghost" data-start="' + nk + '" data-light="0">Treino de ginásio na mesma</button>';
   } else {
-    title = plan.title; sub = "";
-    primary = '<button class="btn primary" data-start="' + nk + '" data-light="0">Ginásio · ' + nk + ' · 40′</button>';
-    secondary = '<button class="btn ghost" data-start="mob_clube">Mobilidade antes do clube · 10 min</button>';
+    title = plan.title; sub = plan.sub;
+    primary = '<button class="btn primary" data-start="mob_clube">Mobilidade antes do futebol · 10 min</button>';
+    secondary = '<button class="btn ghost" data-start="' + nk + '" data-light="0">Treino de ginásio na mesma · 40 min</button>';
   }
   h += '<div class="card hero">' + HERO_BG + '<div class="kicker">Hoje · ' + DOW_LONG[d.getDay()] + '</div><h1 class="disp">' + esc(title) + '</h1>' + (sub ? '<div class="sub">' + esc(sub) + '</div>' : '<div style="height:8px"></div>') + extra +
     '<div class="acts" style="margin-top:0">' + primary + secondary + '</div></div>';
@@ -202,11 +205,12 @@ function renderHome(){
   }
   var gl = w.game === false ? "Sem jogo" : "Jogo " + DOW[gameDow(w)];
   h += '<div class="card"><div class="row between" style="margin-bottom:8px"><div class="kicker" style="margin:0">Semana</div><button class="chip sm" data-week="edit">' + gl + (w.big ? " · importante" : "") + ' · mudar</button></div><div class="week">' + cells + '</div></div>';
+  h += ligaSnippet();
   h += '<div class="tiny" style="text-align:center;padding:4px 10px 0"><button class="chip sm" data-sheet="alert">Dor no joelho ou no calcanhar? Lê isto</button></div>';
   return h;
 }
 function renderTreinos(){
-  var h = topBar() + '<div class="kicker">Força · a app segue esta ordem</div><div class="exlist" style="margin-bottom:14px">';
+  var h = topBar() + '<div class="kicker">Treinos de ginásio · a app segue esta ordem</div><div class="exlist" style="margin-bottom:14px">';
   SEQ.forEach(function(k, i){
     var d = SESSIONS[k], isNext = (st.seq % SEQ.length) === i;
     h += '<button class="exrow dark ' + (isNext ? "cur" : "") + '" data-preview="' + k + '"><div class="grow"><div class="n">' + k + ' · ' + esc(d.title) + '</div><div class="pt">' + esc(d.sub) + (isNext ? ' · <b style="color:var(--gold)">é o próximo</b>' : '') + '</div></div><span class="sch">ver</span></button>';
@@ -217,6 +221,27 @@ function renderTreinos(){
   MOB_LIST.forEach(function(k){ var d = SPECIAL[k]; h += '<button class="exrow dark" data-preview="' + k + '"><div class="grow"><div class="n">' + esc(d.title) + '</div><div class="pt">' + esc(d.sub) + '</div></div><span class="sch">' + d.mins + '′</span></button>'; });
   h += '</div><div class="card"><div class="kicker">Como funciona</div><div class="muted">Dois treinos de ginásio por semana, 40 min, sempre a 2 dias de distância do jogo. A app alterna A (pernas a dois apoios + empurrar) e B (uma perna + puxar) e vai rodando 3 versões de cada para não ser sempre igual. Semanas 1 a 3 são de técnica com peso leve; a partir da 4.ª semana a app sugere subir o peso quando o treino anterior foi fácil.</div></div>';
   h += '<div class="alert"><span>⚠</span><div>' + ALERT.long + '</div></div>';
+  return h;
+}
+var LIGA = null;
+function loadLiga(){ fetch("./data/liga.json?v=" + Math.floor(Date.now() / 3600000)).then(function(r){ return r.json(); }).then(function(j){ LIGA = j; if (ui.tab === "liga" || ui.tab === "home") render(); }).catch(function(){}); }
+function fmtD(s){ var p = s.split("-"); return p[2] + "/" + p[1]; }
+function matchRow(m){ var isB = function(n){ return /Benfica/.test(n); }; return '<div class="mrow"><span class="tiny">' + fmtD(m.date) + (m.time ? " · " + m.time : "") + ' · ' + esc(m.comp) + '</span><span class="mt"><b class="' + (isB(m.home) ? "b" : "") + '">' + esc(m.home) + '</b> <span class="mono">' + (m.score || "vs") + '</span> <b class="' + (isB(m.away) ? "b" : "") + '">' + esc(m.away) + '</b></span></div>'; }
+function ligaSnippet(){
+  if (!LIGA) return "";
+  var b = LIGA.benfica, n = b.next && b.next[0];
+  return '<button class="card liga-mini" data-tab="liga" style="width:100%;text-align:left"><div class="row between"><div><div class="kicker" style="margin:0 0 4px">Benfica · ' + b.pos + '.º lugar · ' + b.pts + ' pts</div>' + (n ? '<div style="font-size:15px">Próximo: <b>' + esc(n.home) + ' – ' + esc(n.away) + '</b> · ' + fmtD(n.date) + (n.time ? ' ' + n.time : '') + '</div>' : '') + '</div><span class="tiny">ver →</span></div></button>';
+}
+function renderLiga(){
+  var h = topBar();
+  if (!LIGA) return h + '<div class="card"><div class="muted">A carregar a Liga…</div></div>';
+  var b = LIGA.benfica;
+  h += '<div class="card hero"><div class="kicker">Benfica · Liga 2026/27</div><h1 class="disp" style="font-size:40px">' + b.pos + '.º lugar</h1><div class="sub">' + b.pts + ' pontos em ' + b.played + ' jogos · ' + b.w + 'V ' + b.d + 'E ' + b.l + 'D</div>' +
+    '<div class="kicker" style="margin-top:6px">Próximos jogos</div>' + (b.next || []).map(matchRow).join("") +
+    (b.last ? '<div class="kicker" style="margin-top:12px">Último jogo</div>' + matchRow(b.last) : '') + '</div>';
+  h += '<div class="card"><div class="kicker">Classificação</div><table class="tbl"><tr><th></th><th style="text-align:left">Equipa</th><th>J</th><th>Pts</th></tr>' + LIGA.table.map(function(r){ return '<tr class="' + (/Benfica/.test(r.team) ? "b" : "") + '"><td>' + r.pos + '</td><td style="text-align:left">' + esc(r.team) + '</td><td>' + r.p + '</td><td><b>' + r.pts + '</b></td></tr>'; }).join("") + '</table></div>';
+  if (LIGA.news && LIGA.news.length) h += '<div class="card"><div class="kicker">Em resumo</div>' + LIGA.news.map(function(x){ return '<div class="kv" style="display:block"><div class="tiny">' + fmtD(x.d) + '</div><div>' + esc(x.t) + '</div></div>'; }).join("") + '</div>';
+  h += '<div class="tiny" style="text-align:center;padding:6px">Atualizado a ' + fmtD(LIGA.updated) + '. A app atualiza isto sozinha todos os dias.</div>';
   return h;
 }
 function renderNutri(){
@@ -257,11 +282,14 @@ function renderPerfil(){
 function openSheet(html){ var el = document.getElementById("sheet"); el.innerHTML = '<div class="pane"><div class="handle"></div>' + html + '</div>'; el.hidden = false; }
 function closeSheet(){ var el = document.getElementById("sheet"); el.hidden = true; el.innerHTML = ""; }
 function sheetHead(title){ return '<div class="sheet-h"><span class="disp">' + esc(title) + '</span><button class="ib" data-close="1">✕</button></div>'; }
-function openPreview(key){
-  var day = resolveSession(key, false), h = sheetHead(day.title) + '<div class="muted" style="margin-bottom:8px">' + esc(day.sub) + ' · ~' + day.mins + ' min</div>';
-  day.blocks.forEach(function(b){ h += '<div class="blockh"><span class="disp">' + esc(b.name) + '</span></div><div class="exlist">' + b.items.map(function(it){ return exRow(it, "", true); }).join("") + '</div>'; });
-  h += '<button class="btn primary" style="margin-top:16px" data-start="' + key + '">Começar este treino</button>';
-  if (isStrength(key)) h += '<div class="tiny" style="text-align:center;margin-top:8px">Se fizeres este fora de ordem, a sequência continua a partir dele.</div>';
+function openPreview(key, light){
+  var day = resolveSession(key, !!light), h = sheetHead(day.title) + '<div class="muted" style="margin-bottom:6px">' + esc(day.sub) + ' · ~' + day.mins + ' min · ' + countSets(day) + ' séries</div><div class="tiny" style="margin-bottom:10px">Só para dar uma vista de olhos. Os pesos são os teus atuais.</div>';
+  day.blocks.forEach(function(b){
+    h += '<div class="pv"><div class="pvh"><span class="disp">' + esc(b.name) + '</span><span class="tiny">' + (b.rest ? (b.ss ? "2 exercícios seguidos · " + b.rest.mid + "s / " + b.rest.end + "s" : b.rest.mid + "s descanso") : "seguido") + '</span></div>';
+    b.items.forEach(function(it){ h += '<div class="pvr"><span class="pvn">' + esc(enName(it[0])) + '<small>' + esc(ptName(it[0])) + '</small></span><span class="mono">' + esc(it[1]) + (hasLoad(it) ? '<small>' + fmtKg(curKg(it)) + ' ' + unitOf(it) + '</small>' : '') + '</span></div>'; });
+    h += '</div>';
+  });
+  h += '<button class="btn primary" style="margin-top:16px" data-start="' + key + '" data-light="' + (light ? 1 : 0) + '">Começar este treino</button>';
   openSheet(h);
 }
 function openCoach(){
@@ -309,7 +337,7 @@ function openIntro(key, light){
   var h = sheetHead(day.title) + '<div class="card white"><div class="kicker" style="color:var(--card-ink2)">O que vais fazer' + (light ? ' · versão leve' : '') + '</div><div style="font-size:15px;line-height:1.45">' + esc(it.what) + '</div>' +
     '<div class="kicker" style="color:var(--card-ink2);margin-top:14px">Para que serve</div><ul class="gains">' + it.gains.map(function(g){ return '<li>' + esc(g) + '</li>'; }).join("") + '</ul>' +
     '<div class="tiny" style="color:var(--card-ink2);margin-top:10px">~' + day.mins + ' min · ' + countSets(day) + ' séries · ' + day.blocks.length + ' blocos</div></div>' +
-    '<button class="btn primary" data-go="' + key + '" data-light="' + (light ? 1 : 0) + '">Vamos treinar</button>';
+    '<button class="btn primary" data-go="' + key + '" data-light="' + (light ? 1 : 0) + '">Vamos treinar</button><button class="btn ghost" style="margin-top:8px" data-preview="' + key + '" data-light="' + (light ? 1 : 0) + '">Só ver o treino</button>';
   openSheet(h);
 }
 function startSession(key, light){
@@ -483,7 +511,7 @@ document.addEventListener("click", function(e){
   if (d.week === "edit"){ openWeekEdit(); return; }
   if (d.sheet === "coach"){ openCoach(); return; }
   if (d.sheet === "alert"){ openAlert(); return; }
-  if (d.preview){ openPreview(d.preview); return; }
+  if (d.preview){ openPreview(d.preview, d.light === "1"); return; }
   if (d.close){ closeSheet(); return; }
   if (t.id === "btnExport"){ exportData(); return; }
   if (t.id === "btnReset"){ if (confirm("Apagar tudo (pesos, histórico, semana) e começar do zero?")){ localStorage.removeItem(KEY); location.reload(); } return; }
@@ -517,6 +545,7 @@ document.addEventListener("click", function(e){ var r = e.target.closest(".exrow
 document.addEventListener("click", function(e){ var t = e.target.closest(".excard .figbox"); if (!t) return; var day = sessDay(); if (!day) return; var f = focusItem(day); if (f) openInfo(day.blocks[f.bi].items[f.ii][0]); });
 if ("serviceWorker" in navigator){ window.addEventListener("load", function(){ navigator.serviceWorker.register("./sw.js").catch(function(){}); }); }
 render();
+loadLiga();
 if (st.sess){ showWorkout(true); renderWorkout(); }
 </script>
 </body>

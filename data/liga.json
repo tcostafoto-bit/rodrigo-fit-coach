@@ -1,0 +1,24 @@
+{
+  "updated": "2026-10-09",
+  "benfica": {
+    "pos": 2, "pts": 16, "played": 7, "w": 5, "d": 1, "l": 1,
+    "last": {"date": "2026-09-20", "comp": "Liga", "home": "FC Porto", "away": "Benfica", "score": "3-1"},
+    "next": [
+      {"date": "2026-10-11", "time": "17:00", "comp": "Liga", "home": "Benfica", "away": "V. Guimarães"},
+      {"date": "2026-10-15", "time": "20:00", "comp": "Europa", "home": "Benfica", "away": "Celtic"},
+      {"date": "2026-10-22", "time": "20:00", "comp": "Europa", "home": "Omonia", "away": "Benfica"}
+    ]
+  },
+  "table": [
+    {"pos": 1, "team": "FC Porto", "p": 7, "pts": 21},
+    {"pos": 2, "team": "Benfica", "p": 7, "pts": 16},
+    {"pos": 3, "team": "Sporting", "p": 7, "pts": 15},
+    {"pos": 4, "team": "Santa Clara", "p": 7, "pts": 15},
+    {"pos": 5, "team": "Arouca", "p": 7, "pts": 11},
+    {"pos": 6, "team": "Braga", "p": 6, "pts": 11}
+  ],
+  "news": [
+    {"d": "2026-10-09", "t": "O Porto lidera com 7 vitórias em 7 jogos; o Benfica está a 5 pontos antes da jornada 8."},
+    {"d": "2026-10-09", "t": "Domingo há Benfica–V. Guimarães na Luz, o primeiro jogo da Liga depois da paragem."}
+  ]
+}
