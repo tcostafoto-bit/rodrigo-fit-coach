@@ -1,0 +1,1591 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1">
+<title>Rodrigo FC</title>
+<meta name="theme-color" content="#0B2E20">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Rodrigo FC">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Instrument+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --pitch:#0B2E20; --pitch2:#113D2B; --pitch3:#17503A; --line:rgba(255,255,255,.14); --line2:rgba(255,255,255,.28);
+  --ink:#F4F7F2; --ink2:#B9CDBF; --ink3:#7E9A88;
+  --gold:#F2D04B; --gold2:#C9A836; --red:#E8553D; --green:#5FD38D; --card:#FFFFFF; --card-ink:#102219; --card-ink2:#4C6457; --card-line:#E3E9E4;
+  --mot:#F2D04B;
+  --sat:env(safe-area-inset-top); --sab:env(safe-area-inset-bottom);
+  --disp:"Big Shoulders Display",Impact,sans-serif; --sans:"Instrument Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:var(--pitch);color:var(--ink);font-family:var(--sans);font-size:16px;line-height:1.4;-webkit-font-smoothing:antialiased;overscroll-behavior:none}
+body{min-height:100vh;background-image:
+  linear-gradient(var(--line) 1px, transparent 1px);
+  background-size:100% 44px}
+button{font-family:inherit;font-size:inherit;color:inherit;border:0;background:none;padding:0;margin:0;cursor:pointer}
+input,select{font-family:inherit;font-size:inherit}
+h1,h2,h3{margin:0}
+.disp{font-family:var(--disp);font-weight:800;letter-spacing:.01em;text-transform:uppercase;line-height:.95}
+.mono{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums}
+.hidden,[hidden]{display:none!important}
+#app{max-width:520px;margin:0 auto;padding:calc(var(--sat) + 10px) 16px calc(var(--sab) + 84px)}
+/* topo */
+.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .disp{font-size:26px}
+.brand small{display:block;font-size:11px;color:var(--ink3);letter-spacing:.14em;text-transform:uppercase;font-weight:600}
+.pill{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line2);border-radius:999px;padding:5px 10px;font-size:12px;font-weight:600;color:var(--ink2)}
+.pill b{color:var(--gold)}
+/* cartões */
+.card{background:var(--pitch2);border:1px solid var(--line);border-radius:18px;padding:16px;margin-bottom:12px;position:relative;overflow:hidden}
+.card.white{background:var(--card);color:var(--card-ink);border-color:transparent}
+.card.white .muted{color:var(--card-ink2)}
+.card.gold{background:var(--gold);color:#1F1A05;border-color:transparent}
+.hero{padding:20px 18px 18px;background:linear-gradient(160deg,var(--pitch3),var(--pitch2));border-color:var(--line2)}
+.hero .bg{position:absolute;right:-30px;top:-20px;width:220px;opacity:.5;pointer-events:none}
+.kicker{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:6px}
+.hero .kicker{color:var(--gold)}
+.hero h1{font-size:46px;margin:0 0 4px}
+.hero .sub{color:var(--ink2);font-size:14px;margin-bottom:14px}
+.muted{color:var(--ink2);font-size:14px}
+.tiny{font-size:12px;color:var(--ink3)}
+.row{display:flex;align-items:center;gap:10px}
+.row.between{justify-content:space-between}
+.grow{flex:1;min-width:0}
+/* botões */
+.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;min-height:54px;border-radius:14px;font-weight:700;font-size:17px;padding:0 16px;transition:transform .08s}
+.btn:active{transform:scale(.985)}
+.btn.primary{background:var(--gold);color:#1F1A05}
+.btn.dark{background:var(--pitch);color:var(--ink);border:1px solid var(--line2)}
+.btn.ghost{background:transparent;color:var(--ink2);border:1px solid var(--line2);min-height:46px;font-size:15px}
+.excard .btn.ghost{color:var(--card-ink);border-color:#C9D3CC}
+.btn.white{background:#fff;color:var(--card-ink)}
+.btn.sm{min-height:42px;font-size:14px;border-radius:12px;width:auto;padding:0 14px}
+.btn.danger{background:var(--red);color:#fff}
+.btn:disabled{opacity:.45}
+.ib{width:42px;height:42px;border-radius:12px;display:inline-flex;align-items:center;justify-content:center;border:1px solid var(--line2);color:var(--ink);flex:0 0 auto}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line2);border-radius:999px;padding:7px 12px;font-size:13px;font-weight:600;color:var(--ink2)}
+.chip.on{background:var(--gold);color:#1F1A05;border-color:var(--gold)}
+.chip.sm{padding:4px 9px;font-size:12px}
+/* semana / jornada */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:4px 0 2px}
+.day{border-radius:10px;padding:8px 2px 6px;text-align:center;border:1px solid var(--line);font-size:11px;color:var(--ink2);line-height:1.15}
+.day .d{font-family:var(--disp);font-size:16px;font-weight:800;color:var(--ink);margin-bottom:2px}
+.day.today{border-color:var(--gold);background:rgba(242,208,75,.1)}
+.day.today .d{color:var(--gold)}
+.day.done{background:rgba(95,211,141,.15);border-color:rgba(95,211,141,.4)}
+.day.gym .lab{color:var(--gold);font-weight:700}
+.day.game .lab{color:#fff;font-weight:700}
+.day .lab{display:block;font-size:10px;letter-spacing:.02em}
+.day .dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--ink3);margin-top:3px}
+.day.gym .dot{background:var(--gold)}.day.game .dot{background:#fff}.day.rest .dot{background:var(--red)}.day.club .dot{background:var(--green)}
+/* lista de exercícios */
+.exlist{display:flex;flex-direction:column;gap:8px}
+.exrow{display:flex;align-items:center;gap:12px;background:var(--card);color:var(--card-ink);border-radius:14px;padding:10px 12px;width:100%;text-align:left}
+.exrow.dark{background:var(--pitch);color:var(--ink);border:1px solid var(--line)}
+.exrow .thumb{width:56px;height:42px;flex:0 0 auto;display:flex;align-items:center;justify-content:center}
+.exrow .thumb .fig{width:56px}
+.exrow .n{font-weight:700;font-size:15px;line-height:1.2}
+.exrow .pt{font-size:12px;color:var(--card-ink2)}
+.exrow.dark .pt{color:var(--ink3)}
+.exrow .sch{font-family:var(--mono);font-size:13px;color:var(--card-ink2);white-space:nowrap}
+.exrow.dark .sch{color:var(--ink2)}
+.exrow.done{opacity:.55}
+.exrow.cur{outline:2px solid var(--gold)}
+.blockh{display:flex;align-items:center;justify-content:space-between;margin:14px 0 6px}
+.blockh .disp{font-size:20px}
+.blockh .tiny{font-weight:600}
+/* figuras (desenhos de linha) */
+.fig{display:block;width:100%;height:auto;stroke-linecap:round;stroke-linejoin:round;fill:none;--fb:#102219;--fp:#B5C3B9;--fa:#B38F12}
+.dark .fig,.fig.dark{--fb:#F4F7F2;--fp:#4F6E5C;--fa:#F2D04B}
+.fig .B{stroke:var(--fb);stroke-width:2.6}.fig .P{stroke:var(--fp);stroke-width:1.8}.fig .A{stroke:var(--fa);stroke-width:2.4}.fig .Af{fill:var(--fa);stroke:none}
+.fig .M{stroke:var(--mot);stroke-width:1.8;stroke-dasharray:3 4;marker-end:url(#arr)}
+.figbox{display:flex;justify-content:center;background:#F6F8F5;border-radius:14px;padding:6px;margin-bottom:12px}
+.figbox .fig{width:150px}
+/* separadores */
+.tabs{position:fixed;left:0;right:0;bottom:0;background:rgba(11,46,32,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line2);display:flex;justify-content:space-around;padding:8px 6px calc(var(--sab) + 8px);z-index:20}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:600;color:var(--ink3);padding:4px 0}
+.tab svg{width:24px;height:24px}
+.tab.on{color:var(--gold)}
+/* modo treino */
+#wk{position:fixed;inset:0;background:var(--pitch);z-index:30;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:calc(var(--sat) + 10px) 16px calc(var(--sab) + 24px)}
+#wk .inner{max-width:520px;margin:0 auto}
+.score{display:flex;align-items:center;justify-content:space-between;background:#071F15;border:1px solid var(--line2);border-radius:14px;padding:8px 12px;margin-bottom:12px}
+.score .t{font-family:var(--mono);font-size:22px;color:var(--gold)}
+.score .lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+.score .prog{font-family:var(--mono);font-size:14px;color:var(--ink2)}
+.excard{background:var(--card);color:var(--card-ink);border-radius:20px;padding:16px;margin-bottom:12px}
+.excard .code{display:inline-block;font-family:var(--mono);font-size:12px;background:var(--pitch);color:var(--gold);border-radius:6px;padding:2px 7px;margin-bottom:8px}
+.excard h2{font-family:var(--disp);font-size:30px;font-weight:800;text-transform:uppercase;line-height:.95;margin:0}
+.excard .pt{color:var(--card-ink2);font-size:14px;margin:4px 0 10px}
+.feel{border-left:3px solid var(--gold);padding:4px 10px;margin:10px 0;font-size:14px;line-height:1.35}
+.feel b{display:block;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--card-ink2);margin-bottom:2px}
+.feel.no{border-color:var(--red)}
+.howto{font-size:14px;color:var(--card-ink);line-height:1.45;background:#F6F8F5;border-radius:12px;padding:10px 12px;margin-top:8px}
+.howto summary{cursor:pointer;font-weight:700;list-style:none;display:flex;justify-content:space-between}
+.howto summary::-webkit-details-marker{display:none}
+.howto summary::after{content:"+";font-weight:700}
+.howto[open] summary::after{content:"–"}
+.howto p{margin:8px 0 0}
+.hint{display:flex;gap:8px;align-items:flex-start;background:#FFF7D6;color:#5A4400;border-radius:12px;padding:9px 12px;font-size:13px;font-weight:600;margin-top:10px}
+.sets{display:flex;gap:6px;margin:12px 0 6px;flex-wrap:wrap}
+.set{flex:1;min-width:64px;border:1px solid var(--card-line);border-radius:12px;padding:8px 6px;text-align:center;font-family:var(--mono);font-size:14px;color:var(--card-ink2)}
+.set.done{background:var(--pitch);color:var(--gold);border-color:var(--pitch)}
+.set.next{border-color:var(--gold);border-width:2px;color:var(--card-ink)}
+.set small{display:block;font-family:var(--sans);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:inherit;opacity:.7}
+.kgrow{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#F6F8F5;border-radius:14px;padding:8px 10px;margin:10px 0 4px}
+.kgrow .k{font-family:var(--mono);font-size:24px;font-weight:600;color:var(--card-ink)}
+.kgrow .u{font-size:12px;color:var(--card-ink2);margin-left:4px}
+.kgrow .ib{border-color:var(--card-line);color:var(--card-ink);background:#fff}
+.sugg{display:flex;align-items:center;justify-content:space-between;gap:8px;background:#E6F6EC;color:#13482A;border-radius:12px;padding:8px 12px;font-size:13px;font-weight:600;margin-top:6px}
+.sugg .btn{width:auto;min-height:34px;font-size:13px;padding:0 12px;background:#13482A;color:#fff;border-radius:9px}
+.acts{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.acts .two{display:flex;gap:8px}
+.acts .two .btn{flex:1}
+.eff{display:flex;gap:6px;margin-top:10px}
+.eff button{flex:1;border:1px solid var(--card-line);border-radius:12px;padding:10px 4px;font-weight:700;font-size:14px;color:var(--card-ink)}
+.eff button.on{background:var(--pitch);color:var(--gold);border-color:var(--pitch)}
+.ssbar{display:flex;align-items:center;gap:8px;background:rgba(242,208,75,.12);border:1px solid rgba(242,208,75,.4);border-radius:12px;padding:8px 12px;margin-bottom:10px;font-size:13px;color:var(--ink2)}
+.ssbar b{color:var(--gold)}
+/* descanso */
+.restov{position:fixed;inset:0;background:rgba(7,31,21,.97);z-index:40;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:24px;text-align:center}
+.restov .lab{font-size:13px;letter-spacing:.16em;text-transform:uppercase;color:var(--ink3);font-weight:700;margin-bottom:10px}
+.restov .ring{position:relative;width:220px;height:220px;margin-bottom:16px}
+.restov .ring svg{position:absolute;inset:0;transform:rotate(-90deg)}
+.restov .ring .t{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:56px;color:var(--gold)}
+.restov .next{color:var(--ink2);margin-bottom:18px;font-size:15px;max-width:320px}
+.restov .next b{color:var(--ink);display:block;font-family:var(--disp);font-size:24px;text-transform:uppercase}
+.restov .acts{width:100%;max-width:320px}
+/* folha (sheet) */
+#sheet{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:50;display:flex;align-items:flex-end}
+#sheet .pane{background:var(--pitch2);border-radius:22px 22px 0 0;width:100%;max-width:520px;margin:0 auto;max-height:86vh;overflow-y:auto;padding:16px 16px calc(var(--sab) + 20px);border-top:1px solid var(--line2)}
+#sheet .handle{width:40px;height:4px;border-radius:2px;background:var(--line2);margin:0 auto 14px}
+.sheet-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.sheet-h .disp{font-size:24px}
+/* fim */
+.fin{text-align:center;padding:26px 10px}
+.fin .disp{font-size:54px;color:var(--gold)}
+.fin .stats{display:flex;justify-content:center;gap:18px;margin:16px 0 20px}
+.fin .stats div{text-align:center}
+.fin .stats .v{font-family:var(--mono);font-size:28px;color:var(--ink)}
+.fin .stats .l{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+/* histórico/perfil */
+.hist{display:flex;flex-direction:column;gap:6px}
+.hist .it{display:flex;justify-content:space-between;align-items:center;background:var(--pitch);border:1px solid var(--line);border-radius:12px;padding:10px 12px;font-size:14px}
+.hist .it .mono{color:var(--gold);font-size:13px}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px}
+.stat div{background:var(--pitch);border:1px solid var(--line);border-radius:14px;padding:10px;text-align:center}
+.stat .v{font-family:var(--mono);font-size:24px;color:var(--gold)}
+.stat .l{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink3);font-weight:700}
+.kv{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.kv:last-child{border-bottom:0}
+.kv .k{color:var(--ink2)}
+.kv .v{font-family:var(--mono);color:var(--ink)}
+.nutri h3{font-family:var(--disp);font-size:22px;text-transform:uppercase;margin:16px 0 8px;color:var(--gold)}
+.nutri .it{background:var(--card);color:var(--card-ink);border-radius:14px;padding:12px 14px;margin-bottom:8px}
+.nutri .it b{display:block;margin-bottom:3px}
+.nutri .it span{font-size:14px;color:var(--card-ink2)}
+.check ul{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--card-ink)}
+.check li{margin:5px 0}
+.alert{display:flex;gap:10px;align-items:flex-start;background:rgba(232,85,61,.12);border:1px solid rgba(232,85,61,.45);border-radius:14px;padding:10px 12px;font-size:13px;color:var(--ink);margin-bottom:12px}
+.alert b{color:#FF8F7A}
+.toast{position:fixed;left:50%;bottom:calc(var(--sab) + 96px);transform:translateX(-50%);background:#fff;color:var(--card-ink);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:60;box-shadow:0 6px 24px rgba(0,0,0,.35);white-space:nowrap}
+.q{display:flex;gap:8px;margin-top:10px}
+.q .btn{flex:1;min-height:46px;font-size:15px}
+label.sw{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+label.sw input{width:22px;height:22px;accent-color:var(--gold)}
+select.sel{background:var(--pitch);color:var(--ink);border:1px solid var(--line2);border-radius:10px;padding:8px 10px}
+.ball{display:inline-block;width:14px;height:14px;border-radius:50%;border:2px solid currentColor;vertical-align:-2px;margin-right:4px}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute"><defs><marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#F2D04B"/></marker></defs></svg>
+<div id="app"></div>
+<nav class="tabs" id="tabs"></nav>
+<div id="wk" hidden></div>
+<div id="sheet" hidden></div>
+<script src="https://cdn.jsdelivr.net/npm/nosleep.js@0.12.0/dist/NoSleep.min.js" defer></script>
+<script>
+/* Biblioteca base reaproveitada da Diana Fit Coach (gerada por tools/extract) */
+var LIB_BASE = [["Bicicleta Estática – Aquecimento","cardio","Ritmo confortável em que consegues falar sem ficar sem fôlego — só para aquecer.","Sentado na bicicleta estática"],
+["Passadeira – Aquecimento","cardio","Caminhada rápida ou corrida leve, ritmo em que consegues falar. Só para aquecer.","Passadeira"],
+["Alongamento do Mundo (World's Greatest)","mobilidade","Afundo grande, mão do lado da perna da frente no chão, roda o outro braço para o teto olhando para a mão. Abre anca, coluna torácica e posteriores de uma vez — o melhor aquecimento que há.","No chão, em posição de afundo com a mão apoiada"],
+["Ponte Glúteos (Peso Corporal)","gluteo","Deitado, empurra a anca para cima apertando o glúteo, sem arquear demasiado a lombar.","Deitado de costas no chão"],
+["Ponte Glúteos Unilateral","gluteo","Deitada, uma perna esticada no ar. Empurra a anca para cima com a outra perna, aperta o glúteo em cima e desce devagar.","Deitada de costas, um pé no chão"],
+["Cat-Camel (Chão)","mobilidade","De quatro apoios, arqueia e depois arredonda a coluna lentamente, sincronizando com a respiração.","No chão, de quatro apoios"],
+["Bird Dog (Chão)","core","De quatro apoios, estica o braço e a perna opostos mantendo as costas estáveis, sem rodar a bacia.","No chão, de quatro apoios"],
+["Joelhos ao Peito","cardio","Corrida no lugar trazendo os joelhos à altura da anca, braços a acompanhar. Rápido.","De pé, espaço livre"],
+["Agachamento (Peso Corporal)","perna","Pés à largura dos ombros, desce a anca para trás e para baixo até as coxas ficarem paralelas ao chão, sobe empurrando o chão. Peso no meio do pé.","De pé, espaço livre"],
+["Agachamento Tempo 3-1-1","perna","Desce em 3 segundos, para 1 segundo no fundo e sobe em 1. O tempo lento substitui a carga.","De pé, espaço livre"],
+["Box Jump","perna","Pés à largura da anca, salta para cima da caixa e aterra suave com os joelhos dobrados. Desce a pé (não saltes para baixo).","De pé de frente para a caixa"],
+["Salto em Comprimento","perna","Dobra a anca e os joelhos, balança os braços e salta o mais longe possível para a frente. Aterra suave e caminha de volta.","De pé, espaço livre à frente"],
+["Skaters","cardio/perna","Salta de lado para um pé, o outro cruza atrás, e volta para o outro lado. Como patinar.","De pé, espaço livre"],
+["Afundo com Salto","perna","Em afundo, salta e troca de perna no ar, aterra em afundo do outro lado. Tronco direito, joelho da frente por cima do pé.","De pé, espaço livre"],
+["Goblet Squat (Halter)","perna","Halter junto ao peito com as duas mãos, desce entre os joelhos mantendo o tronco vertical.","De pé, halter junto ao peito"],
+["Flexões (Padrão)","peito","Mãos à largura dos ombros, corpo reto da cabeça aos calcanhares, desce até quase tocar o chão.","No chão, mãos e pontas dos pés apoiadas"],
+["Flexões em Incline","peito","Mãos numa superfície elevada — versão mais fácil, boa para a técnica.","Mãos numa superfície elevada, pés no chão"],
+["Remada Baixa Sentada","costas","Pés nos apoios, joelhos ligeiramente fletidos, tronco direito. Puxa a pega ao umbigo juntando as omoplatas, segura 1s e volta sem arredondar as costas. O tronco não balança.","Sentado no tapete de frente para a máquina, pés nos apoios, polia baixa"],
+["Stepup (Banco + Halteres)","perna","Sobe ao banco com uma perna empurrando pelo calcanhar, desce controlado sem saltar.","De pé junto ao banco, halteres nas mãos"],
+["Puxada Alta (Barra Larga)","costas","Pega mais larga que os ombros, peito alto. Puxa a barra até cima do peito levando os cotovelos para baixo e para trás. Sobe controlado até esticar os braços e sente as costas laterais a alongar.","Sentado de frente para a torre, coxas presas por baixo dos rolos, barra na polia alta"],
+["Puxada Pega Fechada (Supinada)","costas","Mãos à largura dos ombros, palmas viradas para ti. Puxa até ao peito com os cotovelos junto ao corpo. Trabalha mais a parte de baixo das costas e o bíceps que a pega larga.","Sentado de frente para a torre, coxas presas, barra na polia alta"],
+["Hip Thrust (Barra)","gluteo","Ombros apoiados no banco, barra na anca, empurra para cima apertando o glúteo no topo, sem hiperestender a lombar.","Sentado no chão com os ombros apoiados no banco, barra na anca"],
+["Shoulder Press (Máquina)","ombros","Pegas à altura das orelhas, costas no encosto. Empurra para cima sem arquear a lombar e desce devagar até às orelhas.","Sentada na shoulder press, pegas ao lado da cabeça"],
+["Pallof Press (Polia)","core","Pega à altura do peito, de lado para a polia. Estica os braços à frente e aguenta 2s sem deixar o tronco rodar. Volta e repete.","De pé de lado para a polia a meia altura"],
+["Prancha Lateral (Cada lado)","core","De lado, apoiado no antebraço, corpo alinhado, anca elevada sem cair.","No chão, de lado, apoiado num antebraço"],
+["Prancha (Frontal)","core","Antebraços no chão, corpo reto da cabeça aos calcanhares, aperta o abdómen e o glúteo sem deixar a anca cair.","No chão, antebraços apoiados"],
+["Dead Bug (Chão)","core","Deitado, estica ao mesmo tempo o braço e a perna opostos, lombar sempre colada ao chão.","Deitado de costas no chão"],
+["Hamstring Walkout","perna","Em ponte de glúteos, caminha com os calcanhares para a frente até quase esticar as pernas, mantendo a anca alta, e volta atrás.","Deitada de costas, ponte de glúteos"],
+["Hollow Hold","core","Deitada de costas, lombar colada ao chão, braços e pernas esticados a uns centímetros do chão. Aguenta o tempo indicado sem a lombar descolar. Se for demais, dobra os joelhos.","Deitada de costas no tapete"],
+["Superman","core","De barriga para baixo, braços à frente. Levanta ao mesmo tempo braços, peito e pernas do chão, aguenta 2s e desce.","Deitada de barriga para baixo no tapete"],
+["Clamshell c/ Mini Band","gluteo","Deitada de lado, joelhos dobrados, mini band acima dos joelhos. Abre o joelho de cima como uma concha sem rodar a bacia, segura 1s e fecha devagar.","Deitada de lado, mini band nos joelhos"],
+["Leg Press (Máquina)","perna","Pés à largura da anca, a meio da plataforma. Solta a segurança, desce a plataforma até os joelhos fazerem 90° sem a lombar descolar do encosto, e empurra pelos calcanhares até quase esticar — nunca bloqueies os joelhos.","Sentada na leg press, costas e anca coladas ao encosto"],
+["Supino c/ Halteres","peito","Halteres descem ao nível do peito e empurra para cima juntando-os ligeiramente no topo.","Deitado no banco na horizontal, halteres nas mãos"],
+["Supino Inclinado (Halteres)","peito","Banco a 30-45°, halteres descem ao peito superior com os cotovelos a 45°.","Banco a 30-45°, halteres nas mãos"],
+["Leg Curl Deitada (Máquina)","perna","Rolo por cima dos tornozelos, anca colada ao banco. Traz os calcanhares aos glúteos com 1s de aperto no topo e desce devagar. Se a anca levanta, o peso é demais.","Deitada de barriga para baixo na máquina, rolo atrás dos tornozelos"],
+["Leg Curl Sentada (Máquina)","perna","Almofada por cima das coxas, rolo atrás dos tornozelos. Dobra os joelhos puxando o rolo para baixo e para trás, segura 1s, volta controlado.","Sentada na máquina, costas no encosto, coxas presas"],
+["Remada c/ Apoio ao Peito (Máquina)","costas","Peito apoiado na almofada, puxa as pegas para trás com os cotovelos junto ao corpo, junta as omoplatas e volta devagar. O tronco não sai da almofada.","Sentada na máquina, peito apoiado na almofada"],
+["Remada com Halteres (Unilateral)","costas","Um joelho e uma mão apoiados no banco, puxa o halter até à cintura com o cotovelo junto ao corpo.","Joelho e mão apoiados no banco, halter na outra mão"],
+["Remada Invertida (Mesa)","costas","Deitada por baixo de uma mesa robusta, agarra a borda com os braços esticados e puxa o peito até à mesa, corpo reto. Pés mais perto = mais fácil.","Deitada por baixo de uma mesa robusta"],
+["Afundo Inverso","perna","Dá um passo grande para trás e desce até o joelho de trás quase tocar o chão, volta à posição inicial empurrando com a perna da frente. Alterna.","De pé, espaço livre"],
+["Afundo Búlgaro (Banco + Halter)","perna/gluteo","Pé de trás apoiado no banco, desce a perna da frente até 90° sem o joelho passar muito a ponta do pé.","De pé, pé de trás apoiado no banco, halteres nas mãos"],
+["Afundo Caminhando (Halteres)","perna","Passo grande para a frente, desce até o joelho de trás quase tocar o chão, avança alternando as pernas.","De pé, halteres nas mãos, espaço livre para andar"],
+["Face Pull (Polia)","ombros","Corda na polia alta, recua um passo. Puxa na direção da testa com os cotovelos altos e abre as mãos no fim. Leve e controlado.","De pé, recuada da polia alta, corda nas mãos"],
+["Elevação Lateral (Halteres)","ombros","Halteres ao lado do corpo, cotovelos ligeiramente fletidos. Eleva os braços de lado até à linha dos ombros sem encolher o trapézio e desce devagar.","De pé, halteres nas mãos"],
+["Monster Walk (c/ Elástico nos joelhos)","gluteo","Elástico nos joelhos, dá passos laterais mantendo tensão constante.","De pé, elástico nos joelhos"],
+["Mountain Climbers","cardio/core","Em prancha alta, traz os joelhos ao peito alternando rápido, mantendo a anca estável.","No chão, em prancha alta"],
+["Corda de Saltar","cardio","Saltos pequenos e rápidos, pulsos a rodar a corda. Sem corda, faz o mesmo movimento a simular.","De pé, espaço livre"],
+["Polichinelos","cardio","Salta abrindo pernas e braços ao mesmo tempo, fecha e repete. Ritmo constante.","De pé, espaço livre"],
+["Alongamento Flexores da Anca","mobilidade","Empurra a anca para a frente até sentir a frente da anca da perna de trás a esticar, tronco direito, glúteo apertado. Essencial para quem passa horas sentada.","Meio-joelho no chão (perna de trás ajoelhada)"],
+["Alongamento Posteriores (Hamstrings)","mobilidade","Perna esticada, inclina o tronco à frente com as costas direitas até sentir atrás da coxa. Não arredondes a lombar.","De pé, calcanhar apoiado no banco"],
+["Alongamento Gémeos (Parede)","mobilidade","Mãos na parede, uma perna atrás esticada com o calcanhar no chão. Avança a anca até sentir a barriga da perna.","De pé, mãos na parede"],
+["Alongamento Quadricípite (De Pé)","mobilidade","De pé, puxa o calcanhar ao glúteo com a mão do mesmo lado, joelhos juntos e anca à frente. Apoia-te se precisares.","De pé, numa perna"],
+["Alongamento Glúteo (Figura 4)","mobilidade","Tornozelo sobre o joelho oposto, puxa a coxa ao peito até sentir o glúteo. Solta a anca para a rotação.","Deitado de costas no chão"],
+["Alongamento Peitoral (Porta)","mobilidade","Antebraço no aro da porta, roda o corpo para o lado oposto até sentir o peito a abrir.","De pé, antebraço no aro da porta"],
+["Alongamento Tríceps e Ombro","mobilidade","Braço acima da cabeça, cotovelo dobrado com a mão nas costas. Com a outra mão puxa o cotovelo suavemente.","De pé ou sentada"],
+["Extensão de Pernas (Máquina)","perna","Joelhos alinhados com o eixo da máquina, rolo por cima dos tornozelos. Estica as pernas, aperta a coxa 1s em cima e desce devagar sem deixar cair.","Sentada na máquina, costas no encosto"],
+["Abdutora (Máquina)","gluteo","Almofadas do lado de fora dos joelhos. Abre as pernas contra a resistência sem inclinar o tronco, segura 1s aberto e fecha devagar. Inclinar o tronco à frente carrega mais o glúteo.","Sentada na abdutora, almofadas por fora dos joelhos"],
+["Adutora (Máquina)","perna","Almofadas do lado de dentro dos joelhos. Fecha as pernas apertando o interior das coxas, segura 1s e abre devagar até onde controlas.","Sentada na adutora, almofadas por dentro dos joelhos"],
+["Kettlebell Swing","gluteo","Pés um pouco mais largos que a anca, kettlebell entre as pernas. Dobra a anca para trás (não é squat), deixa o KB passar entre as coxas e estica a anca com força até o KB chegar à altura do peito. Braços soltos, é a anca que manda.","De pé, kettlebell no chão à frente"],
+["Abdução de Anca Deitada","gluteo","Deitada de lado, perna de cima esticada. Sobe a perna até 45° com o pé a apontar em frente (não para cima), desce devagar. Mini band nos tornozelos para dificultar.","Deitada de lado, perna de cima esticada"],
+["Farmer's Carry (Halteres)","core","Halteres pesados nas mãos, ombros para trás e para baixo, caminha o tempo ou distância indicados sem inclinar para nenhum lado.","De pé, halteres ao lado do corpo"],
+["Russian Twist","core","Sentada com o tronco inclinado para trás e os pés no ar (ou no chão para facilitar), roda o tronco tocando com as mãos no chão de cada lado.","Sentada no tapete, tronco inclinado"],
+["V-Up","core","Deitada esticada, sobe ao mesmo tempo o tronco e as pernas até as mãos tocarem os pés (forma um V) e desce controlado.","Deitada de costas no tapete"],
+["Bicicleta (Abdominal)","core","Deitada, mãos atrás da cabeça. Traz o cotovelo ao joelho oposto enquanto esticas a outra perna, alternando com ritmo controlado.","Deitada de costas no tapete"],
+["Marcha no Lugar","cardio","Marcha rápida no lugar, joelhos altos, braços a balançar. Só para aquecer.","De pé"],
+["Corrida no Lugar","cardio","Corrida no lugar, ritmo rápido, calcanhares ao glúteo ou joelhos altos alternados.","De pé"],
+["Burpees","cardio","Agacha, prancha, flexão opcional, salta de volta e salta para cima esticando o corpo.","No chão, espaço livre à volta"],
+["Woodchop (Polia)","core","Pega com as duas mãos junto ao ombro, roda anca e tronco juntos e puxa em diagonal até à anca oposta. A força vem da rotação, não dos braços.","De pé de lado para a polia alta"],
+["Deadlift (Barra)","costas/perna","Barra rente às canelas, costas neutras, empurra o chão com as pernas e estica a anca — a barra fica sempre perto do corpo.","De pé, barra no chão junto às canelas"],
+["RDL (Barra)","perna/gluteo","Joelhos quase esticados, desce a barra rente às pernas dobrando a anca até sentir o alongamento nos posteriores, sobe apertando o glúteo.","De pé, barra à frente das coxas"]];
+var FIG = {
+ "Bicicleta Estática – Aquecimento": "P l 50,112 126,112|P l 66,112 70,68|P l 62,66 78,66|P l 70,90 112,92|P l 112,92 106,50|P l 100,48 113,48|P c 112,94,12|P c 80,94,5|B c 99,26,7|B l 70,62 92,35|B l 92,37 100,44 106,49|B l 70,62 82,80 76,98 84,100|B l 70,62 92,70 86,92 94,94|M d M 64 106 A 16 16 0 0 0 96 106",
+ "Passadeira – Aquecimento": "P l 28,104 132,104|P l 28,104 24,112|P l 132,104 136,112|P l 128,104 122,44|P l 108,44 134,44|B c 74,28,7|B l 74,36 72,68|B l 74,42 62,50 68,62|B l 74,42 90,50 98,44|B l 72,68 62,84 58,104|B l 72,68 90,84 86,96|M l 44,84 20,84",
+ "Alongamento do Mundo (World's Greatest)": "B c 108,56,7|B l 72,78 100,62|B l 72,78 98,84 100,110 110,111|B l 72,78 46,102 24,106 18,110|B l 100,63 98,86 96,110|B l 100,62 99,40 97,18|M d M 116 44 Q 120 26 106 16",
+ "Ponte Glúteos (Peso Corporal)": "B c 30,104,7|B l 40,108 80,90|B l 42,108 58,110 72,110|B l 80,90 106,76 116,108 126,110|A c 104,78,5|M l 84,108 84,96",
+ "Ponte Glúteos Unilateral": "B c 30,104,7|B l 40,108 80,90|B l 42,108 58,110 72,110|B l 80,90 106,76 116,108 126,110|B l 80,90 132,60|M l 84,108 84,96",
+ "Cat-Camel (Chão)": "B c 111,80,7|B d M56 70 Q78 50 100 70|B l 100,70 106,76|B l 100,70 100,90 101,110|B l 56,70 57,108 32,110|M d M60 80 Q78 94 96 80",
+ "Bird Dog (Chão)": "B c 106,64,7|B l 56,70 98,70|B l 96,70 96,90 96,110|B l 98,70 118,68 138,66|B l 56,70 57,108 32,110|B l 56,70 36,70 14,70|M l 120,58 142,58|M l 34,60 12,60",
+ "Joelhos ao Peito": "B c 80,20,7|B l 80,28 78,64|B l 80,34 66,44 72,58|B l 80,34 96,44 90,30|B l 78,64 68,80 62,110|B l 78,64 96,80 90,96|M d M 108 92 Q 116 76 104 66",
+ "Agachamento (Peso Corporal)": "B c 74,30,7|B l 72,38 60,74|B l 72,42 96,50 112,50|B l 60,74 92,78 86,110 98,111|M l 40,60 40,92",
+ "Agachamento Tempo 3-1-1": "B c 74,30,7|B l 72,38 60,74|B l 72,42 96,50 112,50|B l 60,74 92,78 86,110 98,111|M l 40,60 40,92",
+ "Box Jump": "P r 96,70,50,42|B c 118,26,7|B l 118,34 118,52|B l 118,38 106,50|B l 118,38 130,50|B l 118,52 110,64 112,70|B l 118,52 126,64 124,70|M d M 40 100 Q 60 40 100 56",
+ "Salto em Comprimento": "B c 58,26,7|B l 58,34 70,62|B l 60,40 44,50 38,60|B l 60,40 78,46 90,40|B l 70,62 60,84 72,98|B l 70,62 84,80 96,92|M d M 100 96 Q 120 60 146 96",
+ "Skaters": "B c 62,28,7|B l 62,36 74,66|B l 64,42 46,50 34,56|B l 64,42 86,48 100,42|B l 74,66 84,88 86,110|B l 74,66 56,86 40,96|M d M 100 100 Q 122 86 146 100",
+ "Afundo com Salto": "B c 72,26,7|B l 70,34 66,72|B l 70,40 74,72|A c 74,76,4|B l 66,72 92,84 96,110|B l 66,72 48,104 24,110|M l 120,74 120,98",
+ "Goblet Squat (Halter)": "B c 80,24,7|B l 79,32 66,76|B l 78,36 84,58 90,50|A r 86,40,8,16|B l 66,76 98,80 90,110 102,111|M l 50,62 50,94",
+ "Flexões (Padrão)": "B c 26,72,7|B l 36,78 92,84 142,110|B l 38,80 42,110|M l 70,104 70,92",
+ "Flexões em Incline": "B c 26,72,7|B l 36,78 92,84 142,110|B l 38,80 42,110|M l 70,104 70,92",
+ "Remada Baixa Sentada": "P l 122,94 124,112|P c 132,104,3|P l 66,88 130,104|B c 60,55,7|B l 58,63 54,106|B l 58,66 44,84 66,88|A f 66,88,3|B l 54,106 84,96 116,104 122,96|M l 104,82 82,82",
+ "Stepup (Banco + Halteres)": "P l 100,72 146,72|P l 106,72 106,112|P l 140,72 140,112|B c 76,24,7|B l 76,32 74,68|B l 76,38 80,70|A c 80,74,4|B l 74,68 96,62 114,72|B l 74,68 68,90 64,110|M l 126,60 126,36",
+ "Puxada Alta (Barra Larga)": "P r 120,6,18,106|P l 100,8 120,8|P c 100,8,3|P l 60,80 86,80|P l 72,80 72,112|P c 92,70,5|P l 84,40 100,11|B c 77,31,7|B l 75,39 70,76|B l 75,42 74,58 84,40|A f 84,40,3|B l 70,76 94,78 96,110 104,111|M l 92,14 92,32",
+ "Puxada Pega Fechada (Supinada)": "P r 120,6,18,106|P l 100,8 120,8|P c 100,8,3|P l 60,80 86,80|P l 72,80 72,112|P c 92,70,5|P l 84,40 100,11|B c 77,31,7|B l 75,39 70,76|B l 75,42 74,58 84,40|A f 84,40,3|B l 70,76 94,78 96,110 104,111|M l 92,14 92,32",
+ "Hip Thrust (Barra)": "P r 18,80,36,9|P l 24,89 24,112|P l 48,89 48,112|B c 40,70,7|B l 48,76 88,70|B l 52,76 68,82 84,72|A c 86,62,11|A f 86,62,2.5|B l 88,70 114,72 114,110 124,111|M l 100,104 100,84",
+ "Shoulder Press (Máquina)": "P l 50,76 52,28|P l 48,76 84,76|P l 66,76 66,112|B c 58,24,7|B l 60,32 62,72|B l 62,36 74,24 74,10|A r 66,4,16,6|B l 62,72 88,74 90,110 98,111|M l 92,34 92,12",
+ "Pallof Press (Polia)": "P l 20,6 20,112|A l 20,44 88,44|B c 88,20,7|B l 88,28 88,64|B l 74,34 102,34|B l 74,34 80,42 88,44|B l 102,34 96,42 88,44|A f 88,44,3|B l 80,64 96,64|B l 80,64 76,88 72,110|B l 96,64 100,88 104,110|M l 60,54 36,54",
+ "Prancha Lateral (Cada lado)": "B c 36,80,7|B l 46,88 88,98 132,110|B l 46,88 46,110 66,110|B l 46,88 62,78 84,94|M l 92,112 92,100",
+ "Prancha (Frontal)": "B c 26,72,7|B l 36,78 92,84 142,110|B l 38,80 36,104|B l 24,110 50,110|A l 36,80 92,86",
+ "Dead Bug (Chão)": "B c 24,100,7|B l 34,104 74,104|B l 36,104 36,84 36,66|B l 36,104 20,106 6,106|B l 74,104 74,80 96,80 100,76|B l 74,104 100,98 126,94 130,90|M d M 108 84 Q 120 88 124 98",
+ "Hamstring Walkout": "B c 30,104,7|B l 40,108 80,90|B l 42,108 58,110 72,110|B l 80,90 112,84 132,108 140,110|M l 118,100 142,100",
+ "Hollow Hold": "B c 22,90,7|B l 32,98 80,104 130,92|B l 30,98 12,84|A l 40,104 100,104|M l 130,100 130,88",
+ "Superman": "B c 22,88,7|B l 30,94 80,102 130,96|B l 28,92 8,84|B l 80,102 106,96 132,90|M l 16,78 16,68|M l 138,84 138,74",
+ "Clamshell c/ Mini Band": "B c 22,88,7|B l 32,92 84,96|B l 84,96 110,88 130,104|B l 84,96 104,70 130,104|A l 108,72 110,86|B l 34,92 26,76|M d M 116 84 Q 122 70 112 62",
+ "Leg Press (Máquina)": "P l 22,50 40,96|P l 40,96 70,92|B c 32,40,7|B l 38,48 56,88|B l 40,54 50,72|B l 56,88 86,64 110,58|P l 104,44 120,78|P l 118,78 140,110|A c 110,58,3|M l 84,86 106,72",
+ "Supino c/ Halteres": "P l 24,82 112,82|P l 40,82 40,112|P l 96,82 96,112|B c 30,74,7|B l 38,78 86,78|B l 44,78 48,60 50,44|A r 42,38,16,6|B l 86,78 110,74 116,110|M l 72,62 72,38",
+ "Supino Inclinado (Halteres)": "P l 24,82 112,82|P l 40,82 40,112|P l 96,82 96,112|B c 30,74,7|B l 38,78 86,78|B l 44,78 48,60 50,44|A r 42,38,16,6|B l 86,78 110,74 116,110|M l 72,62 72,38",
+ "Leg Curl Deitada (Máquina)": "P l 30,84 130,84|P l 36,84 36,112|P l 124,84 124,112|B c 30,74,7|B l 40,80 90,82|B l 90,82 110,84 126,62|A c 130,60,5|M d M 134 90 Q 144 76 134 66",
+ "Leg Curl Sentada (Máquina)": "P l 40,44 46,84|P l 46,84 84,84|P l 60,84 60,112|B c 52,36,7|B l 54,44 60,82|P l 64,74 92,74|B l 60,82 94,82 118,100|A c 118,104,5|M d M 124 68 Q 134 84 122 100",
+ "Remada c/ Apoio ao Peito (Máquina)": "P l 122,94 124,112|P c 132,104,3|P l 66,88 130,104|B c 60,55,7|B l 58,63 54,106|B l 58,66 44,84 66,88|A f 66,88,3|B l 54,106 84,96 116,104 122,96|M l 104,82 82,82",
+ "Remada com Halteres (Unilateral)": "P l 40,78 96,78|P l 46,78 46,112|P l 90,78 90,112|B c 106,50,7|B l 98,52 58,56|B l 96,54 96,66 96,78|B l 58,56 60,78 40,78|B l 58,56 54,84 52,110 60,111|B l 92,52 78,40 80,62|A c 80,65,4.5|M l 70,100 70,74",
+ "Remada Invertida (Mesa)": "P l 20,50 140,50|P l 26,50 26,112|P l 134,50 134,112|B c 40,80,7|B l 48,84 96,96 128,110|B l 48,84 46,66 44,52|A f 44,52,3|M l 72,102 72,90",
+ "Afundo Inverso": "B c 72,26,7|B l 70,34 66,72|B l 70,40 74,72|A c 74,76,4|B l 66,72 92,84 96,110|B l 66,72 48,104 24,110|M l 120,74 120,98",
+ "Afundo Búlgaro (Banco + Halter)": "P l 20,78 50,78|P l 26,78 26,112|P l 46,78 46,112|B c 78,23,7|B l 76,31 72,70|B l 76,35 77,52 78,68|A c 78,72,4.5|B l 72,70 100,84 98,110 108,111|B l 72,70 60,100 44,82 38,78|M l 124,70 124,96",
+ "Afundo Caminhando (Halteres)": "B c 72,26,7|B l 70,34 66,72|B l 70,40 74,72|A c 74,76,4|B l 66,72 92,84 96,110|B l 66,72 48,104 24,110|M l 120,74 120,98",
+ "Face Pull (Polia)": "P r 122,6,18,106|P c 122,24,3|P l 76,24 122,24|B c 72,23,7|B l 70,31 70,62|B l 70,35 56,30 76,24|A f 76,24,3|B l 70,62 74,86 76,110 84,111|B l 70,62 64,86 58,110 66,111|M l 112,16 90,16",
+ "Elevação Lateral (Halteres)": "B c 80,20,7|B l 80,28 80,64|B l 80,34 70,50 66,70|B l 80,34 104,38 124,36|A c 128,36,4|B l 80,64 72,88 68,110|B l 80,64 88,88 92,110|M d M 116 66 Q 132 60 130 44",
+ "Monster Walk (c/ Elástico nos joelhos)": "B c 80,22,7|B l 80,30 80,62|B l 70,36 90,36|B l 70,36 64,50 72,60|B l 90,36 96,50 88,60|B l 72,64 88,64|B l 72,64 64,88 58,110|B l 88,64 98,88 104,110|A l 64,88 98,88|M l 114,102 136,102",
+ "Mountain Climbers": "B c 26,72,7|B l 36,78 92,84 142,110|B l 38,80 42,110|B l 92,84 66,96 58,110|M l 106,102 74,96",
+ "Corda de Saltar": "B c 80,22,7|B l 80,30 80,64|B l 80,36 68,50 62,60|B l 80,36 92,50 98,60|B l 80,64 72,86 70,104|B l 80,64 88,86 90,104|P d M 62 60 Q 80 128 98 60|P d M 62 60 Q 80 2 98 60|M l 120,100 120,80",
+ "Polichinelos": "B c 80,20,7|B l 80,28 80,66|B l 80,34 60,20 48,8|B l 80,34 100,20 112,8|B l 80,66 62,90 52,110|B l 80,66 98,90 108,110|M d M 40 40 Q 30 60 44 80|M d M 120 40 Q 130 60 116 80",
+ "Alongamento Flexores da Anca": "B c 70,31,7|B l 70,39 72,76|B l 70,42 62,58 72,72|B l 72,76 96,76 98,110 108,111|B l 72,76 58,108 34,110 30,108|M l 60,86 84,86",
+ "Alongamento Posteriores (Hamstrings)": "P l 100,78 140,78|P l 106,78 106,112|P l 134,78 134,112|B c 91,33,7|B l 84,38 60,62|B l 83,40 88,54 94,66|B l 60,62 60,86 58,110 66,111|B l 60,62 84,70 106,76 108,70|M d M 66 28 Q 78 20 88 22",
+ "Alongamento Gémeos (Parede)": "P l 20,6 20,112|B c 54,24,7|B l 54,32 62,66|B l 52,36 36,50 22,54|B l 62,66 58,88 54,110|B l 62,66 92,90 118,110|A c 118,110,3",
+ "Alongamento Quadricípite (De Pé)": "B c 74,20,7|B l 74,28 74,66|B l 74,34 60,40 52,50|B l 74,34 86,50 98,86|B l 74,66 70,88 68,110|B l 74,66 88,82 98,90|A c 98,90,4",
+ "Alongamento Glúteo (Figura 4)": "B c 22,100,7|B l 32,104 72,104|B l 72,104 68,80 92,72|B l 72,104 96,96 72,82|B l 34,104 50,92 64,86|M l 92,62 76,54",
+ "Alongamento Peitoral (Porta)": "P l 36,6 36,112|B c 64,23,7|B l 62,31 62,62|B l 62,35 42,36 40,18|B l 62,62 64,86 64,110 72,111|B l 62,62 58,86 54,110 62,111|M d M 74 48 Q 86 40 92 50",
+ "Alongamento Tríceps e Ombro": "B c 80,22,7|B l 80,30 80,66|B l 80,36 70,18 84,10|B l 80,36 96,30 74,16|A c 74,16,3|B l 80,66 72,88 68,110|B l 80,66 88,88 92,110",
+ "Extensão de Pernas (Máquina)": "P l 50,72 86,72|P l 50,72 46,30|P l 66,72 66,112|B c 56,25,7|B l 54,33 62,68|B l 55,36 58,52 70,66|B l 62,68 86,70 118,68 124,62|A c 118,76,5|M d M 92 104 Q 114 100 118 86",
+ "Abdutora (Máquina)": "P l 60,66 100,66|P l 80,66 80,112|B c 80,26,7|B l 80,34 80,66|B l 76,40 64,56|B l 84,40 96,56|B l 80,66 58,84 56,110|B l 80,66 102,84 104,110|A r 42,78,6,14|A r 112,78,6,14|M l 40,100 26,100|M l 120,100 134,100",
+ "Adutora (Máquina)": "P l 60,66 100,66|P l 80,66 80,112|B c 80,26,7|B l 80,34 80,66|B l 76,40 64,56|B l 84,40 96,56|B l 80,66 54,84 50,110|B l 80,66 106,84 110,110|A r 60,78,6,14|A r 94,78,6,14|M l 36,100 50,100|M l 124,100 110,100",
+ "Kettlebell Swing": "B c 70,34,7|B l 66,42 44,72|B l 66,44 88,48 110,52|A c 116,54,7|B l 44,72 54,92 52,110|B l 44,72 62,90 66,110|M d M 100 84 Q 122 70 118 44",
+ "Abdução de Anca Deitada": "B c 22,90,7|B l 32,94 84,98|B l 84,98 136,104|B l 84,98 132,66|B l 34,94 26,78|M d M 136 96 Q 146 84 136 72",
+ "Farmer's Carry (Halteres)": "B c 80,20,7|B l 80,28 80,64|B l 70,34 66,72|B l 90,34 94,72|A r 60,70,12,6|A r 88,70,12,6|B l 72,64 88,64|B l 72,64 62,88 56,110|B l 88,64 96,88 100,110|M l 120,100 142,100",
+ "Russian Twist": "B c 56,44,7|B l 60,52 84,96|B l 62,60 40,70 30,80|A c 28,82,4|B l 84,96 110,76 126,100|M d M 30 90 Q 44 102 62 96",
+ "V-Up": "B c 44,62,7|B l 50,70 80,104 116,66|B l 52,72 98,74|M l 30,96 44,80|M l 130,96 116,80",
+ "Bicicleta (Abdominal)": "B c 28,88,7|B l 36,92 84,100|B l 84,100 76,76 66,66|B l 84,100 134,90|B l 38,90 58,80 74,78|M l 118,86 132,74",
+ "Marcha no Lugar": "B c 80,20,7|B l 80,28 78,64|B l 80,34 66,44 72,58|B l 80,34 96,44 90,30|B l 78,64 68,80 62,110|B l 78,64 96,80 90,96|M d M 108 92 Q 116 76 104 66",
+ "Corrida no Lugar": "B c 80,20,7|B l 80,28 78,64|B l 80,34 66,44 72,58|B l 80,34 96,44 90,30|B l 78,64 68,80 62,110|B l 78,64 96,80 90,96|M d M 108 92 Q 116 76 104 66",
+ "Burpees": "B c 80,18,7|B l 80,26 80,58|B l 80,30 68,14 66,4|B l 80,30 92,14 94,4|B l 80,58 72,80 70,100|B l 80,58 88,80 90,100|P l 66,110 92,110|M l 116,104 116,64|P l 8,108 40,112|P c 6,104,3",
+ "Woodchop (Polia)": "P r 14,6,16,106|P c 30,12,3|P l 30,12 128,80|B c 96,20,7|B l 94,28 90,64|B l 86,34 126,80|B l 100,32 130,78|A f 128,80,3|B l 82,64 98,64|B l 82,64 76,88 70,110|B l 98,64 104,88 110,110|M d M 70 20 Q 112 24 124 70|M d M 78 72 A 12 4 0 0 0 102 72",
+ "Deadlift (Barra)": "B c 106,42,7|B l 98,48 66,70|B l 97,50 97,72 96,94|A c 94,100,12|A f 94,100,2.5|B l 66,70 98,88 92,110 102,111|M l 134,100 134,62",
+ "RDL (Barra)": "B c 108,46,7|B l 100,52 62,66|B l 99,54 98,70 97,84|A c 97,87,11|A f 97,87,2.5|B l 62,66 88,86 86,110 96,111|M l 56,54 38,54"
+};
+var FEEL = {
+ "Bicicleta Estática – Aquecimento": [
+  "A respiração a subir aos poucos e o corpo a aquecer — consegues falar.",
+  "Começar forte: isto é aquecimento, não treino."
+ ],
+ "Passadeira – Aquecimento": [
+  "A respiração a subir aos poucos.",
+  "Começar a correr forte."
+ ],
+ "Alongamento do Mundo (World's Greatest)": [
+  "A frente da anca de trás a abrir e o meio das costas a rodar quando levas o braço ao teto.",
+  "Rodar só o braço: segue a mão com o olhar e roda o peito."
+ ],
+ "Ponte Glúteos Unilateral": [
+  "O glúteo da perna de apoio a apertar.",
+  "A anca a cair para o lado da perna no ar."
+ ],
+ "Cat-Camel (Chão)": [
+  "A coluna a mexer vértebra a vértebra, do pescoço ao cóccix.",
+  "Forçar os extremos — é movimento suave, não alongamento."
+ ],
+ "Bird Dog (Chão)": [
+  "Glúteo e costas a estabilizar, como se tivesses um copo nas costas.",
+  "Rodar a bacia ao esticar a perna."
+ ],
+ "Joelhos ao Peito": [
+  "Coração a subir, joelhos altos.",
+  "Inclinar o tronco para trás."
+ ],
+ "Agachamento (Peso Corporal)": [
+  "Coxas e glúteos, peso no meio do pé.",
+  "Joelhos a cair para dentro."
+ ],
+ "Agachamento Tempo 3-1-1": [
+  "As coxas a arder na descida lenta.",
+  "Acelerar a descida."
+ ],
+ "Box Jump": [
+  "Aterragem suave, joelhos por cima dos pés.",
+  "Saltar da caixa para baixo."
+ ],
+ "Salto em Comprimento": [
+  "A anca a explodir para a frente, aterragem suave.",
+  "Aterrar de pernas esticadas."
+ ],
+ "Skaters": [
+  "Glúteo da perna de aterragem a segurar.",
+  "Aterrar de joelho para dentro."
+ ],
+ "Afundo com Salto": [
+  "Explosão para cima e aterragem suave em afundo.",
+  "Joelho da frente a cair para dentro."
+ ],
+ "Goblet Squat (Halter)": [
+  "Tronco direito e cotovelos por dentro dos joelhos no fundo.",
+  "Arredondar as costas para descer mais."
+ ],
+ "Flexões (Padrão)": [
+  "Peito, tríceps e core a segurar o corpo reto.",
+  "A anca a cair ou a subir."
+ ],
+ "Flexões em Incline": [
+  "Peito e tríceps, corpo reto.",
+  "Anca a cair."
+ ],
+ "Remada Baixa Sentada": [
+  "As omoplatas a juntar no fim e o meio das costas a trabalhar.",
+  "Balançar o tronco para trás para ganhar embalo."
+ ],
+ "Stepup (Banco + Halteres)": [
+  "O glúteo da perna de cima a puxar-te.",
+  "Saltar com a perna de baixo."
+ ],
+ "Puxada Alta (Barra Larga)": [
+  "As costas laterais a levar os cotovelos para os bolsos de trás.",
+  "Inclinar muito para trás e puxar só com os braços."
+ ],
+ "Puxada Pega Fechada (Supinada)": [
+  "A parte de baixo das costas e o bíceps; o peito sobe ao encontro da barra.",
+  "Encolher os ombros para as orelhas."
+ ],
+ "Hip Thrust (Barra)": [
+  "Glúteos a apertar no topo, queixo ao peito, costelas para baixo.",
+  "Subir com a lombar em arco em vez de ser a anca a subir."
+ ],
+ "Shoulder Press (Máquina)": [
+  "Os ombros a empurrar com o abdómen firme.",
+  "Arquear a lombar para ajudar."
+ ],
+ "Pallof Press (Polia)": [
+  "O core todo a resistir à rotação.",
+  "Deixar o tronco rodar para a polia."
+ ],
+ "Prancha Lateral (Cada lado)": [
+  "O lado do tronco e o glúteo a segurar a anca alta.",
+  "A anca a cair ou a rodar para a frente."
+ ],
+ "Prancha (Frontal)": [
+  "Abdómen e glúteo apertados, corpo reto.",
+  "A anca a cair ou a lombar a arquear."
+ ],
+ "Dead Bug (Chão)": [
+  "O abdómen a manter a lombar colada ao chão enquanto braços e pernas se mexem.",
+  "A lombar a descolar — se acontecer, reduz a amplitude."
+ ],
+ "Hamstring Walkout": [
+  "Atrás das coxas a trabalhar para segurar a anca.",
+  "Deixar a anca cair."
+ ],
+ "Hollow Hold": [
+  "O abdómen a manter a lombar colada ao chão.",
+  "A lombar a descolar — dobra os joelhos."
+ ],
+ "Superman": [
+  "Lombar e glúteos a levantar.",
+  "Forçar o pescoço para cima."
+ ],
+ "Clamshell c/ Mini Band": [
+  "O lado do glúteo a arder.",
+  "Rodar a bacia para trás."
+ ],
+ "Leg Press (Máquina)": [
+  "Coxas e glúteos a empurrar, lombar sempre colada ao encosto.",
+  "Bloquear os joelhos em cima ou deixar a anca enrolar em baixo."
+ ],
+ "Supino c/ Halteres": [
+  "Peito e tríceps a empurrar, omoplatas presas ao banco.",
+  "Deixar os halteres descer sem controlo."
+ ],
+ "Supino Inclinado (Halteres)": [
+  "A parte de cima do peito a trabalhar.",
+  "Cotovelos demasiado abertos."
+ ],
+ "Leg Curl Deitada (Máquina)": [
+  "Atrás da coxa a contrair quando os calcanhares sobem.",
+  "A anca a levantar do banco."
+ ],
+ "Leg Curl Sentada (Máquina)": [
+  "Atrás da coxa a apertar no fim.",
+  "Deixar o peso puxar as pernas de volta sem controlo."
+ ],
+ "Remada c/ Apoio ao Peito (Máquina)": [
+  "O meio das costas, sem o tronco ajudar.",
+  "Encolher os ombros."
+ ],
+ "Remada com Halteres (Unilateral)": [
+  "As costas a puxar o cotovelo para trás, junto ao corpo.",
+  "Rodar o tronco para subir o halter."
+ ],
+ "Remada Invertida (Mesa)": [
+  "As costas a puxar o peito à mesa, corpo reto.",
+  "A anca a cair."
+ ],
+ "Afundo Inverso": [
+  "Glúteo e coxa da perna da frente ao subir.",
+  "Joelho da frente a passar muito a ponta do pé."
+ ],
+ "Afundo Búlgaro (Banco + Halter)": [
+  "Glúteo e coxa da perna da frente; a de trás só apoia.",
+  "O joelho da frente a cair para dentro."
+ ],
+ "Afundo Caminhando (Halteres)": [
+  "Glúteo e coxa da perna da frente a empurrar.",
+  "Joelho da frente a cair para dentro."
+ ],
+ "Face Pull (Polia)": [
+  "A parte de trás dos ombros e o meio das costas.",
+  "Carga pesada — é saúde de ombro."
+ ],
+ "Elevação Lateral (Halteres)": [
+  "O lado do ombro a trabalhar.",
+  "Encolher o trapézio ou balançar."
+ ],
+ "Monster Walk (c/ Elástico nos joelhos)": [
+  "O lado da anca (glúteo médio) a arder.",
+  "Os joelhos a fechar ou o tronco a balançar."
+ ],
+ "Mountain Climbers": [
+  "O core a segurar a anca enquanto as pernas correm.",
+  "A anca a subir para o teto."
+ ],
+ "Corda de Saltar": [
+  "Saltos pequenos e rápidos, pulsos a rodar.",
+  "Saltar demasiado alto."
+ ],
+ "Polichinelos": [
+  "Ritmo e respiração a subir.",
+  "Aterrar com os joelhos esticados."
+ ],
+ "Alongamento Flexores da Anca": [
+  "A frente da anca da perna de trás a esticar.",
+  "Arquear a lombar em vez de apertar o glúteo."
+ ],
+ "Alongamento Posteriores (Hamstrings)": [
+  "Atrás da coxa da perna esticada.",
+  "Arredondar as costas para chegar mais longe."
+ ],
+ "Alongamento Gémeos (Parede)": [
+  "A barriga da perna de trás.",
+  "Levantar o calcanhar."
+ ],
+ "Alongamento Quadricípite (De Pé)": [
+  "A frente da coxa a esticar.",
+  "Arquear a lombar."
+ ],
+ "Alongamento Glúteo (Figura 4)": [
+  "O glúteo da perna cruzada.",
+  "Levantar a cabeça e tensionar o pescoço."
+ ],
+ "Alongamento Peitoral (Porta)": [
+  "O peito e a frente do ombro a abrir.",
+  "Forçar até doer no ombro."
+ ],
+ "Alongamento Tríceps e Ombro": [
+  "A parte de trás do braço e o ombro.",
+  "Puxar com força."
+ ],
+ "Extensão de Pernas (Máquina)": [
+  "A frente da coxa a queimar no topo — aguenta 1s.",
+  "Deixar o peso cair na descida."
+ ],
+ "Abdutora (Máquina)": [
+  "O lado da anca (glúteo médio) a arder.",
+  "Fechar as pernas de repente."
+ ],
+ "Adutora (Máquina)": [
+  "O interior das coxas a apertar.",
+  "Abrir demasiado e forçar a virilha."
+ ],
+ "Kettlebell Swing": [
+  "A anca a estalar para a frente e os glúteos a apertar no topo.",
+  "Fazer squat ou levantar o KB com os braços."
+ ],
+ "Abdução de Anca Deitada": [
+  "O lado da anca a trabalhar.",
+  "Rodar o pé para cima."
+ ],
+ "Farmer's Carry (Halteres)": [
+  "Core e ombros a segurar tudo direito.",
+  "Inclinar para um lado ou encolher os ombros."
+ ],
+ "Russian Twist": [
+  "Os oblíquos a rodar o tronco.",
+  "Rodar só os braços."
+ ],
+ "V-Up": [
+  "O abdómen a juntar tronco e pernas.",
+  "Usar o embalo dos braços."
+ ],
+ "Bicicleta (Abdominal)": [
+  "Oblíquos e abdómen, ritmo controlado.",
+  "Puxar pelo pescoço."
+ ],
+ "Marcha no Lugar": [
+  "Corpo a aquecer.",
+  "Começar depressa."
+ ],
+ "Corrida no Lugar": [
+  "Coração a subir.",
+  "Bater com os pés no chão."
+ ],
+ "Burpees": [
+  "O corpo todo, ritmo constante.",
+  "Arredondar a lombar ao ir ao chão."
+ ],
+ "Woodchop (Polia)": [
+  "Os oblíquos e a anca a rodar juntos.",
+  "Puxar só com os braços."
+ ],
+ "Deadlift (Barra)": [
+  "Tensão nos posteriores e glúteos antes de a barra sair do chão; costas firmes.",
+  "Costas a arredondar ou a barra a afastar-se das pernas."
+ ],
+ "RDL (Barra)": [
+  "Alongamento forte atrás das coxas na descida; glúteos a fechar a anca na subida.",
+  "Dobrar demasiado os joelhos e transformar em squat."
+ ]
+};
+var EX_EN = {
+ "Bicicleta Estática – Aquecimento": "Stationary Bike Warm-Up",
+ "Passadeira – Aquecimento": "Treadmill Warm-Up",
+ "Alongamento do Mundo (World's Greatest)": "World's Greatest Stretch",
+ "Ponte Glúteos (Peso Corporal)": "Glute Bridge",
+ "Ponte Glúteos Unilateral": "Single-Leg Glute Bridge",
+ "Cat-Camel (Chão)": "Cat-Cow",
+ "Bird Dog (Chão)": "Bird Dog",
+ "Joelhos ao Peito": "High Knees",
+ "Agachamento (Peso Corporal)": "Air Squat",
+ "Agachamento Tempo 3-1-1": "Tempo Squat",
+ "Box Jump": "Box Jump",
+ "Salto em Comprimento": "Broad Jump",
+ "Skaters": "Skater Jumps",
+ "Afundo com Salto": "Jump Lunge",
+ "Goblet Squat (Halter)": "Goblet Squat",
+ "Flexões (Padrão)": "Push-Up",
+ "Flexões em Incline": "Incline Push-Up",
+ "Remada Baixa Sentada": "Seated Cable Row",
+ "Stepup (Banco + Halteres)": "Dumbbell Step-Up",
+ "Puxada Alta (Barra Larga)": "Wide-Grip Lat Pulldown",
+ "Puxada Pega Fechada (Supinada)": "Close-Grip Underhand Lat Pulldown",
+ "Hip Thrust (Barra)": "Barbell Hip Thrust",
+ "Shoulder Press (Máquina)": "Machine Shoulder Press",
+ "Pallof Press (Polia)": "Pallof Press",
+ "Prancha Lateral (Cada lado)": "Side Plank",
+ "Prancha (Frontal)": "Plank",
+ "Dead Bug (Chão)": "Dead Bug",
+ "Hamstring Walkout": "Hamstring Walkout",
+ "Hollow Hold": "Hollow Hold",
+ "Superman": "Superman",
+ "Clamshell c/ Mini Band": "Banded Clamshell",
+ "Leg Press (Máquina)": "Leg Press",
+ "Supino c/ Halteres": "Dumbbell Bench Press",
+ "Supino Inclinado (Halteres)": "Incline Dumbbell Bench Press",
+ "Leg Curl Deitada (Máquina)": "Lying Leg Curl",
+ "Leg Curl Sentada (Máquina)": "Seated Leg Curl",
+ "Remada c/ Apoio ao Peito (Máquina)": "Chest-Supported Row",
+ "Remada com Halteres (Unilateral)": "Single-Arm Dumbbell Row",
+ "Remada Invertida (Mesa)": "Inverted Row",
+ "Afundo Inverso": "Reverse Lunge",
+ "Afundo Búlgaro (Banco + Halter)": "Bulgarian Split Squat",
+ "Afundo Caminhando (Halteres)": "Walking Lunge",
+ "Face Pull (Polia)": "Cable Face Pull",
+ "Elevação Lateral (Halteres)": "Dumbbell Lateral Raise",
+ "Monster Walk (c/ Elástico nos joelhos)": "Monster Walk",
+ "Mountain Climbers": "Mountain Climbers",
+ "Corda de Saltar": "Jump Rope",
+ "Polichinelos": "Jumping Jacks",
+ "Alongamento Flexores da Anca": "Half-Kneeling Hip Flexor Stretch",
+ "Alongamento Posteriores (Hamstrings)": "Standing Hamstring Stretch",
+ "Alongamento Gémeos (Parede)": "Calf Stretch",
+ "Alongamento Quadricípite (De Pé)": "Standing Quad Stretch",
+ "Alongamento Glúteo (Figura 4)": "Figure-4 Glute Stretch",
+ "Alongamento Peitoral (Porta)": "Doorway Chest Stretch",
+ "Alongamento Tríceps e Ombro": "Overhead Tricep Stretch",
+ "Extensão de Pernas (Máquina)": "Leg Extension",
+ "Abdutora (Máquina)": "Hip Abduction Machine",
+ "Adutora (Máquina)": "Hip Adduction Machine",
+ "Kettlebell Swing": "Kettlebell Swing",
+ "Abdução de Anca Deitada": "Side-Lying Leg Raise",
+ "Farmer's Carry (Halteres)": "Farmer's Carry",
+ "Russian Twist": "Russian Twist",
+ "V-Up": "V-Up",
+ "Bicicleta (Abdominal)": "Bicycle Crunch",
+ "Marcha no Lugar": "March in Place",
+ "Corrida no Lugar": "Run in Place",
+ "Burpees": "Burpees",
+ "Woodchop (Polia)": "Cable Woodchop",
+ "Deadlift (Barra)": "Deadlift",
+ "RDL (Barra)": "Romanian Deadlift (RDL)"
+};
+/* Exercícios novos para o Rodrigo (não existiam na biblioteca da Diana) */
+var LIB_NEW = [
+["Balanços de Perna (Leg Swings)","mobilidade","Mão apoiada na parede ou no rack. Balança a perna de fora para a frente e para trás, cada vez um bocadinho mais alto, sem forçar. Tronco direito, não arqueies as costas. Depois faz de lado a lado.","De pé ao lado de uma parede, uma mão apoiada"],
+["Mobilidade de Tornozelo (Parede)","mobilidade","Pé a um palmo da parede, calcanhar sempre no chão. Leva o joelho em direção à parede até tocar e volta. Se tocar fácil, afasta o pé um bocadinho. O joelho vai na direção do dedo pequeno do pé.","Em meio-joelho de frente para a parede, pé da frente a um palmo da parede"],
+["Afundo Lateral","perna","Passo largo para o lado, senta a anca para trás nessa perna e deixa a outra esticada com o pé no chão. Peito alto. Empurra pelo calcanhar para voltar ao meio.","De pé, pés juntos, espaço livre dos lados"],
+["Passe de Peito c/ Bola Medicinal (Parede)","peito","Bola junto ao peito, pés à largura dos ombros, joelhos um pouco dobrados. Empurra a bola contra a parede com força, como um passe de basquete, e apanha-a no ressalto. Cada repetição é à séria, com descanso entre elas.","De pé a 1–2 m de uma parede sólida, bola medicinal de 3 kg"],
+["Lançamento Rotacional c/ Bola Medicinal (Parede)","core","De lado para a parede, bola à altura da anca. Roda as ancas e o tronco e atira a bola contra a parede com força. O poder vem das pernas e das ancas, não dos braços. Apanha e repete.","De lado para a parede, a 1 m, bola medicinal de 3 kg"],
+["Slam c/ Bola Medicinal","core","Bola acima da cabeça, estica o corpo todo e atira-a ao chão com força, agachando ao mesmo tempo. Apanha no ressalto e repete. Usa bola que não salta muito.","De pé, bola medicinal (slam ball) de 4–6 kg"],
+["Saltos Pogo (Pogo Jumps)","perna","Saltos pequenos e rápidos no lugar, só com os tornozelos, joelhos quase esticados. Pouco tempo no chão, como se o chão queimasse. Aterra nas pontas dos pés com os calcanhares a tocar ao de leve.","De pé, pés juntos"],
+["RDL (Halteres)","perna","Halteres encostados às coxas. Empurra a anca para trás com as costas direitas e os joelhos só um pouco dobrados, descendo os halteres ao longo das pernas até sentir a parte de trás das coxas a esticar (mais ou menos a meio da canela). Volta a subir apertando os glúteos.","De pé, um halter em cada mão à frente das coxas"],
+["Press de Ombros (Halteres Sentado)","ombros","Costas no encosto, halteres à altura das orelhas com as palmas para a frente. Empurra para cima até os braços ficarem quase esticados, sem bloquear, e desce devagar. Não arqueies as costas nem empurres com o pescoço.","Sentado num banco com encosto alto, um halter em cada mão"],
+["Prancha de Copenhaga (Joelho Apoiado)","core","Deitado de lado, cotovelo no chão por baixo do ombro, joelho de cima apoiado num banco. Levanta a anca até o corpo ficar em linha e segura. Sentes a parte de dentro da coxa de cima a trabalhar. Isto protege as virilhas no futebol.","De lado no chão junto a um banco, joelho de cima em cima do banco"],
+["Nordic Assistido (Elástico)","perna","De joelhos, tornozelos presos (barra baixa ou alguém a segurar), elástico preso à frente e à volta do peito para ajudar. Desce o tronco para a frente DEVAGAR, a travar com a parte de trás das coxas, e amortece com as mãos no chão. Empurra com as mãos para voltar. Só 3 repetições, todas lentas.","De joelhos num tapete, tornozelos presos, elástico à frente"],
+["Elevação de Gémeos a Uma Perna (Degrau)","perna","Ponta do pé no degrau, calcanhar no ar, mão apoiada para equilíbrio. Desce o calcanhar abaixo do degrau até sentir o gémeo a esticar e sobe até ficar em bicos de pés. Devagar nas duas direções.","De pé num degrau, só um pé apoiado, mão na parede"],
+["Alongamento Adutores (Borboleta)","mobilidade","Sentado, plantas dos pés juntas, joelhos abertos. Agarra os pés e deixa os joelhos caírem para o chão sem os empurrar com as mãos. Costas direitas. Respira fundo e deixa a parte de dentro das coxas abrir.","Sentado no chão, plantas dos pés juntas"],
+["Agachamento Isométrico na Parede (Wall Sit)","perna","Costas na parede, desliza até as coxas ficarem paralelas ao chão, joelhos por cima dos tornozelos. Segura, a respirar. Mãos fora das coxas.","Encostado a uma parede"],
+["Afundo Inverso (Halteres)","perna","Dá um passo largo para trás e baixa o joelho de trás até quase tocar o chão. O joelho da frente fica por cima do pé. Empurra pelo calcanhar da frente para voltar. Tronco direito.","De pé, um halter em cada mão"],
+["Y-W-T (Deitado de Barriga para Baixo)","costas","Deitado de barriga para baixo, testa no chão. Levanta os braços do chão fazendo um Y, segura 2s, depois um W (cotovelos dobrados), depois um T. Aperta as omoplatas, polegares para cima. Isto arruma os ombros e a postura.","Deitado de barriga para baixo num tapete"],
+["Rotação Torácica (Livro Aberto)","mobilidade","Deitado de lado, joelhos dobrados a 90°, braços esticados à frente um em cima do outro. Abre o braço de cima como um livro, rodando o peito para o outro lado, e segue a mão com o olhar. Joelhos ficam colados ao chão. Volta devagar.","Deitado de lado num tapete, joelhos dobrados"],
+["Alongamento 90/90 (Ancas)","mobilidade","Sentado com a perna da frente dobrada a 90° à frente e a de trás dobrada a 90° ao lado. Tronco direito, inclina-te para a frente por cima da canela da frente até sentir o glúteo a esticar. Troca de lado.","Sentado no chão, pernas dobradas a 90°"],
+["Prancha c/ Elevação de Perna","core","Em prancha nos cotovelos, levanta uma perna esticada uns centímetros sem rodar a anca, segura 1s e troca. A anca fica quieta como se tivesses um copo de água nas costas.","Prancha frontal nos cotovelos"],
+["Marcha c/ Joelho Alto (Lenta)","mobilidade","Sobe um joelho ao peito, aguenta 1s em equilíbrio com o tronco direito e o pé de apoio firme, e troca. Devagar e controlado — é ativação, não corrida.","De pé"]
+];
+Object.assign(FIG, {
+"Balanços de Perna (Leg Swings)": "P l 20,6 20,112|B c 54,24,7|B l 54,32 56,66|B l 52,38 36,44 22,42|B l 56,66 54,90 52,110|B l 56,66 82,84 102,78|M d M 108 96 Q 118 76 104 56",
+"Mobilidade de Tornozelo (Parede)": "P l 140,6 140,112|B c 72,30,7|B l 72,38 78,70|B l 74,44 100,54 118,50|B l 78,70 58,90 44,110|B l 78,70 108,76 120,110|A c 120,110,4|M l 110,64 130,64",
+"Afundo Lateral": "B c 70,24,7|B l 70,32 62,64|B l 68,38 48,46 34,42|B l 68,38 90,46 104,40|B l 62,64 44,84 40,110|B l 62,64 96,98 136,110|M l 112,80 136,80",
+"Passe de Peito c/ Bola Medicinal (Parede)": "P l 150,6 150,112|B c 50,24,7|B l 50,32 52,66|B l 50,40 72,46 92,40|B l 50,40 72,54 92,44|A f 100,42,8|B l 52,66 42,90 40,110|B l 52,66 66,88 70,110|M l 112,42 138,42",
+"Lançamento Rotacional c/ Bola Medicinal (Parede)": "P l 150,6 150,112|B c 54,24,7|B l 54,32 56,66|B l 54,40 36,56 28,70|B l 54,40 44,58 34,72|A f 28,76,8|B l 56,66 46,90 44,110|B l 56,66 72,88 76,110|M d M 40 70 Q 80 20 130 44",
+"Slam c/ Bola Medicinal": "B c 78,22,7|B l 78,30 78,64|B l 78,36 66,20 70,6|B l 78,36 90,20 86,6|A f 78,4,8|B l 78,64 66,86 62,110|B l 78,64 90,86 94,110|M l 120,10 120,100",
+"Saltos Pogo (Pogo Jumps)": "B c 80,18,7|B l 80,26 80,60|B l 80,32 70,46 72,56|B l 80,32 90,46 88,56|B l 80,60 76,84 76,100|B l 80,60 84,84 84,100|B l 70,102 76,100|B l 90,102 84,100|M l 116,96 116,70|M l 44,70 44,96",
+"RDL (Halteres)": "B c 48,34,7|B l 54,40 86,54 92,74|B l 62,46 60,74|B l 70,50 68,78|A r 54,78,16,6|B l 92,74 86,92 82,110|B l 92,74 96,92 98,110|M d M 112 78 Q 120 60 110 52",
+"Press de Ombros (Halteres Sentado)": "P l 60,70 100,70|P l 70,70 70,112|P l 94,70 94,112|P l 100,30 100,70|B c 80,24,7|B l 80,32 80,70|B l 80,38 66,24 66,12|B l 80,38 94,24 94,12|A r 58,8,16,6|A r 86,8,16,6|B l 80,70 60,70 58,110|B l 80,70 100,70 102,110|M l 120,40 120,14",
+"Prancha de Copenhaga (Joelho Apoiado)": "P l 120,66 150,66|P l 126,66 126,112|P l 146,66 146,112|B c 24,74,7|B l 34,80 76,76 122,68|B l 36,82 36,110|B l 76,76 70,110|A l 122,68 130,66|M l 70,100 70,86",
+"Nordic Assistido (Elástico)": "P l 110,96 110,112|B c 58,20,7|B l 62,28 86,66 100,96|B l 66,36 46,48 38,60|B l 72,40 54,54 46,66|B l 100,96 120,100 136,96|A d M 36 28 Q 20 60 36 96|M d M 74 10 Q 48 20 40 44",
+"Elevação de Gémeos a Uma Perna (Degrau)": "P r 60,98,60,14|P l 20,6 20,112|B c 60,22,7|B l 60,30 62,66|B l 58,36 40,42 22,40|B l 62,66 66,90 68,96|B l 62,66 50,84 54,100|A c 70,96,3|M l 100,96 100,78",
+"Alongamento Adutores (Borboleta)": "B c 80,34,7|B l 80,42 80,78|B l 80,50 60,70 54,88|B l 80,50 100,70 106,88|B l 80,78 44,90 60,104 80,100|B l 80,78 116,90 100,104 80,100|M l 40,80 30,92|M l 120,80 130,92",
+"Agachamento Isométrico na Parede (Wall Sit)": "P l 30,6 30,112|B c 42,28,7|B l 42,36 42,72|B l 42,44 64,52 80,52|B l 42,72 82,72 84,110|A l 36,64 36,80",
+"Afundo Inverso (Halteres)": "B c 72,26,7|B l 70,34 66,72|B l 70,40 74,72|A r 70,72,6,12|B l 66,72 92,84 96,110|B l 66,72 48,104 24,110|M l 120,74 120,98",
+"Y-W-T (Deitado de Barriga para Baixo)": "B c 142,98,7|B l 134,102 100,104 50,108 16,110|B l 118,100 100,86 92,74|B l 112,104 92,96 80,82|M l 70,92 70,74|A l 84,70 100,62",
+"Rotação Torácica (Livro Aberto)": "B c 28,92,7|B l 36,94 72,90 96,80|B l 72,90 70,110|B l 96,80 108,100 104,110|B l 48,92 76,70 92,56|B l 48,92 68,100 96,100|M d M 96 50 Q 110 70 104 96",
+"Alongamento 90/90 (Ancas)": "B c 60,30,7|B l 60,38 70,74|B l 62,44 84,58 100,74|B l 70,74 100,78 128,76|B l 128,76 130,98 110,110|B l 70,74 44,82 20,110|M d M 40 50 Q 36 70 50 78",
+"Prancha c/ Elevação de Perna": "B c 26,72,7|B l 36,78 92,84 128,80|B l 38,80 38,100 52,100|B l 92,84 106,74 118,60|B l 92,84 120,100 142,110|M l 124,56 130,40",
+"Marcha c/ Joelho Alto (Lenta)": "B c 80,20,7|B l 80,28 80,64|B l 80,34 66,48 60,66|B l 80,34 96,48 100,64|B l 80,64 78,88 76,110|B l 80,64 104,64 100,86|M d M 112 76 Q 120 60 108 48"
+});
+Object.assign(FEEL, {
+"Ponte Glúteos (Peso Corporal)": ["O glúteo a apertar em cima, nada nas costas.", "Arquear as costas para subir mais."],
+"Balanços de Perna (Leg Swings)": ["A anca a soltar, cada balanço um pouco mais alto.", "Rodar o tronco ou arquear as costas."],
+"Mobilidade de Tornozelo (Parede)": ["A parte da frente do tornozelo a abrir, calcanhar colado ao chão.", "Levantar o calcanhar para chegar à parede."],
+"Afundo Lateral": ["A parte de dentro da coxa esticada e o glúteo da perna dobrada a trabalhar.", "Deixar o joelho ir para dentro."],
+"Passe de Peito c/ Bola Medicinal (Parede)": ["Os braços a empurrar como uma mola.", "Atirar com força a mais perto da parede e levar com a bola."],
+"Lançamento Rotacional c/ Bola Medicinal (Parede)": ["As ancas a rodar primeiro e o tronco a seguir.", "Atirar só com os braços."],
+"Slam c/ Bola Medicinal": ["O corpo todo a esticar em cima e a fechar em baixo.", "Dobrar as costas em vez de agachar."],
+"Saltos Pogo (Pogo Jumps)": ["Os tornozelos como molas, quase sem dobrar os joelhos.", "Ficar muito tempo no chão."],
+"RDL (Halteres)": ["A parte de trás das coxas a esticar na descida e o glúteo a subir.", "Arredondar as costas."],
+"Press de Ombros (Halteres Sentado)": ["Os ombros a empurrar, costas coladas ao encosto.", "Arquear as costas."],
+"Prancha de Copenhaga (Joelho Apoiado)": ["A parte de dentro da coxa de cima a aguentar.", "Deixar a anca cair."],
+"Nordic Assistido (Elástico)": ["A parte de trás das coxas a travar a descida.", "Cair rápido ou dobrar a anca."],
+"Elevação de Gémeos a Uma Perna (Degrau)": ["O gémeo a esticar em baixo e a apertar em cima.", "Fazer depressa a balançar."],
+"Alongamento Adutores (Borboleta)": ["A parte de dentro das coxas a abrir.", "Empurrar os joelhos com as mãos."],
+"Agachamento Isométrico na Parede (Wall Sit)": ["As coxas a arder, costas na parede.", "Apoiar as mãos nas coxas."],
+"Afundo Inverso (Halteres)": ["O glúteo e a coxa da perna da frente.", "Inclinar o tronco para a frente."],
+"Y-W-T (Deitado de Barriga para Baixo)": ["As omoplatas a apertar e o meio das costas a trabalhar.", "Encolher os ombros para as orelhas."],
+"Rotação Torácica (Livro Aberto)": ["O peito a abrir e o meio das costas a rodar.", "Deixar os joelhos levantar."],
+"Alongamento 90/90 (Ancas)": ["O glúteo da perna da frente a esticar.", "Arredondar as costas."],
+"Prancha c/ Elevação de Perna": ["O core a segurar a anca quieta.", "Rodar a anca ao levantar a perna."],
+"Marcha c/ Joelho Alto (Lenta)": ["O pé de apoio firme e o joelho alto.", "Inclinar o tronco."]
+});
+Object.assign(EX_EN, {
+"Balanços de Perna (Leg Swings)":"Leg Swings",
+"Mobilidade de Tornozelo (Parede)":"Ankle Rocks",
+"Afundo Lateral":"Lateral Lunge",
+"Passe de Peito c/ Bola Medicinal (Parede)":"Med Ball Chest Pass",
+"Lançamento Rotacional c/ Bola Medicinal (Parede)":"Med Ball Rotational Throw",
+"Slam c/ Bola Medicinal":"Med Ball Slam",
+"Saltos Pogo (Pogo Jumps)":"Pogo Jumps",
+"RDL (Halteres)":"Dumbbell Romanian Deadlift",
+"Press de Ombros (Halteres Sentado)":"Seated Dumbbell Shoulder Press",
+"Prancha de Copenhaga (Joelho Apoiado)":"Copenhagen Plank",
+"Nordic Assistido (Elástico)":"Assisted Nordic Curl",
+"Elevação de Gémeos a Uma Perna (Degrau)":"Single-Leg Calf Raise",
+"Alongamento Adutores (Borboleta)":"Butterfly Stretch",
+"Agachamento Isométrico na Parede (Wall Sit)":"Wall Sit",
+"Afundo Inverso (Halteres)":"Dumbbell Reverse Lunge",
+"Y-W-T (Deitado de Barriga para Baixo)":"Prone Y-W-T",
+"Rotação Torácica (Livro Aberto)":"Open Book",
+"Alongamento 90/90 (Ancas)":"90/90 Hip Stretch",
+"Prancha c/ Elevação de Perna":"Plank Leg Lift",
+"Marcha c/ Joelho Alto (Lenta)":"Slow High-Knee March"
+});
+var LIB = LIB_BASE.concat(LIB_NEW);
+/* ===================== PROGRAMA DO RODRIGO =====================
+   Item: [nome, esquema, carga de referência, família (para trocar), substituto a partir da semana 4]
+   Esquema: "3×8", "3×8/lado", "2×15s/lado", "1×2 min". Carga: "8 kg", "6 kg/mão" ou "".
+   Bloco: {name, kind: warm|power|str|prev|stretch, ss: true (supersérie), rest:{mid, end}, items}
+*/
+var FAM = {
+  jump_v:   {label:"Salto vertical",      list:[["Box Jump",""],["Saltos Pogo (Pogo Jumps)",""],["Afundo com Salto",""]]},
+  jump_h:   {label:"Salto horizontal",    list:[["Salto em Comprimento",""],["Skaters",""]]},
+  throw:    {label:"Lançamento",          list:[["Passe de Peito c/ Bola Medicinal (Parede)","3 kg"],["Slam c/ Bola Medicinal","4 kg"],["Lançamento Rotacional c/ Bola Medicinal (Parede)","3 kg"]]},
+  squat:    {label:"Agachamento",         list:[["Goblet Squat (Halter)","8 kg"],["Leg Press (Máquina)","40 kg"],["Agachamento Tempo 3-1-1",""],["Agachamento Isométrico na Parede (Wall Sit)",""]]},
+  push_h:   {label:"Empurrar",            list:[["Flexões (Padrão)",""],["Flexões em Incline",""],["Supino c/ Halteres","8 kg/mão"],["Supino Inclinado (Halteres)","7 kg/mão"]]},
+  hinge:    {label:"Dobradiça da anca",   list:[["RDL (Halteres)","8 kg/mão"],["RDL (Barra)","20 kg"],["Leg Curl Deitada (Máquina)","15 kg"],["Leg Curl Sentada (Máquina)","15 kg"]]},
+  row:      {label:"Remada",              list:[["Remada Baixa Sentada","20 kg"],["Remada c/ Apoio ao Peito (Máquina)","20 kg"],["Remada com Halteres (Unilateral)","10 kg"],["Remada Invertida (Mesa)",""]]},
+  single:   {label:"Uma perna",           list:[["Stepup (Banco + Halteres)","6 kg/mão"],["Afundo Inverso (Halteres)","6 kg/mão"],["Afundo Búlgaro (Banco + Halter)","5 kg/mão"],["Afundo Caminhando (Halteres)","6 kg/mão"]]},
+  pull_v:   {label:"Puxar vertical",      list:[["Puxada Alta (Barra Larga)","25 kg"],["Puxada Pega Fechada (Supinada)","25 kg"]]},
+  glute:    {label:"Glúteo",              list:[["Hip Thrust (Barra)","20 kg"],["Ponte Glúteos Unilateral",""],["Ponte Glúteos (Peso Corporal)",""]]},
+  push_v:   {label:"Empurrar para cima",  list:[["Press de Ombros (Halteres Sentado)","6 kg/mão"],["Shoulder Press (Máquina)","15 kg"]]},
+  posture:  {label:"Postura",             list:[["Face Pull (Polia)","10 kg"],["Y-W-T (Deitado de Barriga para Baixo)",""],["Elevação Lateral (Halteres)","4 kg/mão"]]},
+  adductor: {label:"Virilhas",            list:[["Prancha de Copenhaga (Joelho Apoiado)",""],["Adutora (Máquina)","20 kg"],["Afundo Lateral",""]]},
+  hams:     {label:"Isquiotibiais",       list:[["Hamstring Walkout",""],["Nordic Assistido (Elástico)",""],["Leg Curl Deitada (Máquina)","15 kg"]]},
+  core:     {label:"Core",                list:[["Dead Bug (Chão)",""],["Hollow Hold",""],["Prancha (Frontal)",""],["Prancha c/ Elevação de Perna",""],["Bird Dog (Chão)",""]]},
+  core_rot: {label:"Core anti-rotação",   list:[["Pallof Press (Polia)","10 kg"],["Prancha Lateral (Cada lado)",""],["Woodchop (Polia)","10 kg"]]},
+  calf:     {label:"Gémeos",              list:[["Elevação de Gémeos a Uma Perna (Degrau)",""],["Saltos Pogo (Pogo Jumps)",""]]},
+  glute_med:{label:"Glúteo médio",        list:[["Clamshell c/ Mini Band",""],["Monster Walk (c/ Elástico nos joelhos)",""],["Abdução de Anca Deitada",""]]},
+  cardio:   {label:"Aquecer",             list:[["Bicicleta Estática – Aquecimento",""],["Passadeira – Aquecimento",""],["Corda de Saltar",""]]}
+};
+
+/* ---------- blocos reutilizáveis ---------- */
+function warmA(){ return {name:"Aquecimento", kind:"warm", items:[
+  ["Bicicleta Estática – Aquecimento","1×2 min","","cardio"],
+  ["Alongamento do Mundo (World's Greatest)","1×3/lado",""],
+  ["Balanços de Perna (Leg Swings)","1×10/lado",""],
+  ["Mobilidade de Tornozelo (Parede)","1×10/lado",""],
+  ["Ponte Glúteos (Peso Corporal)","1×10",""]
+]}; }
+function warmB(){ return {name:"Aquecimento", kind:"warm", items:[
+  ["Bicicleta Estática – Aquecimento","1×2 min","","cardio"],
+  ["Alongamento do Mundo (World's Greatest)","1×3/lado",""],
+  ["Balanços de Perna (Leg Swings)","1×10/lado",""],
+  ["Afundo Lateral","1×6/lado",""],
+  ["Marcha c/ Joelho Alto (Lenta)","1×8/lado",""]
+]}; }
+function stretchA(){ return {name:"Alongamentos", kind:"stretch", items:[
+  ["Alongamento Flexores da Anca","1×30s/lado",""],
+  ["Alongamento Posteriores (Hamstrings)","1×30s/lado",""],
+  ["Alongamento Gémeos (Parede)","1×30s/lado",""]
+]}; }
+function stretchB(){ return {name:"Alongamentos", kind:"stretch", items:[
+  ["Alongamento Adutores (Borboleta)","1×40s",""],
+  ["Alongamento Glúteo (Figura 4)","1×30s/lado",""],
+  ["Alongamento Quadricípite (De Pé)","1×30s/lado",""],
+  ["Alongamento Peitoral (Porta)","1×30s",""]
+]}; }
+function power(items){ return {name:"Potência", kind:"power", rest:{mid:60, end:60}, items:items}; }
+function ss(label, a, b, mid, end){ return {name:"Força · " + label, kind:"str", ss:true, rest:{mid:mid||30, end:end||60}, items:[a, b]}; }
+function prev(items){ return {name:"Prevenção + core", kind:"prev", rest:{mid:30, end:30}, items:items}; }
+
+/* ---------- sessões de força (A = pernas a 2 apoios + empurrar · B = uma perna + puxar) ---------- */
+var SESSIONS = {
+  A1: {fam:"A", title:"Pernas + Empurrar", sub:"Força A · versão 1", blocks:[
+    warmA(),
+    power([["Box Jump","3×4","","jump_v"],["Passe de Peito c/ Bola Medicinal (Parede)","3×6","3 kg","throw"]]),
+    ss("1.ª parte", ["Goblet Squat (Halter)","3×8","8 kg","squat"], ["Flexões (Padrão)","3×8","","push_h"]),
+    ss("2.ª parte", ["RDL (Halteres)","3×8","8 kg/mão","hinge"], ["Remada Baixa Sentada","3×10","20 kg","row"], 30, 45),
+    prev([["Prancha de Copenhaga (Joelho Apoiado)","2×15s/lado","","adductor"],["Hamstring Walkout","2×6","","hams","Nordic Assistido (Elástico)|2×3"],["Dead Bug (Chão)","2×8/lado","","core"]]),
+    stretchA()
+  ]},
+  B1: {fam:"B", title:"Uma Perna + Puxar", sub:"Força B · versão 1", blocks:[
+    warmB(),
+    power([["Salto em Comprimento","3×3","","jump_h"],["Skaters","3×3/lado","","jump_h"],["Lançamento Rotacional c/ Bola Medicinal (Parede)","2×4/lado","3 kg","throw"]]),
+    ss("1.ª parte", ["Stepup (Banco + Halteres)","3×6/lado","6 kg/mão","single"], ["Puxada Alta (Barra Larga)","3×10","25 kg","pull_v"]),
+    ss("2.ª parte", ["Hip Thrust (Barra)","3×10","20 kg","glute"], ["Press de Ombros (Halteres Sentado)","3×8","6 kg/mão","push_v"], 30, 45),
+    prev([["Elevação de Gémeos a Uma Perna (Degrau)","2×12/lado","","calf"],["Pallof Press (Polia)","2×8/lado","10 kg","core_rot"],["Prancha Lateral (Cada lado)","2×20s/lado","","core_rot"]]),
+    stretchB()
+  ]},
+  A2: {fam:"A", title:"Pernas + Empurrar", sub:"Força A · versão 2", blocks:[
+    warmA(),
+    power([["Saltos Pogo (Pogo Jumps)","3×8","","jump_v"],["Slam c/ Bola Medicinal","3×6","4 kg","throw"]]),
+    ss("1.ª parte", ["Leg Press (Máquina)","3×10","40 kg","squat"], ["Supino c/ Halteres","3×8","8 kg/mão","push_h"]),
+    ss("2.ª parte", ["Leg Curl Deitada (Máquina)","3×10","15 kg","hinge"], ["Remada c/ Apoio ao Peito (Máquina)","3×10","20 kg","row"], 30, 45),
+    prev([["Prancha de Copenhaga (Joelho Apoiado)","2×15s/lado","","adductor"],["Hamstring Walkout","2×6","","hams","Nordic Assistido (Elástico)|2×3"],["Hollow Hold","2×20s","","core"]]),
+    stretchA()
+  ]},
+  B2: {fam:"B", title:"Uma Perna + Puxar", sub:"Força B · versão 2", blocks:[
+    warmB(),
+    power([["Salto em Comprimento","3×3","","jump_h"],["Skaters","3×3/lado","","jump_h"],["Passe de Peito c/ Bola Medicinal (Parede)","2×6","3 kg","throw"]]),
+    ss("1.ª parte", ["Afundo Inverso (Halteres)","3×8/lado","6 kg/mão","single"], ["Puxada Pega Fechada (Supinada)","3×10","25 kg","pull_v"]),
+    ss("2.ª parte", ["Ponte Glúteos Unilateral","3×10/lado","","glute"], ["Shoulder Press (Máquina)","3×10","15 kg","push_v"], 30, 45),
+    prev([["Elevação de Gémeos a Uma Perna (Degrau)","2×12/lado","","calf"],["Bird Dog (Chão)","2×8/lado","","core"],["Prancha Lateral (Cada lado)","2×20s/lado","","core_rot"]]),
+    stretchB()
+  ]},
+  A3: {fam:"A", title:"Pernas + Empurrar", sub:"Força A · versão 3", blocks:[
+    warmA(),
+    power([["Box Jump","3×4","","jump_v"],["Lançamento Rotacional c/ Bola Medicinal (Parede)","2×4/lado","3 kg","throw"]]),
+    ss("1.ª parte", ["Agachamento Tempo 3-1-1","3×6","","squat"], ["Flexões (Padrão)","3×8","","push_h"]),
+    ss("2.ª parte", ["RDL (Halteres)","3×8","8 kg/mão","hinge"], ["Face Pull (Polia)","3×12","10 kg","posture"], 30, 45),
+    prev([["Afundo Lateral","2×6/lado","","adductor"],["Hamstring Walkout","2×6","","hams","Nordic Assistido (Elástico)|2×3"],["Prancha c/ Elevação de Perna","2×6/lado","","core"]]),
+    stretchA()
+  ]},
+  B3: {fam:"B", title:"Uma Perna + Puxar", sub:"Força B · versão 3", blocks:[
+    warmB(),
+    power([["Skaters","3×3/lado","","jump_h"],["Saltos Pogo (Pogo Jumps)","3×8","","jump_v"],["Slam c/ Bola Medicinal","2×6","4 kg","throw"]]),
+    ss("1.ª parte", ["Afundo Búlgaro (Banco + Halter)","3×6/lado","5 kg/mão","single"], ["Remada com Halteres (Unilateral)","3×8/lado","10 kg","row"]),
+    ss("2.ª parte", ["Hip Thrust (Barra)","3×10","20 kg","glute"], ["Y-W-T (Deitado de Barriga para Baixo)","3×5","","posture"], 30, 45),
+    prev([["Elevação de Gémeos a Uma Perna (Degrau)","2×12/lado","","calf"],["Clamshell c/ Mini Band","2×12/lado","","glute_med"],["Pallof Press (Polia)","2×8/lado","10 kg","core_rot"]]),
+    stretchB()
+  ]}
+};
+var SEQ = ["A1","B1","A2","B2","A3","B3"];
+
+/* ---------- sessões especiais ---------- */
+var SPECIAL = {
+  vespera: {title:"Véspera de jogo", sub:"12 min · só ativar, sem cansar", mins:12, blocks:[
+    {name:"Mobilidade", kind:"warm", items:[
+      ["Bicicleta Estática – Aquecimento","1×2 min",""],
+      ["Alongamento do Mundo (World's Greatest)","1×4/lado",""],
+      ["Balanços de Perna (Leg Swings)","1×10/lado",""],
+      ["Mobilidade de Tornozelo (Parede)","1×10/lado",""],
+      ["Rotação Torácica (Livro Aberto)","1×6/lado",""]
+    ]},
+    {name:"Ativação", kind:"prev", rest:{mid:20, end:20}, items:[
+      ["Ponte Glúteos (Peso Corporal)","2×10",""],
+      ["Clamshell c/ Mini Band","1×12/lado",""],
+      ["Marcha c/ Joelho Alto (Lenta)","1×8/lado",""],
+      ["Saltos Pogo (Pogo Jumps)","2×6",""]
+    ]}
+  ]},
+  recup: {title:"Recuperação pós-jogo", sub:"15 min · soltar o corpo", mins:15, blocks:[
+    {name:"Soltar", kind:"warm", items:[
+      ["Bicicleta Estática – Aquecimento","1×4 min",""],
+      ["Cat-Camel (Chão)","1×10",""],
+      ["Rotação Torácica (Livro Aberto)","1×6/lado",""],
+      ["Alongamento do Mundo (World's Greatest)","1×4/lado",""]
+    ]},
+    {name:"Alongar", kind:"stretch", items:[
+      ["Alongamento Flexores da Anca","1×40s/lado",""],
+      ["Alongamento Posteriores (Hamstrings)","1×40s/lado",""],
+      ["Alongamento Quadricípite (De Pé)","1×30s/lado",""],
+      ["Alongamento Adutores (Borboleta)","1×45s",""],
+      ["Alongamento Glúteo (Figura 4)","1×30s/lado",""],
+      ["Alongamento Gémeos (Parede)","1×30s/lado",""]
+    ]}
+  ]},
+  pregame: {title:"Ativação antes do jogo", sub:"8 min · se o clube não aquecer", mins:8, blocks:[
+    {name:"Ativação", kind:"warm", items:[
+      ["Marcha no Lugar","1×1 min",""],
+      ["Balanços de Perna (Leg Swings)","1×10/lado",""],
+      ["Afundo Lateral","1×5/lado",""],
+      ["Ponte Glúteos (Peso Corporal)","1×10",""],
+      ["Saltos Pogo (Pogo Jumps)","1×10",""],
+      ["Joelhos ao Peito","1×20s",""]
+    ]}
+  ]},
+  rapido: {title:"Rápido 20′", sub:"sem equipamento · 3 voltas", mins:20, blocks:[
+    {name:"Aquecimento", kind:"warm", items:[
+      ["Marcha no Lugar","1×1 min",""],
+      ["Alongamento do Mundo (World's Greatest)","1×3/lado",""],
+      ["Balanços de Perna (Leg Swings)","1×8/lado",""]
+    ]},
+    {name:"Circuito · volta 1", kind:"prev", rest:{mid:20, end:60}, items:[
+      ["Agachamento (Peso Corporal)","1×12","","squat"],["Flexões (Padrão)","1×8","","push_h"],["Ponte Glúteos Unilateral","1×8/lado","","glute"],["Afundo Inverso","1×8/lado","","single"],["Dead Bug (Chão)","1×8/lado","","core"],["Prancha Lateral (Cada lado)","1×20s/lado","","core_rot"]
+    ]},
+    {name:"Circuito · volta 2", kind:"prev", rest:{mid:20, end:60}, items:[
+      ["Agachamento (Peso Corporal)","1×12","","squat"],["Flexões (Padrão)","1×8","","push_h"],["Ponte Glúteos Unilateral","1×8/lado","","glute"],["Afundo Inverso","1×8/lado","","single"],["Dead Bug (Chão)","1×8/lado","","core"],["Prancha Lateral (Cada lado)","1×20s/lado","","core_rot"]
+    ]},
+    {name:"Circuito · volta 3", kind:"prev", rest:{mid:20, end:30}, items:[
+      ["Agachamento (Peso Corporal)","1×12","","squat"],["Flexões (Padrão)","1×8","","push_h"],["Ponte Glúteos Unilateral","1×8/lado","","glute"],["Afundo Inverso","1×8/lado","","single"],["Dead Bug (Chão)","1×8/lado","","core"],["Prancha Lateral (Cada lado)","1×20s/lado","","core_rot"]
+    ]},
+    {name:"Alongamentos", kind:"stretch", items:[
+      ["Alongamento Flexores da Anca","1×30s/lado",""],["Alongamento Posteriores (Hamstrings)","1×30s/lado",""],["Alongamento Peitoral (Porta)","1×30s",""]
+    ]}
+  ]},
+  mob_clube: {title:"Mobilidade antes do clube", sub:"10 min · ancas e tornozelos", mins:10, blocks:[
+    {name:"Mobilidade", kind:"warm", items:[
+      ["Balanços de Perna (Leg Swings)","1×10/lado",""],
+      ["Mobilidade de Tornozelo (Parede)","1×10/lado",""],
+      ["Alongamento do Mundo (World's Greatest)","1×4/lado",""],
+      ["Afundo Lateral","1×6/lado",""],
+      ["Alongamento 90/90 (Ancas)","1×30s/lado",""],
+      ["Ponte Glúteos (Peso Corporal)","1×12",""],
+      ["Marcha c/ Joelho Alto (Lenta)","1×8/lado",""]
+    ]}
+  ]},
+  mob_postura: {title:"Postura e costas", sub:"10 min · para dias de muito sofá e telemóvel", mins:10, blocks:[
+    {name:"Mobilidade", kind:"warm", items:[
+      ["Cat-Camel (Chão)","1×10",""],
+      ["Rotação Torácica (Livro Aberto)","1×8/lado",""],
+      ["Y-W-T (Deitado de Barriga para Baixo)","2×5",""],
+      ["Bird Dog (Chão)","1×8/lado",""],
+      ["Alongamento Peitoral (Porta)","1×40s",""],
+      ["Alongamento Flexores da Anca","1×40s/lado",""],
+      ["Alongamento Tríceps e Ombro","1×30s/lado",""]
+    ]}
+  ]},
+  mob_pernas: {title:"Pernas soltas", sub:"10 min · alongar depois de um dia pesado", mins:10, blocks:[
+    {name:"Alongar", kind:"stretch", items:[
+      ["Alongamento Flexores da Anca","1×40s/lado",""],
+      ["Alongamento Posteriores (Hamstrings)","1×40s/lado",""],
+      ["Alongamento Quadricípite (De Pé)","1×30s/lado",""],
+      ["Alongamento Adutores (Borboleta)","1×45s",""],
+      ["Alongamento Glúteo (Figura 4)","1×30s/lado",""],
+      ["Alongamento Gémeos (Parede)","1×30s/lado",""],
+      ["Alongamento 90/90 (Ancas)","1×30s/lado",""]
+    ]}
+  ]}
+};
+var MOB_LIST = ["mob_clube","mob_postura","mob_pernas","vespera","recup","pregame"];
+
+/* ---------- semana ---------- */
+var DOW = ["Dom","Seg","Ter","Qua","Qui","Sex","Sáb"];
+var DOW_LONG = ["Domingo","Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
+var CFG_DEFAULT = {gymDays:[2,4], gymDaysNoGame:[2,6], restDay:3, gameDow:0};
+
+/* ---------- nutrição (adaptada à idade: comer bem, sem contar nada) ---------- */
+var NUTRI = {
+  regras: [
+    ["Comer a todas as refeições", "Pequeno-almoço, almoço, lanche, jantar e um lanche depois do treino. Saltar refeições tira energia ao jogo e ao crescimento."],
+    ["Proteína em cada refeição", "Ovos, leite, iogurte, queijo, frango, peru, carne, peixe, atum, feijão ou grão. É o que repara o músculo depois de treinar."],
+    ["Hidratos antes de treinar e jogar", "Pão, massa, arroz, batata, aveia, fruta. São o combustível. Sem eles não há explosão nem fôlego."],
+    ["Fruta e legumes todos os dias", "Pelo menos 2 peças de fruta e legumes ao almoço e ao jantar."],
+    ["Água o dia todo", "Garrafa sempre contigo. Nos treinos e jogos bebe antes, durante e depois. Urina escura = falta água."],
+    ["Lanche de recuperação até 1 h depois", "Leite com chocolate, iogurte com fruta, sandes de queijo ou fiambre, batido de leite com banana."],
+    ["Não precisas de suplementos", "Com 14 anos a comida chega. Nada de proteína em pó, creatina, pré-treino ou bebidas energéticas."],
+    ["Doces e fast food: às vezes", "Não há proibidos, mas não é todos os dias. Refrigerantes só de vez em quando."]
+  ],
+  dia: [
+    ["Pequeno-almoço", "Leite ou iogurte + pão com queijo ou ovos + 1 fruta. Ou aveia com leite e banana."],
+    ["Lanche da manhã", "Fruta + bolachas de água e sal, ou sandes pequena."],
+    ["Almoço", "Prato com proteína (carne, peixe, ovos), arroz/massa/batata e legumes. Sopa se houver."],
+    ["Lanche da tarde (antes do treino)", "Pão com fiambre ou manteiga de amendoim, banana, iogurte. 1–2 h antes do treino."],
+    ["Depois do treino ou jogo", "Leite com chocolate ou iogurte com fruta. Até 1 h depois."],
+    ["Jantar", "Igual ao almoço: proteína, hidratos e legumes. Mais quantidade nos dias de treino duplo."],
+    ["Ceia (se tiveres fome)", "Iogurte, leite ou uma torrada. Dormir com fome é mau para recuperar."]
+  ],
+  jogo: [
+    ["Dia antes do jogo", "Mais massa, arroz ou batata ao almoço e ao jantar. Bebe bastante água."],
+    ["Manhã do jogo (3 h antes)", "Pequeno-almoço normal e leve: pão, aveia, fruta, leite. Nada frito nem pesado."],
+    ["1 h antes", "Só banana, pão com mel ou barrita de cereais + água."],
+    ["Ao intervalo", "Água e, se houver, um gole de bebida isotónica ou uma banana."],
+    ["Depois do jogo", "Lanche de recuperação nos primeiros 60 min e refeição completa a seguir."]
+  ],
+  sono: [
+    ["8 a 10 horas", "Com 14 anos e a treinar todos os dias, dormir é o melhor suplemento que existe. É a dormir que o músculo cresce."],
+    ["Telemóvel fora do quarto", "Ou pelo menos 30 min antes de dormir sem ecrã."]
+  ]
+};
+
+/* ---------- sinais de alarme ---------- */
+var ALERT = {
+  short: "Dor abaixo do joelho ou no calcanhar? Tira os saltos e fala com o médico.",
+  long: "Nesta idade, com muitos dias de futebol, é comum aparecer dor na parte de cima da canela (logo abaixo da rótula) ou no calcanhar. Não é para aguentar: tira os saltos deste plano, avisa o treinador e fala com o médico. Também pára se tiveres tonturas, dor no peito ou uma dor aguda a meio de um exercício."
+};
+
+/* ---------- checklist para quem acompanha ---------- */
+var COACH_CHECK = [
+  ["Antes de começar", [
+    "Ele comeu qualquer coisa há 1–2 h e tem água.",
+    "Confirmar que não tem dores (joelho, calcanhar, virilhas). Se tiver, saltos fora.",
+    "Nas semanas 1 a 3 o peso é leve de propósito. Não deixar subir mesmo que diga que é fácil."
+  ]],
+  ["Agachamento (Goblet / Leg Press)", [
+    "Joelhos apontam na direção dos pés, nunca para dentro.",
+    "Calcanhares sempre no chão.",
+    "Costas direitas, peito alto — o halter fica junto ao peito.",
+    "Desce até as coxas ficarem paralelas ao chão, sem arredondar as costas em baixo."
+  ]],
+  ["RDL (dobrar a anca com halteres)", [
+    "A anca vai para trás, como se fechasse uma gaveta com o rabo.",
+    "Joelhos só um pouco dobrados e fixos.",
+    "Costas direitas do início ao fim. Se arredondar, parar e baixar o peso.",
+    "Os halteres descem encostados às pernas, não à frente."
+  ]],
+  ["Saltos (Box Jump, Salto em Comprimento, Skaters)", [
+    "Aterrar suave e em silêncio, com os joelhos dobrados e por cima dos pés.",
+    "Descer da caixa sempre a pé, nunca a saltar.",
+    "Se as aterragens ficarem pesadas ou os joelhos irem para dentro, parar a série — é cansaço.",
+    "Descansar o tempo todo entre séries. Aqui a qualidade é tudo."
+  ]],
+  ["Nordic (a partir da semana 4)", [
+    "Descida lenta de 3 a 4 segundos, a travar com a parte de trás das coxas.",
+    "Amortecer com as mãos no chão. Só 3 repetições.",
+    "Se no dia seguinte estiver muito dorido, fazer só 2 na próxima vez."
+  ]],
+  ["No fim", [
+    "Ele marca na app como correu cada exercício. Não sobe o peso sozinho antes da semana 4.",
+    "Alongamentos sempre, mesmo com pressa.",
+    "Lanche de recuperação na primeira hora."
+  ]]
+];
+/* ===================== MOTOR =====================
+   Rodrigo FC — app de treino para o Rodrigo. Lógica: a app decide o treino do dia
+   a partir da semana (ginásio, clube, folga, jogo) e segue a sequência A1→B1→A2→B2→A3→B3.
+*/
+var EX = {};
+LIB.forEach(function(it){ if (!EX[it[0]]) EX[it[0]] = {muscle:it[1], howto:it[2]||"", setup:it[3]||""}; });
+function base(n){ return String(n).split("(")[0].trim().toLowerCase(); }
+function look(map, n){ if (map[n] != null) return map[n]; var b = base(n); for (var k in map){ if (base(k) === b) return map[k]; } return null; }
+function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;"); }
+function enName(n){ return EX_EN[n] || look(EX_EN, n) || n.split(" (")[0]; }
+function ptName(n){ var p = n.split(" (")[0].split(" – ")[0]; return p === enName(n) ? "" : p; }
+function feelOf(n){ return FEEL[n] || look(FEEL, n) || null; }
+function fig(name, cls){
+  var spec = look(FIG, name); if (!spec) return "";
+  var out = '<svg class="fig ' + (cls||"") + '" viewBox="0 0 160 120" aria-hidden="true"><polyline class="P" points="8,112 152,112"/>';
+  spec.split("|").forEach(function(part){
+    part = part.trim(); if (!part) return;
+    var c = part.charAt(0), t = part.charAt(2), r = part.slice(4), a;
+    if (t === "c"){ a = r.split(","); out += '<circle class="' + c + '" cx="' + a[0] + '" cy="' + a[1] + '" r="' + a[2] + '"/>'; }
+    else if (t === "f"){ a = r.split(","); out += '<circle class="' + c + 'f" cx="' + a[0] + '" cy="' + a[1] + '" r="' + a[2] + '"/>'; }
+    else if (t === "l"){ out += '<polyline class="' + c + '" points="' + r + '"/>'; }
+    else if (t === "r"){ a = r.split(","); out += '<rect class="' + c + '" x="' + a[0] + '" y="' + a[1] + '" width="' + a[2] + '" height="' + a[3] + '" rx="2"/>'; }
+    else if (t === "d"){ out += '<path class="' + c + '" d="' + r + '"/>'; }
+  });
+  return out + "</svg>";
+}
+
+/* ---------- estado ---------- */
+var KEY = "rfc1";
+var st = {v:1, cfg:null, seq:0, firstDate:null, weights:{}, last:{}, effort:{}, swaps:{}, week:{}, log:[], sess:null, sound:false, keepAwake:true};
+var ui = {tab:"home", rest:null, viewDone:null, fin:null};
+try { var raw = localStorage.getItem(KEY); if (raw){ var o = JSON.parse(raw); for (var k in o) st[k] = o[k]; } } catch(e){}
+st.cfg = Object.assign({}, CFG_DEFAULT, st.cfg || {});
+function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} }
+function exportData(){
+  var blob = new Blob([JSON.stringify(st, null, 1)], {type:"application/json"});
+  var a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "rodrigo-fc-" + today() + ".json"; document.body.appendChild(a); a.click(); a.remove();
+}
+function importData(file){
+  var r = new FileReader();
+  r.onload = function(){ try { var o = JSON.parse(r.result); if (!o || !o.weights) throw 1; for (var k in o) st[k] = o[k]; st.cfg = Object.assign({}, CFG_DEFAULT, st.cfg || {}); save(); toast("Dados importados"); render(); } catch(e){ toast("Ficheiro inválido"); } };
+  r.readAsText(file);
+}
+var toastTimer = null;
+function toast(msg){ var el = document.getElementById("toast"); if (!el){ el = document.createElement("div"); el.id = "toast"; el.className = "toast"; document.body.appendChild(el); } el.textContent = msg; el.style.display = "block"; clearTimeout(toastTimer); toastTimer = setTimeout(function(){ el.style.display = "none"; }, 1800); }
+
+/* ---------- datas ---------- */
+function pad(n){ return (n < 10 ? "0" : "") + n; }
+function iso(d){ return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
+function today(){ return iso(new Date()); }
+function fromIso(s){ return new Date(s + "T12:00:00"); }
+function addDays(d, n){ var x = new Date(d.getTime()); x.setDate(x.getDate() + n); return x; }
+function monday(d){ var x = new Date(d.getTime()); x.setHours(12,0,0,0); var w = (x.getDay() + 6) % 7; x.setDate(x.getDate() - w); return x; }
+function weekKey(d){ return iso(monday(d)); }
+function weekNum(){ if (!st.firstDate) return 1; var a = monday(fromIso(st.firstDate)), b = monday(new Date()); return Math.max(1, Math.round((b - a) / 604800000) + 1); }
+function phase(){ return weekNum() >= 4 ? 2 : 1; }
+function fmtDate(s){ var p = s.split("-"); return p[2] + "/" + p[1]; }
+function mmss(sec){ sec = Math.max(0, Math.floor(sec)); return pad(Math.floor(sec / 60)) + ":" + pad(sec % 60); }
+
+/* ---------- esquemas ---------- */
+function parseScheme(s){
+  var m = /^(\d+)\s*[×x]\s*(.+)$/.exec(s || ""); if (!m) return {sets:1, reps:null, secs:null, side:false, label:s||""};
+  var rest = m[2], side = /\/lado/.test(rest); rest = rest.replace("/lado", "").trim();
+  var secs = null, reps = null, t;
+  if ((t = /^(\d+)\s*min$/.exec(rest))) secs = parseInt(t[1], 10) * 60;
+  else if ((t = /^(\d+)\s*s$/.exec(rest))) secs = parseInt(t[1], 10);
+  else reps = parseInt(rest, 10) || null;
+  return {sets:parseInt(m[1], 10), reps:reps, secs:secs, side:side, label:rest + (side ? "/lado" : "")};
+}
+function refKg(ref){ var m = /([\d.,]+)\s*kg/.exec(ref || ""); return m ? parseFloat(m[1].replace(",", ".")) : null; }
+function perHand(ref){ return /\/mão/.test(ref || ""); }
+function hasLoad(it){ return refKg(it[2]) != null; }
+function curKg(it){ var k = it[0]; if (st.weights[k] != null && st.weights[k] !== "") return parseFloat(st.weights[k]); return refKg(it[2]); }
+function fmtKg(n){ return (Math.round(n * 10) / 10).toString().replace(".", ","); }
+function unitOf(it){ return perHand(it[2]) ? "kg/mão" : "kg"; }
+function incOf(it){ return (perHand(it[2]) || /Halter|Goblet|Bola/.test(it[0])) ? 1 : 2.5; }
+
+/* ---------- sessão resolvida (trocas, fase, modo leve) ---------- */
+function sessionDef(key){ return SESSIONS[key] || SPECIAL[key] || null; }
+function isStrength(key){ return !!SESSIONS[key]; }
+function resolveSession(key, light){
+  var def = sessionDef(key); if (!def) return null;
+  var sw = st.swaps[key] || {};
+  var blocks = [];
+  def.blocks.forEach(function(b, bi){
+    if (light && b.kind === "power") return;
+    var nb = {name:b.name, kind:b.kind, ss:!!b.ss, rest:b.rest || null, items:[]};
+    b.items.forEach(function(it, ii){
+      var x = it.slice();
+      if (phase() === 2 && x[4]){ var p = x[4].split("|"); x = [p[0], p[1] || x[1], x[2], x[3]]; }
+      var s = sw[bi + "." + ii]; if (s){ x = [s[0], x[1], s[1], x[3]]; }
+      if (light && b.kind === "str"){ var ps = parseScheme(x[1]); if (ps.sets > 2) x[1] = x[1].replace(/^\d+/, String(ps.sets - 1)); }
+      nb.items.push(x);
+    });
+    blocks.push(nb);
+  });
+  var mins = def.mins || (light ? 30 : 40);
+  return {key:key, title:def.title, sub:(light ? "Semana de jogo · versão leve" : def.sub), fam:def.fam || null, mins:mins, blocks:blocks, light:!!light};
+}
+function nextKey(){ return SEQ[st.seq % SEQ.length]; }
+function countSets(day){ var n = 0; day.blocks.forEach(function(b){ b.items.forEach(function(it){ n += parseScheme(it[1]).sets; }); }); return n; }
+
+/* ---------- semana ---------- */
+function weekState(d){ var k = weekKey(d); return st.week[k] || {game:null, big:false}; }
+function setWeek(d, patch){ var k = weekKey(d); st.week[k] = Object.assign({game:null, big:false}, st.week[k] || {}, patch); save(); render(); }
+function gameDow(w){ if (w.game === false) return null; if (typeof w.game === "number") return w.game; return st.cfg.gameDow; }
+function doneOn(dateIso){ return (st.log || []).filter(function(x){ return x.date === dateIso; }); }
+function planFor(d){
+  var w = weekState(d), g = gameDow(w), dow = d.getDay(), cfg = st.cfg;
+  if (g != null){
+    if (dow === g) return {kind:"game", title:"Dia de jogo", sub:"Boa sorte. A app só entra se o clube não aquecer.", run:"pregame", lab:"Jogo"};
+    var until = (g - dow + 7) % 7, after = (dow - g + 7) % 7;
+    if (until === 1) return {kind:"vespera", title:"Véspera de jogo", sub:"Nada de ginásio. 12 min a soltar e ativar.", run:"vespera", lab:"Véspera"};
+    if (after === 1) return {kind:"recup", title:"Recuperação", sub:"15 min a soltar as pernas do jogo.", run:"recup", lab:"Recup."};
+  }
+  if (dow === cfg.restDay) return {kind:"rest", title:"Folga total", sub:"Hoje o corpo cresce. Nem mobilidade.", lab:"Folga"};
+  var gym = (g == null ? cfg.gymDaysNoGame : cfg.gymDays);
+  if (gym.indexOf(dow) >= 0){
+    if (w.big && gym.indexOf(dow) > 0) return {kind:"club", title:"Treino do clube", sub:"Semana de jogo importante: só 1 ginásio esta semana.", lab:"Clube"};
+    return {kind:"str", title:"Ginásio", sub:"", light:!!w.big, lab:"Ginásio"};
+  }
+  return {kind:"club", title:"Treino do clube", sub:"Se quiseres, 10 min de mobilidade antes.", lab:"Clube"};
+}
+
+/* ---------- navegação / render ---------- */
+var TAB_ICON = {
+  home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>',
+  treinos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6M20 9v6M7 7v10M17 7v10M7 12h10"/></svg>',
+  nutri:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v7a3 3 0 006 0V3M9 3v18M17 3c-2 2-3 5-3 8h3v10"/></svg>',
+  perfil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>'
+};
+var TABS = [["home","Hoje"],["treinos","Treinos"],["nutri","Comer"],["perfil","Eu"]];
+function renderTabs(){
+  document.getElementById("tabs").innerHTML = TABS.map(function(t){ return '<button class="tab ' + (ui.tab === t[0] ? "on" : "") + '" data-tab="' + t[0] + '">' + TAB_ICON[t[0]] + '<span>' + t[1] + '</span></button>'; }).join("");
+}
+function render(){
+  renderTabs();
+  var app = document.getElementById("app");
+  if (ui.tab === "home") app.innerHTML = renderHome();
+  else if (ui.tab === "treinos") app.innerHTML = renderTreinos();
+  else if (ui.tab === "nutri") app.innerHTML = renderNutri();
+  else app.innerHTML = renderPerfil();
+  window.scrollTo(0, 0);
+}
+var BALL = '<svg width="34" height="34" viewBox="0 0 34 34" fill="none" aria-hidden="true"><circle cx="17" cy="17" r="14" stroke="#F2D04B" stroke-width="2"/><path d="M17 9l6 4.5-2.3 7h-7.4L11 13.5z" stroke="#F2D04B" stroke-width="1.8" stroke-linejoin="round"/><path d="M17 9V4M23 13.5l5-2M20.7 20.5l3 4.5M13.3 20.5l-3 4.5M11 13.5l-5-2" stroke="#F2D04B" stroke-width="1.6"/></svg>';
+var HERO_BG = '<svg class="bg" viewBox="0 0 220 220" fill="none" aria-hidden="true"><circle cx="150" cy="110" r="90" stroke="#fff" stroke-opacity=".12" stroke-width="2"/><circle cx="150" cy="110" r="6" fill="#fff" fill-opacity=".2"/><path d="M60 20v180" stroke="#fff" stroke-opacity=".12" stroke-width="2"/></svg>';
+function topBar(){
+  var wn = weekNum();
+  return '<div class="top"><div class="brand">' + BALL + '<div><span class="disp">Rodrigo FC</span><small>Treino de ginásio</small></div></div><span class="pill">Semana <b>' + wn + '</b> · ' + (phase() === 1 ? "técnica" : "progressão") + '</span></div>';
+}
+function previewRows(day, limit){
+  var rows = [];
+  day.blocks.forEach(function(b){ if (b.kind === "warm" || b.kind === "stretch") return; b.items.forEach(function(it){ rows.push(it); }); });
+  if (limit) rows = rows.slice(0, limit);
+  return rows;
+}
+function exRow(it, extra, dark){
+  var kg = hasLoad(it) ? ' · ' + fmtKg(curKg(it)) + ' ' + unitOf(it) : '';
+  return '<div class="exrow ' + (dark ? "dark " : "") + (extra || "") + '"><div class="thumb">' + fig(it[0], dark ? "dark" : "") + '</div><div class="grow"><div class="n">' + esc(enName(it[0])) + '</div><div class="pt">' + esc(ptName(it[0])) + '</div></div><div class="sch">' + esc(it[1]) + kg + '</div></div>';
+}
+function renderHome(){
+  var d = new Date(), w = weekState(d), plan = planFor(d), done = doneOn(today());
+  var h = topBar();
+  if (w.game == null){
+    h += '<div class="card gold"><div class="kicker" style="color:#6B5A0A">Esta semana</div><div class="disp" style="font-size:26px">Tens jogo no domingo?</div><div class="q"><button class="btn dark" data-game="yes">Sim</button><button class="btn dark" data-game="no">Não</button><button class="btn dark" data-game="other">Outro dia</button></div></div>';
+  }
+  var dayCards = done.map(function(x){ return '<div class="card" style="border-color:rgba(95,211,141,.5)"><div class="row between"><div><div class="kicker" style="color:var(--green)">Feito hoje</div><div class="disp" style="font-size:22px">' + esc(x.title) + '</div><div class="tiny">' + x.sets + ' · ' + x.mins + ' min</div></div><span class="mono" style="color:var(--green);font-size:22px">✓</span></div></div>'; }).join("");
+  var strDone = done.some(function(x){ return isStrength(x.key); });
+  var hero;
+  if (plan.kind === "str" && !strDone){
+    var key = nextKey(), day = resolveSession(key, plan.light);
+    hero = '<div class="card hero">' + HERO_BG + '<div class="kicker">Hoje · ' + DOW_LONG[d.getDay()] + '</div><h1 class="disp">' + esc(day.title) + '</h1><div class="sub">' + esc(day.sub) + ' · ~' + day.mins + ' min · ' + countSets(day) + ' séries</div>' +
+      '<div class="exlist" style="margin-bottom:14px">' + previewRows(day, 4).map(function(it){ return exRow(it, "", true); }).join("") + '<div class="tiny" style="text-align:center">+ aquecimento, prevenção e alongamentos</div></div>' +
+      '<button class="btn primary" data-start="' + key + '" data-light="' + (plan.light ? 1 : 0) + '">' + (st.sess && st.sess.key === key ? "Continuar o treino" : "Começar o treino") + '</button>' +
+      (phase() === 1 ? '<div class="hint" style="margin-top:10px">Semanas 1 a 3: técnica primeiro. Peso leve de propósito, pára sempre quando ainda conseguias fazer 3.</div>' : '') + '</div>';
+  } else if (plan.run && !done.some(function(x){ return x.key === plan.run; })){
+    var sp = resolveSession(plan.run);
+    hero = '<div class="card hero">' + HERO_BG + '<div class="kicker">Hoje · ' + DOW_LONG[d.getDay()] + '</div><h1 class="disp">' + esc(plan.title) + '</h1><div class="sub">' + esc(plan.sub) + '</div>' +
+      (plan.kind === "game" ? '<button class="btn ghost" data-start="pregame">Ativação antes do jogo · 8 min</button>' : '<button class="btn primary" data-start="' + plan.run + '">Começar · ' + sp.mins + ' min</button>') + '</div>';
+  } else {
+    hero = '<div class="card hero">' + HERO_BG + '<div class="kicker">Hoje · ' + DOW_LONG[d.getDay()] + '</div><h1 class="disp">' + esc(strDone && plan.kind === "str" ? "Ginásio feito" : plan.title) + '</h1><div class="sub">' + esc(strDone && plan.kind === "str" ? "Agora é comer bem e descansar." : plan.sub) + '</div>' +
+      (plan.kind === "club" ? '<button class="btn ghost" data-start="mob_clube">Mobilidade antes do clube · 10 min</button>' : '') + '</div>';
+  }
+  h += dayCards + hero;
+  /* semana */
+  var mon = monday(d), cells = "";
+  for (var i = 0; i < 7; i++){
+    var dd = addDays(mon, i), p = planFor(dd), k = iso(dd), isT = k === today(), dn = doneOn(k).length > 0;
+    var cls = "day " + (isT ? "today " : "") + (dn ? "done " : "") + (p.kind === "str" ? "gym" : p.kind === "game" ? "game" : p.kind === "rest" ? "rest" : "club");
+    cells += '<div class="' + cls + '"><div class="d">' + DOW[dd.getDay()] + '</div><span class="lab">' + p.lab + '</span><span class="dot"></span></div>';
+  }
+  var gl = w.game === false ? "Sem jogo" : "Jogo " + DOW[gameDow(w)];
+  h += '<div class="card"><div class="row between" style="margin-bottom:8px"><div class="kicker" style="margin:0">Jornada</div><button class="chip sm" data-week="edit">' + gl + ' · mudar</button></div><div class="week">' + cells + '</div>' +
+    '<label class="sw" style="border:0;padding-top:12px"><span>Semana de jogo importante <span class="tiny">(só 1 ginásio, versão leve)</span></span><input type="checkbox" id="bigWeek" ' + (w.big ? "checked" : "") + '></label></div>';
+  if (plan.kind !== "rest") h += '<div class="card"><div class="kicker">Não dá hoje?</div><div class="row"><button class="btn ghost grow" data-start="rapido">Rápido 20′</button><button class="btn ghost grow" data-tab="treinos">Mobilidade</button></div></div>';
+  h += '<div class="alert"><span>⚠</span><div><b>Atenção.</b> ' + ALERT.short + ' <button class="chip sm" data-sheet="alert">ler mais</button></div></div>';
+  return h;
+}
+function renderTreinos(){
+  var h = topBar() + '<div class="kicker">Força · a app segue esta ordem</div><div class="exlist" style="margin-bottom:14px">';
+  SEQ.forEach(function(k, i){
+    var d = SESSIONS[k], isNext = (st.seq % SEQ.length) === i;
+    h += '<button class="exrow dark ' + (isNext ? "cur" : "") + '" data-preview="' + k + '"><div class="grow"><div class="n">' + k + ' · ' + esc(d.title) + '</div><div class="pt">' + esc(d.sub) + (isNext ? ' · <b style="color:var(--gold)">é o próximo</b>' : '') + '</div></div><span class="sch">ver</span></button>';
+  });
+  h += '</div><div class="kicker">Sem ginásio</div><div class="exlist" style="margin-bottom:14px">';
+  h += '<button class="exrow dark" data-preview="rapido"><div class="grow"><div class="n">Rápido 20′</div><div class="pt">Para dias sem tempo, em casa, sem material</div></div><span class="sch">ver</span></button>';
+  h += '</div><div class="kicker">Mobilidade e alongamentos</div><div class="exlist" style="margin-bottom:14px">';
+  MOB_LIST.forEach(function(k){ var d = SPECIAL[k]; h += '<button class="exrow dark" data-preview="' + k + '"><div class="grow"><div class="n">' + esc(d.title) + '</div><div class="pt">' + esc(d.sub) + '</div></div><span class="sch">' + d.mins + '′</span></button>'; });
+  h += '</div><div class="card"><div class="kicker">Como funciona</div><div class="muted">Dois treinos de ginásio por semana, 40 min, sempre a 2 dias de distância do jogo. A app alterna A (pernas a dois apoios + empurrar) e B (uma perna + puxar) e vai rodando 3 versões de cada para não ser sempre igual. Semanas 1 a 3 são de técnica com peso leve; a partir da 4.ª semana a app sugere subir o peso quando o treino anterior foi fácil.</div></div>';
+  h += '<div class="alert"><span>⚠</span><div>' + ALERT.long + '</div></div>';
+  return h;
+}
+function renderNutri(){
+  var h = topBar() + '<div class="nutri">';
+  h += '<div class="card white"><div class="kicker">Comer para jogar</div><div style="font-size:15px">Com 14 anos e a treinar quase todos os dias, não é para fazer dieta nem contar nada. É para comer o suficiente, nas horas certas, para ter energia nos jogos e crescer. Sem suplementos.</div></div>';
+  h += '<h3>8 regras</h3>' + NUTRI.regras.map(function(x){ return '<div class="it"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>'; }).join("");
+  h += '<h3>Um dia normal</h3>' + NUTRI.dia.map(function(x){ return '<div class="it"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>'; }).join("");
+  h += '<h3>Dia de jogo</h3>' + NUTRI.jogo.map(function(x){ return '<div class="it"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>'; }).join("");
+  h += '<h3>Dormir</h3>' + NUTRI.sono.map(function(x){ return '<div class="it"><b>' + esc(x[0]) + '</b><span>' + esc(x[1]) + '</span></div>'; }).join("");
+  return h + '</div>';
+}
+function renderPerfil(){
+  var log = st.log || [], wk = weekKey(new Date());
+  var thisWeek = log.filter(function(x){ return weekKey(fromIso(x.date)) === wk; }).length;
+  var strTotal = log.filter(function(x){ return isStrength(x.key); }).length;
+  var h = topBar() + '<div class="stat"><div><div class="v">' + log.length + '</div><div class="l">treinos</div></div><div><div class="v">' + strTotal + '</div><div class="l">ginásio</div></div><div><div class="v">' + thisWeek + '</div><div class="l">esta semana</div></div></div>';
+  h += '<div class="card"><div class="kicker">Os teus pesos</div>';
+  var names = Object.keys(st.weights).filter(function(k){ return st.weights[k] !== "" && st.weights[k] != null; });
+  if (!names.length) h += '<div class="muted">Ainda sem pesos guardados. Aparecem aqui quando fizeres o primeiro treino.</div>';
+  names.sort().forEach(function(n){ h += '<div class="kv"><span class="k">' + esc(enName(n)) + '</span><span class="v">' + fmtKg(st.weights[n]) + ' kg</span></div>'; });
+  h += '</div>';
+  h += '<div class="card"><div class="kicker">Histórico</div><div class="hist">' + (log.length ? log.slice().reverse().slice(0, 30).map(function(x){ return '<div class="it"><div><div>' + esc(x.title) + (x.light ? ' <span class="tiny">(leve)</span>' : '') + '</div><div class="tiny">' + x.sets + ' · ' + x.mins + ' min' + (x.eff ? ' · ' + x.eff : '') + '</div></div><span class="mono">' + fmtDate(x.date) + '</span></div>'; }).join("") : '<div class="muted">Nada ainda. O primeiro treino fica aqui.</div>') + '</div></div>';
+  h += '<div class="card"><div class="kicker">Para quem acompanha</div><div class="muted" style="margin-bottom:10px">Checklist de 1 página para quem for com o Rodrigo ao ginásio nas primeiras sessões.</div><button class="btn ghost" data-sheet="coach">Abrir checklist</button></div>';
+  h += '<div class="card"><div class="kicker">Definições</div>' +
+    '<label class="sw"><span>Sons</span><input type="checkbox" id="optSound" ' + (st.sound ? "checked" : "") + '></label>' +
+    '<label class="sw"><span>Ecrã sempre ligado no treino</span><input type="checkbox" id="optWake" ' + (st.keepAwake ? "checked" : "") + '></label>' +
+    '<div class="kv"><span class="k">Dia de folga total</span><select class="sel" id="optRest">' + DOW_LONG.map(function(n, i){ return '<option value="' + i + '" ' + (st.cfg.restDay === i ? "selected" : "") + '>' + n + '</option>'; }).join("") + '</select></div>' +
+    '<div class="kv"><span class="k">Ginásio (com jogo)</span><span class="v">' + st.cfg.gymDays.map(function(i){ return DOW[i]; }).join(" + ") + '</span></div>' +
+    '<div class="kv"><span class="k">Ginásio (sem jogo)</span><span class="v">' + st.cfg.gymDaysNoGame.map(function(i){ return DOW[i]; }).join(" + ") + '</span></div>' +
+    '<div class="kv"><span class="k">Próximo treino</span><span class="v">' + nextKey() + '</span></div>' +
+    '<div class="row" style="margin-top:12px"><button class="btn ghost grow" id="btnExport">Exportar cópia</button><label class="btn ghost grow" style="cursor:pointer">Importar<input type="file" id="fileImport" accept="application/json" hidden></label></div>' +
+    '<button class="btn ghost" style="margin-top:8px;color:#FF8F7A" id="btnReset">Começar do zero</button></div>';
+  h += '<div class="tiny" style="text-align:center;padding:10px">Rodrigo FC · os dados ficam só neste telemóvel. Exporta uma cópia de vez em quando e manda ao Tiago.</div>';
+  return h;
+}
+
+/* ---------- folhas ---------- */
+function openSheet(html){ var el = document.getElementById("sheet"); el.innerHTML = '<div class="pane"><div class="handle"></div>' + html + '</div>'; el.hidden = false; }
+function closeSheet(){ var el = document.getElementById("sheet"); el.hidden = true; el.innerHTML = ""; }
+function sheetHead(title){ return '<div class="sheet-h"><span class="disp">' + esc(title) + '</span><button class="ib" data-close="1">✕</button></div>'; }
+function openPreview(key){
+  var day = resolveSession(key, false), h = sheetHead(day.title) + '<div class="muted" style="margin-bottom:8px">' + esc(day.sub) + ' · ~' + day.mins + ' min</div>';
+  day.blocks.forEach(function(b){ h += '<div class="blockh"><span class="disp">' + esc(b.name) + '</span></div><div class="exlist">' + b.items.map(function(it){ return exRow(it, "", true); }).join("") + '</div>'; });
+  h += '<button class="btn primary" style="margin-top:16px" data-start="' + key + '">Começar este treino</button>';
+  if (isStrength(key)) h += '<div class="tiny" style="text-align:center;margin-top:8px">Se fizeres este fora de ordem, a sequência continua a partir dele.</div>';
+  openSheet(h);
+}
+function openCoach(){
+  var h = sheetHead("Para quem acompanha") + '<div class="card white check"><div class="muted">O que olhar nas primeiras sessões do Rodrigo. Não é preciso saber de treino: é só ver se bate certo com isto.</div>';
+  COACH_CHECK.forEach(function(s){ h += '<div style="margin-top:12px"><b>' + esc(s[0]) + '</b><ul>' + s[1].map(function(x){ return '<li>' + esc(x) + '</li>'; }).join("") + '</ul></div>'; });
+  openSheet(h + '</div>');
+}
+function openAlert(){ openSheet(sheetHead("Sinais de alarme") + '<div class="card white"><div style="font-size:15px;line-height:1.5">' + esc(ALERT.long) + '</div></div>'); }
+function openWeekEdit(){
+  var w = weekState(new Date()), g = gameDow(w);
+  var h = sheetHead("Jogo desta semana") + '<div class="muted" style="margin-bottom:10px">A app põe a véspera e a recuperação à volta do jogo e afasta o ginásio pelo menos 2 dias.</div><div class="chips">' +
+    DOW_LONG.map(function(n, i){ return '<button class="chip ' + (g === i ? "on" : "") + '" data-gameday="' + i + '">' + n + '</button>'; }).join("") + '<button class="chip ' + (g == null ? "on" : "") + '" data-gameday="none">Sem jogo</button></div>';
+  openSheet(h);
+}
+function openInfo(name){
+  var ex = EX[name] || {}, f = feelOf(name);
+  var h = sheetHead(enName(name)) + '<div class="card white"><div class="figbox">' + fig(name) + '</div><div class="pt muted" style="margin-bottom:8px">' + esc(ptName(name)) + '</div>' +
+    (f ? '<div class="feel"><b>O que sentir</b>' + esc(f[0]) + '</div><div class="feel no"><b>Evitar</b>' + esc(f[1]) + '</div>' : '') +
+    '<div class="howto" style="margin-top:8px"><b>Posição</b><p>' + esc(ex.setup) + '</p><b style="display:block;margin-top:8px">Como fazer</b><p>' + esc(ex.howto) + '</p></div></div>';
+  openSheet(h);
+}
+function openSwap(bi, ii){
+  var day = sessDay(), it = day.blocks[bi].items[ii], fam = FAM[it[3]];
+  if (!fam){ toast("Este não se troca"); return; }
+  var h = sheetHead("Trocar por…") + '<div class="muted" style="margin-bottom:10px">' + esc(fam.label) + ' · mesmo padrão de movimento, por isso o treino continua certo.</div><div class="exlist">';
+  fam.list.forEach(function(c){ if (c[0] === it[0]) return; h += '<button class="exrow dark" data-swap="' + bi + '.' + ii + '" data-name="' + esc(c[0]) + '" data-ref="' + esc(c[1]) + '"><div class="thumb">' + fig(c[0], "dark") + '</div><div class="grow"><div class="n">' + esc(enName(c[0])) + '</div><div class="pt">' + esc(ptName(c[0])) + (c[1] ? ' · ' + esc(c[1]) : '') + '</div></div><span class="sch">usar</span></button>'; });
+  var orig = sessionDef(day.key).blocks.filter(function(b){ return !(day.light && b.kind === "power"); })[bi].items[ii][0];
+  if (orig !== it[0]) h += '<button class="exrow dark" data-swap="' + bi + '.' + ii + '" data-name="" data-ref=""><div class="grow"><div class="n">Repor o original</div><div class="pt">' + esc(enName(orig)) + '</div></div></button>';
+  openSheet(h + '</div>');
+}
+
+/* ---------- modo treino ---------- */
+function sessDay(){ var s = st.sess; return s ? resolveSession(s.key, s.light) : null; }
+function allItems(day){ var out = []; day.blocks.forEach(function(b, bi){ b.items.forEach(function(it, ii){ out.push({bi:bi, ii:ii, it:it, n:parseScheme(it[1]).sets, blk:b}); }); }); return out; }
+function doneOf(bi, ii, n){ var c = 0; for (var k = 0; k < n; k++){ if (st.sess.done[bi + "." + ii + "." + k]) c++; } return c; }
+function nextSetIdx(bi, ii, n){ for (var k = 0; k < n; k++){ if (!st.sess.done[bi + "." + ii + "." + k]) return k; } return -1; }
+function isComplete(x){ return doneOf(x.bi, x.ii, x.n) >= x.n; }
+function firstPending(day){ var xs = allItems(day); for (var i = 0; i < xs.length; i++){ if (!isComplete(xs[i])) return xs[i]; } return null; }
+function elapsed(){ var s = st.sess; if (!s) return 0; return (s.accum + (s.running ? Date.now() - s.startedAt : 0)) / 1000; }
+function startSession(key, light){
+  if (st.sess && st.sess.key !== key){ if (!confirm("Tens um treino a meio (" + sessionDef(st.sess.key).title + "). Deitar fora e começar este?")) return; st.sess = null; }
+  if (!st.sess){
+    var day = resolveSession(key, light), sugg = {};
+    if (isStrength(key) && phase() === 2){
+      allItems(day).forEach(function(x){ var it = x.it; if (!hasLoad(it)) return; var e = st.effort[it[0]]; if (e && e.v === "facil" && e.full) sugg[it[0]] = Math.round((curKg(it) + incOf(it)) * 2) / 2; });
+    }
+    st.sess = {key:key, light:!!light, startedAt:Date.now(), accum:0, running:true, done:{}, focus:null, eff:{}, sugg:sugg, swapped:{}};
+    var fp = firstPending(day); st.sess.focus = fp ? {bi:fp.bi, ii:fp.ii} : null;
+  }
+  if (!st.sess.running){ st.sess.running = true; st.sess.startedAt = Date.now(); }
+  save(); ui.viewDone = null; ui.rest = null; ui.fin = null; closeSheet(); showWorkout(true); renderWorkout();
+}
+function showWorkout(on){ var el = document.getElementById("wk"); el.hidden = !on; document.body.style.overflow = on ? "hidden" : ""; if (on) wakeOn(); else wakeOff(); }
+function focusItem(day){ var s = st.sess; if (s.focus) return {bi:s.focus.bi, ii:s.focus.ii}; var fp = firstPending(day); return fp ? {bi:fp.bi, ii:fp.ii} : null; }
+function setFocus(bi, ii){ st.sess.focus = {bi:bi, ii:ii}; ui.rest = null; ui.viewDone = null; save(); renderWorkout(); try { document.getElementById("wk").scrollTo(0, 0); } catch(e){} }
+function sideLabel(ps){ return ps.side ? " cada lado" : ""; }
+function setLabel(it, ps){ return ps.secs != null ? (ps.secs >= 60 ? (ps.secs / 60) + " min" : ps.secs + " s") + sideLabel(ps) : ps.reps + " reps" + sideLabel(ps); }
+function markSet(bi, ii){
+  var day = sessDay(), b = day.blocks[bi], it = b.items[ii], ps = parseScheme(it[1]), k = nextSetIdx(bi, ii, ps.sets);
+  if (k < 0) return;
+  st.sess.done[bi + "." + ii + "." + k] = 1;
+  if (hasLoad(it)) st.last[it[0]] = {kg:curKg(it), date:today()};
+  play("tick");
+  var complete = doneOf(bi, ii, ps.sets) >= ps.sets;
+  if (b.ss){
+    var other = ii === 0 ? 1 : 0, oit = b.items[other], ops = parseScheme(oit[1]);
+    if (!complete || doneOf(bi, other, ops.sets) < ops.sets){
+      /* alterna: A1 → descanso curto → A2 → descanso longo → A1 */
+      var nextIi = doneOf(bi, other, ops.sets) < doneOf(bi, ii, ps.sets) ? other : ii;
+      var secs = (nextIi === ii) ? b.rest.end : b.rest.mid;
+      st.sess.focus = {bi:bi, ii:nextIi}; save(); startRest(secs, day, bi, nextIi); return;
+    }
+  } else if (!complete && b.rest){ save(); startRest(b.rest.mid, day, bi, ii); return; }
+  else if (!complete){ save(); renderWorkout(); return; }
+  save();
+  if (complete && (b.kind === "warm" || b.kind === "stretch")){ advance(day); return; }
+  renderWorkout(); /* mostra "como foi?" */
+}
+function advance(day){
+  var fp = firstPending(day);
+  if (!fp){ finishSession(day); return; }
+  var cur = focusItem(day), curBlk = cur ? day.blocks[cur.bi] : null;
+  var secs = (curBlk && curBlk.rest && fp.bi === cur.bi && curBlk.kind !== "warm") ? curBlk.rest.end : 0;
+  st.sess.focus = {bi:fp.bi, ii:fp.ii}; save();
+  if (secs && fp.blk.kind !== "warm" && fp.blk.kind !== "stretch") startRest(secs, day, fp.bi, fp.ii); else renderWorkout();
+}
+function setEffort(name, v){
+  var day = sessDay(), x = allItems(day).filter(function(y){ return y.it[0] === name; })[0];
+  st.sess.eff[name] = v; st.effort[name] = {v:v, full:x ? isComplete(x) : true, date:today()};
+  if (v === "dificil" && x && hasLoad(x.it)) toast("Ok. Para a próxima a app não sobe o peso.");
+  save(); advance(day);
+}
+function skipItem(bi, ii){ var day = sessDay(), ps = parseScheme(day.blocks[bi].items[ii][1]); for (var k = 0; k < ps.sets; k++) st.sess.done[bi + "." + ii + "." + k] = "skip"; st.sess.eff[day.blocks[bi].items[ii][0]] = "saltou"; save(); advance(day); }
+function undoLast(){ var keys = Object.keys(st.sess.done); if (!keys.length) return; var last = keys[keys.length - 1]; delete st.sess.done[last]; var p = last.split("."); st.sess.focus = {bi:+p[0], ii:+p[1]}; ui.rest = null; save(); renderWorkout(); }
+function changeKg(name, d, it){ var v = curKg(it); if (v == null) v = 0; v = Math.max(0, Math.round((v + d) * 2) / 2); st.weights[name] = v; save(); renderWorkout(); }
+function startRest(secs, day, bi, ii){ ui.rest = {kind:"rest", total:secs, end:Date.now() + secs * 1000, bi:bi, ii:ii}; renderWorkout(); }
+function startHold(secs, bi, ii){ unlockAudio(); play("start"); ui.rest = {kind:"hold", total:secs, end:Date.now() + secs * 1000, bi:bi, ii:ii}; renderWorkout(); }
+function ringSvg(left, total){ var r = 100, c = 2 * Math.PI * r, p = total ? Math.max(0, left / total) : 0; return '<svg viewBox="0 0 220 220"><circle cx="110" cy="110" r="' + r + '" stroke="rgba(255,255,255,.12)" stroke-width="10" fill="none"/><circle cx="110" cy="110" r="' + r + '" stroke="#F2D04B" stroke-width="10" fill="none" stroke-linecap="round" stroke-dasharray="' + c + '" stroke-dashoffset="' + (c * (1 - p)) + '"/></svg>'; }
+function renderRest(day){
+  var r = ui.rest, left = (r.end - Date.now()) / 1000, it = day.blocks[r.bi].items[r.ii], ps = parseScheme(it[1]);
+  var nxt = r.kind === "hold" ? '<div class="next">A fazer<b>' + esc(enName(it[0])) + '</b>' + setLabel(it, ps) + '</div>' : '<div class="next">A seguir<b>' + esc(enName(it[0])) + '</b>' + setLabel(it, ps) + (hasLoad(it) ? ' · ' + fmtKg(curKg(it)) + ' ' + unitOf(it) : '') + '</div>';
+  return '<div class="restov"><div class="lab">' + (r.kind === "hold" ? "Aguenta" : "Descansa") + '</div><div class="ring">' + ringSvg(left, r.total) + '<div class="t">' + mmss(left) + '</div></div>' + nxt +
+    '<div class="acts"><div class="two"><button class="btn dark" data-rest="plus">+15 s</button><button class="btn primary" data-rest="skip">' + (r.kind === "hold" ? "Feito" : "Já estou") + '</button></div></div></div>';
+}
+function renderWorkout(){
+  var el = document.getElementById("wk");
+  if (ui.fin){ el.innerHTML = '<div class="inner">' + ui.fin + '</div>'; return; }
+  var day = sessDay(); if (!day){ showWorkout(false); return; }
+  var xs = allItems(day), total = 0, done = 0;
+  xs.forEach(function(x){ total += x.n; done += doneOf(x.bi, x.ii, x.n); });
+  var f = focusItem(day), h = '<div class="inner">';
+  h += '<div class="score"><div><div class="lab">' + esc(day.title) + '</div><div class="t" id="clock">' + mmss(elapsed()) + '</div></div><div style="text-align:right"><div class="prog">' + done + ' / ' + total + ' séries</div><div class="row" style="justify-content:flex-end;gap:6px;margin-top:4px"><button class="chip sm" data-wk="undo" ' + (Object.keys(st.sess.done).length ? "" : "disabled") + '>desfazer</button><button class="chip sm" data-wk="pause">' + (st.sess.running ? "pausa" : "retomar") + '</button><button class="chip sm" data-wk="end">terminar</button></div></div></div>';
+  if (f){
+    var b = day.blocks[f.bi], it = b.items[f.ii], ps = parseScheme(it[1]), name = it[0], ex = EX[name] || {}, fe = feelOf(name), dn = doneOf(f.bi, f.ii, ps.sets), nk = nextSetIdx(f.bi, f.ii, ps.sets);
+    var complete = nk < 0;
+    if (b.ss){ var oi = f.ii === 0 ? 1 : 0; h += '<div class="ssbar"><b>Supersérie</b> ' + (f.ii === 0 ? "1" : "2") + ' de 2 · depois ' + esc(enName(b.items[oi][0])) + ' · ' + b.rest.mid + 's entre os dois, ' + b.rest.end + 's no fim</div>'; }
+    h += '<div class="excard"><span class="code">' + esc(b.name) + (b.ss ? " · " + (f.ii === 0 ? "A1" : "A2") : "") + '</span><h2>' + esc(enName(name)) + '</h2><div class="pt">' + esc(ptName(name)) + (ex.setup ? ' · ' + esc(ex.setup) : '') + '</div>';
+    h += '<div class="figbox">' + fig(name) + '</div>';
+    if (fe) h += '<div class="feel"><b>O que sentir</b>' + esc(fe[0]) + '</div><div class="feel no"><b>Evitar</b>' + esc(fe[1]) + '</div>';
+    h += '<details class="howto"><summary>Como fazer</summary><p>' + esc(ex.howto) + '</p></details>';
+    if (b.kind === "str") h += '<div class="hint">🎯 Pára quando ainda conseguias fazer 3. Nunca vais até ao fim.</div>';
+    if (b.kind === "power") h += '<div class="hint">⚡ Cada salto é à séria: aterra em silêncio e descansa o tempo todo entre séries.</div>';
+    if (name.indexOf("Nordic") === 0) h += '<div class="hint">🐢 Descida de 3–4 segundos. Só 3 repetições, todas perfeitas.</div>';
+    /* peso */
+    if (hasLoad(it)){
+      var kg = curKg(it), sg = st.sess.sugg[name];
+      h += '<div class="kgrow"><button class="ib" data-kg="-" data-name="' + esc(name) + '">−</button><div><span class="k">' + fmtKg(kg) + '</span><span class="u">' + unitOf(it) + '</span></div><button class="ib" data-kg="+" data-name="' + esc(name) + '">+</button></div>';
+      if (phase() === 1) h += '<div class="tiny" style="text-align:center">Semanas 1–3: fica com este peso mesmo que seja fácil.</div>';
+      else if (sg && kg < sg) h += '<div class="sugg"><span>Da última vez foi fácil. Sobe para ' + fmtKg(sg) + ' ' + unitOf(it) + '?</span><button class="btn" data-sugg="' + esc(name) + '" data-val="' + sg + '">Sim</button></div>';
+    }
+    /* séries */
+    h += '<div class="sets">';
+    for (var k = 0; k < ps.sets; k++){ var dk = st.sess.done[f.bi + "." + f.ii + "." + k]; h += '<div class="set ' + (dk ? "done" : (k === nk ? "next" : "")) + '"><small>série ' + (k + 1) + '</small>' + (dk === "skip" ? "–" : (ps.secs != null ? (ps.secs >= 60 ? (ps.secs / 60) + "′" : ps.secs + "s") : ps.reps)) + (ps.side ? "<small>cada lado</small>" : "") + '</div>'; }
+    h += '</div>';
+    h += '<div class="acts">';
+    if (!complete){
+      if (ps.secs != null) h += '<button class="btn primary" data-hold="' + ps.secs + '" data-bi="' + f.bi + '" data-ii="' + f.ii + '">Começar ' + setLabel(it, ps) + '</button>';
+      else h += '<button class="btn primary" data-set="' + f.bi + '.' + f.ii + '">Série ' + (nk + 1) + ' feita</button>';
+      h += '<div class="two"><button class="btn ghost" data-swapbtn="' + f.bi + '.' + f.ii + '" ' + (FAM[it[3]] ? "" : "disabled") + '>Trocar</button><button class="btn ghost" data-skip="' + f.bi + '.' + f.ii + '">Saltar</button></div>';
+    } else {
+      h += '<div class="tiny" style="text-align:center;font-weight:700;letter-spacing:.1em;text-transform:uppercase">Como foi?</div><div class="eff"><button data-eff="facil" data-name="' + esc(name) + '">Fácil</button><button data-eff="certo" data-name="' + esc(name) + '">Certo</button><button data-eff="dificil" data-name="' + esc(name) + '">Difícil</button></div>';
+    }
+    h += '</div></div>';
+  }
+  /* lista do treino */
+  day.blocks.forEach(function(blk, bi){
+    h += '<div class="blockh"><span class="disp">' + esc(blk.name) + '</span><span class="tiny">' + (blk.rest ? (blk.ss ? blk.rest.mid + "s / " + blk.rest.end + "s" : blk.rest.mid + "s descanso") : "seguido") + '</span></div><div class="exlist">';
+    blk.items.forEach(function(it, ii){ var x = {bi:bi, ii:ii, n:parseScheme(it[1]).sets}; var isCur = f && f.bi === bi && f.ii === ii; h += '<button class="exrow ' + (isComplete(x) ? "done " : "") + (isCur ? "cur" : "") + '" data-focus="' + bi + '.' + ii + '"><div class="thumb">' + fig(it[0]) + '</div><div class="grow"><div class="n">' + esc(enName(it[0])) + '</div><div class="pt">' + esc(ptName(it[0])) + '</div></div><div class="sch">' + doneOf(bi, ii, x.n) + '/' + x.n + ' · ' + esc(it[1]) + '</div></button>'; });
+    h += '</div>';
+  });
+  h += '<button class="btn ghost" style="margin-top:16px" data-wk="close">Sair e continuar depois</button></div>';
+  if (ui.rest) h += renderRest(day);
+  el.innerHTML = h;
+}
+function finishSession(day){
+  var s = st.sess, xs = allItems(day), total = 0, done = 0;
+  xs.forEach(function(x){ total += x.n; done += doneOf(x.bi, x.ii, x.n); });
+  var mins = Math.max(1, Math.round(elapsed() / 60));
+  var effs = Object.keys(s.eff).map(function(k){ return s.eff[k]; }), nf = effs.filter(function(e){ return e === "facil"; }).length, nd = effs.filter(function(e){ return e === "dificil"; }).length;
+  var effSum = effs.length ? (nd > nf ? "difícil" : nf > effs.length / 2 ? "fácil" : "certo") : "";
+  st.log.push({date:today(), key:s.key, title:day.title + (isStrength(s.key) ? " · " + s.key : ""), sets:done + "/" + total, mins:mins, light:s.light, eff:effSum});
+  if (isStrength(s.key)){ st.seq = (SEQ.indexOf(s.key) + 1) % SEQ.length; if (!st.firstDate) st.firstDate = today(); }
+  st.sess = null; save(); play("done");
+  ui.fin = '<div class="fin"><div class="kicker">Apito final</div><div class="disp">Feito!</div><div class="stats"><div><div class="v">' + done + '/' + total + '</div><div class="l">séries</div></div><div><div class="v">' + mins + '</div><div class="l">min</div></div></div>' +
+    '<div class="muted" style="margin-bottom:18px">' + (isStrength(s.key) ? "Lanche de recuperação na próxima hora. O próximo treino de ginásio é o " + nextKey() + "." : "Bom trabalho. Agora é descansar.") + '</div><button class="btn primary" data-wk="close">Voltar ao início</button></div>';
+  renderWorkout();
+}
+function endEarly(){ if (!confirm("Terminar o treino agora? O que já fizeste fica guardado.")) return; var day = sessDay(); finishSession(day); }
+
+/* ---------- som / ecrã ---------- */
+var audioCtx = null;
+function unlockAudio(){ if (!st.sound) return; try { audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)(); if (audioCtx.state === "suspended") audioCtx.resume(); } catch(e){} }
+function tone(freq, start, dur){ try { var o = audioCtx.createOscillator(), g = audioCtx.createGain(); o.type = "sine"; o.frequency.value = freq; g.gain.value = 0.0001; o.connect(g); g.connect(audioCtx.destination); var t = audioCtx.currentTime + start; g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.3, t + 0.01); g.gain.exponentialRampToValueAtTime(0.0001, t + dur); o.start(t); o.stop(t + dur + 0.05); } catch(e){} }
+function vib(p){ try { if (navigator.vibrate) navigator.vibrate(p); } catch(e){} }
+function play(name){ vib(name === "done" ? [80, 60, 80] : name === "go" ? [120] : 30); if (!st.sound || !audioCtx) return; if (name === "tick") tone(880, 0, .08); else if (name === "start") tone(660, 0, .12); else if (name === "go"){ tone(880, 0, .1); tone(1320, .12, .2); } else if (name === "done"){ tone(660, 0, .12); tone(880, .14, .12); tone(1320, .28, .3); } }
+var wake = {lock:null, ns:null};
+function wakeOn(){ if (!st.keepAwake) return; try { if (navigator.wakeLock) navigator.wakeLock.request("screen").then(function(l){ wake.lock = l; }).catch(wakeFallback); else wakeFallback(); } catch(e){ wakeFallback(); } }
+function wakeFallback(){ try { if (window.NoSleep){ wake.ns = wake.ns || new NoSleep(); wake.ns.enable(); } } catch(e){} }
+function wakeOff(){ try { if (wake.lock){ wake.lock.release(); wake.lock = null; } if (wake.ns) wake.ns.disable(); } catch(e){} }
+document.addEventListener("visibilitychange", function(){ if (!document.hidden && st.sess && !document.getElementById("wk").hidden) wakeOn(); });
+
+/* ---------- relógio ---------- */
+setInterval(function(){
+  if (!st.sess || document.getElementById("wk").hidden) return;
+  var c = document.getElementById("clock"); if (c) c.textContent = mmss(elapsed());
+  if (ui.rest){
+    var left = (ui.rest.end - Date.now()) / 1000, t = document.querySelector(".restov .t"), ring = document.querySelector(".restov .ring svg");
+    if (t) t.textContent = mmss(left);
+    if (ring) ring.outerHTML = ringSvg(left, ui.rest.total);
+    if (left <= 0) restDone();
+  }
+}, 250);
+function restDone(){
+  var r = ui.rest; ui.rest = null; play("go");
+  if (r.kind === "hold"){ markSet(r.bi, r.ii); return; }
+  renderWorkout();
+}
+
+/* ---------- eventos ---------- */
+document.addEventListener("click", function(e){
+  var t = e.target.closest("button, label, [data-tab]"); if (!t) return;
+  var d = t.dataset || {};
+  if (d.tab){ ui.tab = d.tab; render(); return; }
+  if (d.start != null){ startSession(d.start, d.light === "1"); return; }
+  if (d.game){ if (d.game === "yes") setWeek(new Date(), {game:true}); else if (d.game === "no") setWeek(new Date(), {game:false}); else openWeekEdit(); return; }
+  if (d.gameday != null){ setWeek(new Date(), {game:(d.gameday === "none" ? false : parseInt(d.gameday, 10))}); closeSheet(); return; }
+  if (d.week === "edit"){ openWeekEdit(); return; }
+  if (d.sheet === "coach"){ openCoach(); return; }
+  if (d.sheet === "alert"){ openAlert(); return; }
+  if (d.preview){ openPreview(d.preview); return; }
+  if (d.close){ closeSheet(); return; }
+  if (t.id === "btnExport"){ exportData(); return; }
+  if (t.id === "btnReset"){ if (confirm("Apagar tudo (pesos, histórico, semana) e começar do zero?")){ localStorage.removeItem(KEY); location.reload(); } return; }
+  /* treino */
+  if (d.set){ var p = d.set.split("."); unlockAudio(); markSet(+p[0], +p[1]); return; }
+  if (d.hold){ startHold(parseInt(d.hold, 10), +d.bi, +d.ii); return; }
+  if (d.skip){ var q = d.skip.split("."); skipItem(+q[0], +q[1]); return; }
+  if (d.focus){ var fo = d.focus.split("."); setFocus(+fo[0], +fo[1]); return; }
+  if (d.swapbtn){ var sb = d.swapbtn.split("."); openSwap(+sb[0], +sb[1]); return; }
+  if (d.swap != null){ var key = st.sess.key; st.swaps[key] = st.swaps[key] || {}; if (d.name) st.swaps[key][d.swap] = [d.name, d.ref]; else delete st.swaps[key][d.swap]; save(); closeSheet(); renderWorkout(); toast(d.name ? "Trocado" : "Reposto"); return; }
+  if (d.kg){ var day = sessDay(), f = focusItem(day), it = day.blocks[f.bi].items[f.ii]; changeKg(d.name, d.kg === "+" ? incOf(it) : -incOf(it), it); return; }
+  if (d.sugg){ st.weights[d.sugg] = parseFloat(d.val); save(); renderWorkout(); toast("Peso atualizado"); return; }
+  if (d.eff){ setEffort(d.name, d.eff); return; }
+  if (d.rest){ if (d.rest === "plus"){ ui.rest.end += 15000; renderWorkout(); } else restDone(); return; }
+  if (d.wk === "undo"){ undoLast(); return; }
+  if (d.wk === "pause"){ var s = st.sess; if (s.running){ s.accum += Date.now() - s.startedAt; s.running = false; } else { s.running = true; s.startedAt = Date.now(); } save(); renderWorkout(); return; }
+  if (d.wk === "end"){ endEarly(); return; }
+  if (d.wk === "close"){ ui.fin = null; ui.rest = null; if (st.sess && st.sess.running){ st.sess.accum += Date.now() - st.sess.startedAt; st.sess.running = false; save(); } showWorkout(false); ui.tab = "home"; render(); return; }
+});
+document.addEventListener("change", function(e){
+  var t = e.target;
+  if (t.id === "bigWeek"){ setWeek(new Date(), {big:t.checked}); return; }
+  if (t.id === "optSound"){ st.sound = t.checked; save(); if (t.checked) unlockAudio(); return; }
+  if (t.id === "optWake"){ st.keepAwake = t.checked; save(); return; }
+  if (t.id === "optRest"){ st.cfg.restDay = parseInt(t.value, 10); save(); render(); return; }
+  if (t.id === "fileImport" && t.files[0]){ importData(t.files[0]); }
+});
+document.getElementById("sheet").addEventListener("click", function(e){ if (e.target.id === "sheet") closeSheet(); });
+document.addEventListener("click", function(e){ var r = e.target.closest(".exrow.cur, .exrow"); if (!r || !r.closest("#wk") || !r.dataset.focus) return; }, true);
+/* toque longo no exercício atual abre a ficha completa */
+document.addEventListener("click", function(e){ var t = e.target.closest(".excard .figbox"); if (!t) return; var day = sessDay(); if (!day) return; var f = focusItem(day); if (f) openInfo(day.blocks[f.bi].items[f.ii][0]); });
+if ("serviceWorker" in navigator){ window.addEventListener("load", function(){ navigator.serviceWorker.register("./sw.js").catch(function(){}); }); }
+render();
+if (st.sess){ showWorkout(true); renderWorkout(); }
+</script>
+</body>
+</html>
