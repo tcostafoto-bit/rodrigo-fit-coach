@@ -30,7 +30,7 @@ function fig(name, cls){
 
 /* ---------- estado ---------- */
 var KEY = "rfc1";
-var st = {v:1, opens:0, cfg:null, seq:0, firstDate:null, weights:{}, last:{}, effort:{}, swaps:{}, week:{}, log:[], sess:null, sound:false, keepAwake:true};
+var st = {v:1, opens:0, goals:{}, cfg:null, seq:0, firstDate:null, weights:{}, last:{}, effort:{}, swaps:{}, week:{}, log:[], sess:null, sound:false, keepAwake:true};
 var ui = {tab:"home", rest:null, viewDone:null, fin:null};
 try { var raw = localStorage.getItem(KEY); if (raw){ var o = JSON.parse(raw); for (var k in o) st[k] = o[k]; } } catch(e){}
 st.cfg = Object.assign({}, CFG_DEFAULT, st.cfg || {});
@@ -132,10 +132,11 @@ var TAB_ICON = {
   home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>',
   treinos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6M20 9v6M7 7v10M17 7v10M7 12h10"/></svg>',
   liga:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7l4.5 3.3-1.7 5.2H9.2L7.5 10.3z"/><path d="M12 7V3M16.5 10.3l3.8-1.4M14.8 15.5l2.4 3.2M9.2 15.5l-2.4 3.2M7.5 10.3L3.7 8.9"/></svg>',
+  goals:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>',
   nutri:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v7a3 3 0 006 0V3M9 3v18M17 3c-2 2-3 5-3 8h3v10"/></svg>',
   perfil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>'
 };
-var TABS = [["home","Hoje"],["liga","Benfica"],["nutri","Comer"],["treinos","Treinos"],["perfil","Eu"]];
+var TABS = [["home","Hoje"],["liga","Benfica"],["goals","Desafios"],["nutri","Comer"],["treinos","Treinos"],["perfil","Eu"]];
 function renderTabs(){
   document.getElementById("tabs").innerHTML = TABS.map(function(t){ return '<button class="tab ' + (ui.tab === t[0] ? "on" : "") + '" data-tab="' + t[0] + '">' + TAB_ICON[t[0]] + '<span>' + t[1] + '</span></button>'; }).join("");
 }
@@ -146,6 +147,7 @@ function render(){
   else if (ui.tab === "treinos") app.innerHTML = renderTreinos();
   else if (ui.tab === "nutri") app.innerHTML = renderNutri();
   else if (ui.tab === "liga") app.innerHTML = renderLiga();
+  else if (ui.tab === "goals") app.innerHTML = renderGoals();
   else app.innerHTML = renderPerfil();
   window.scrollTo(0, 0);
 }
@@ -242,6 +244,25 @@ function renderLiga(){
   h += '<div class="card"><div class="kicker">Classificação</div><table class="tbl"><tr><th></th><th style="text-align:left">Equipa</th><th>J</th><th>Pts</th></tr>' + LIGA.table.map(function(r){ return '<tr class="' + (/Benfica/.test(r.team) ? "b" : "") + '"><td>' + r.pos + '</td><td style="text-align:left">' + esc(r.team) + '</td><td>' + r.p + '</td><td><b>' + r.pts + '</b></td></tr>'; }).join("") + '</table></div>';
   if (LIGA.news && LIGA.news.length) h += '<div class="card"><div class="kicker">Em resumo</div>' + LIGA.news.map(function(x){ return '<div class="kv" style="display:block"><div class="tiny">' + fmtD(x.d) + '</div><div>' + esc(x.t) + '</div></div>'; }).join("") + '</div>';
   h += '<div class="tiny" style="text-align:center;padding:6px">Atualizado a ' + fmtD(LIGA.updated) + '. A app atualiza isto sozinha todos os dias.</div>';
+  return h;
+}
+function goalKey(gi, ii){ return gi + "." + ii; }
+function renderGoals(){
+  st.goals = st.goals || {};
+  var total = 0, done = 0;
+  GOALS.forEach(function(g, gi){ g.items.forEach(function(it, ii){ total++; if (st.goals[goalKey(gi, ii)]) done++; }); });
+  var h = topBar() + '<div class="card hero"><div class="kicker">Desafios de futebol</div><h1 class="disp" style="font-size:40px">' + done + ' de ' + total + '</h1><div class="sub">Pequenos objetivos para treinares no clube, no parque ou em casa. Quando conseguires um, carrega nele. Não tem de ser hoje nem por ordem.</div>' +
+    '<div class="bar"><div style="width:' + (total ? Math.round(done / total * 100) : 0) + '%"></div></div></div>';
+  GOALS.forEach(function(g, gi){
+    var gd = g.items.filter(function(it, ii){ return st.goals[goalKey(gi, ii)]; }).length;
+    h += '<div class="blockh"><span class="disp">' + esc(g.g) + '</span><span class="tiny">' + gd + '/' + g.items.length + '</span></div><div class="exlist" style="margin-bottom:6px">';
+    g.items.forEach(function(it, ii){
+      var k = goalKey(gi, ii), d = st.goals[k];
+      h += '<button class="goal ' + (d ? "done" : "") + '" data-goal="' + k + '"><span class="chk">' + (d ? "✓" : "") + '</span><span class="grow"><span class="n">' + esc(it[0]) + ' <small class="lvl">' + esc(it[2]) + '</small></span><span class="pt">' + esc(it[1]) + (d ? ' · <b>feito ' + fmtD(d) + '</b>' : '') + '</span></span></button>';
+    });
+    h += '</div>';
+  });
+  h += '<div class="tiny" style="text-align:center;padding:10px">Se marcaste sem querer, carrega outra vez para desmarcar.</div>';
   return h;
 }
 function renderNutri(){
@@ -512,6 +533,7 @@ document.addEventListener("click", function(e){
   if (d.sheet === "coach"){ openCoach(); return; }
   if (d.sheet === "alert"){ openAlert(); return; }
   if (d.preview){ openPreview(d.preview, d.light === "1"); return; }
+  if (d.goal){ st.goals = st.goals || {}; if (st.goals[d.goal]) delete st.goals[d.goal]; else { st.goals[d.goal] = today(); play("done"); toast("Boa! Mais um."); } save(); render(); return; }
   if (d.close){ closeSheet(); return; }
   if (t.id === "btnExport"){ exportData(); return; }
   if (t.id === "btnReset"){ if (confirm("Apagar tudo (pesos, histórico, semana) e começar do zero?")){ localStorage.removeItem(KEY); location.reload(); } return; }
