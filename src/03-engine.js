@@ -95,7 +95,7 @@ function resolveSession(key, light){
     blocks.push(nb);
   });
   var mins = def.mins || (light ? 30 : 40);
-  return {key:key, title:def.title, sub:(light ? "Semana de jogo · versão leve" : def.sub), fam:def.fam || null, mins:mins, blocks:blocks, light:!!light};
+  return {key:key, title:def.title, sub:(light ? "Versão leve · sem saltos, menos 1 série" : def.sub), fam:def.fam || null, mins:mins, blocks:blocks, light:!!light};
 }
 function nextKey(){ return SEQ[st.seq % SEQ.length]; }
 function countSets(day){ var n = 0; day.blocks.forEach(function(b){ b.items.forEach(function(it){ n += parseScheme(it[1]).sets; }); }); return n; }
@@ -110,10 +110,10 @@ function planFor(d){
   if (g != null){
     if (dow === g) return {kind:"game", title:"Dia de jogo", sub:"Boa sorte. A app só entra se o clube não aquecer.", run:"pregame", lab:"Jogo"};
     var until = (g - dow + 7) % 7, after = (dow - g + 7) % 7;
-    if (until === 1) return {kind:"vespera", title:"Véspera de jogo", sub:"Nada de ginásio. 12 min a soltar e ativar.", run:"vespera", lab:"Véspera"};
+    if (until === 1) return {kind:"vespera", title:"Véspera de jogo", sub:"O plano diz 12 min a soltar e ativar.", run:"vespera", lab:"Véspera"};
     if (after === 1) return {kind:"recup", title:"Recuperação", sub:"15 min a soltar as pernas do jogo.", run:"recup", lab:"Recup."};
   }
-  if (dow === cfg.restDay) return {kind:"rest", title:"Folga total", sub:"Hoje o corpo cresce. Nem mobilidade.", lab:"Folga"};
+  if (dow === cfg.restDay) return {kind:"rest", title:"Folga total", sub:"Hoje o corpo cresce. O plano é não fazer nada.", lab:"Folga"};
   var gym = (g == null ? cfg.gymDaysNoGame : cfg.gymDays);
   if (gym.indexOf(dow) >= 0){
     if (w.big && gym.indexOf(dow) > 0) return {kind:"club", title:"Treino do clube", sub:"Semana de jogo importante: só 1 ginásio esta semana.", lab:"Clube"};
@@ -182,6 +182,16 @@ function renderHome(){
       (plan.kind === "club" ? '<button class="btn ghost" data-start="mob_clube">Mobilidade antes do clube · 10 min</button>' : '') + '</div>';
   }
   h += dayCards + hero;
+  /* quer treinar na mesma? a app sugere, nunca impede */
+  if (plan.kind !== "str" && !strDone){
+    var nk = nextKey(), nd = resolveSession(nk, false), warn = "";
+    if (plan.kind === "vespera" || plan.kind === "game") warn = "Amanhã há jogo. Se fores, faz a versão leve (sem saltos, menos 1 série) para chegares fresco.";
+    else if (plan.kind === "rest") warn = "Hoje era folga. Não faz mal ir, mas lembra-te que descansar também é treinar.";
+    else if (plan.kind === "recup") warn = "Vens de jogo. Se fores, a versão leve chega.";
+    h += '<div class="card"><div class="kicker">Quero treinar na mesma</div><div class="muted" style="margin-bottom:10px">Próximo da sequência: <b style="color:var(--ink)">' + nk + ' · ' + esc(nd.title) + '</b></div>' +
+      (warn ? '<div class="hint" style="margin:0 0 10px">' + esc(warn) + '</div><div class="row"><button class="btn primary grow" data-start="' + nk + '" data-light="1">Versão leve · 30′</button><button class="btn ghost grow" data-start="' + nk + '" data-light="0">Completo · 40′</button></div>'
+            : '<button class="btn primary" data-start="' + nk + '" data-light="0">Começar ' + nk + ' · 40′</button>') + '</div>';
+  }
   /* semana */
   var mon = monday(d), cells = "";
   for (var i = 0; i < 7; i++){
@@ -192,7 +202,7 @@ function renderHome(){
   var gl = w.game === false ? "Sem jogo" : "Jogo " + DOW[gameDow(w)];
   h += '<div class="card"><div class="row between" style="margin-bottom:8px"><div class="kicker" style="margin:0">Jornada</div><button class="chip sm" data-week="edit">' + gl + ' · mudar</button></div><div class="week">' + cells + '</div>' +
     '<label class="sw" style="border:0;padding-top:12px"><span>Semana de jogo importante <span class="tiny">(só 1 ginásio, versão leve)</span></span><input type="checkbox" id="bigWeek" ' + (w.big ? "checked" : "") + '></label></div>';
-  if (plan.kind !== "rest") h += '<div class="card"><div class="kicker">Não dá hoje?</div><div class="row"><button class="btn ghost grow" data-start="rapido">Rápido 20′</button><button class="btn ghost grow" data-tab="treinos">Mobilidade</button></div></div>';
+  if (plan.kind !== "rest") h += '<div class="card"><div class="kicker">Sem tempo ou sem ginásio?</div><div class="row"><button class="btn ghost grow" data-start="rapido">Rápido 20′</button><button class="btn ghost grow" data-tab="treinos">Mobilidade</button></div></div>';
   h += '<div class="alert"><span>⚠</span><div><b>Atenção.</b> ' + ALERT.short + ' <button class="chip sm" data-sheet="alert">ler mais</button></div></div>';
   return h;
 }
