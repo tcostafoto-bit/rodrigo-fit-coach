@@ -195,6 +195,9 @@ h1,h2,h3{margin:0}
 .nutri .it span{font-size:14px;color:var(--card-ink2)}
 .check ul{margin:6px 0 0;padding-left:18px;font-size:14px;color:var(--card-ink)}
 .check li{margin:5px 0}
+.quote{font-family:var(--disp);font-size:22px;font-weight:800;text-transform:uppercase;line-height:1.05;color:var(--gold);padding:2px 4px 14px;letter-spacing:.01em}
+.gains{margin:6px 0 0;padding-left:18px;font-size:15px;line-height:1.4}.gains li{margin:4px 0}
+.vid{display:inline-flex;align-items:center;gap:6px;margin-top:10px;padding:8px 12px;border-radius:10px;background:var(--pitch);color:var(--gold);font-weight:700;font-size:14px;text-decoration:none}
 .alert{display:flex;gap:10px;align-items:flex-start;background:rgba(232,85,61,.12);border:1px solid rgba(232,85,61,.45);border-radius:14px;padding:10px 12px;font-size:13px;color:var(--ink);margin-bottom:12px}
 .alert b{color:#FF8F7A}
 .toast{position:fixed;left:50%;bottom:calc(var(--sab) + 96px);transform:translateX(-50%);background:#fff;color:var(--card-ink);padding:10px 16px;border-radius:999px;font-weight:600;font-size:14px;z-index:60;box-shadow:0 6px 24px rgba(0,0,0,.35);white-space:nowrap}
@@ -1087,6 +1090,73 @@ var COACH_CHECK = [
     "Lanche de recuperação na primeira hora."
   ]]
 ];
+
+/* ---------- frases para abrir a app (rodam) ---------- */
+var QUOTES = [
+"O treino de hoje é o jogo de domingo a ser ganho.",
+"Ninguém vê o ginásio. Toda a gente vê o sprint aos 85 minutos.",
+"Não é para ser o mais forte do ginásio. É para ser o mais forte no relvado.",
+"Técnica perfeita hoje, peso a sério amanhã.",
+"Os melhores não treinam quando lhes apetece. Treinam quando está marcado.",
+"Cada série feita bem é uma lesão que não vais ter.",
+"Rápido no campo nasce forte nas pernas.",
+"Pára quando ainda conseguias fazer 3. A paciência também é força.",
+"A diferença está nos dias em que ninguém está a ver.",
+"Joga com a cabeça, treina com o corpo, descansa com os dois.",
+"Dormir bem é o treino que fazes de olhos fechados.",
+"Hoje um bocadinho melhor que ontem. Só isso.",
+"A bola é redonda, mas o trabalho é em linha reta.",
+"Um corpo preparado aguenta 90 minutos. E os 5 de compensação.",
+"Não compares o teu capítulo 1 com o capítulo 20 de outro.",
+"O talento marca golos. O trabalho marca presença todos os jogos.",
+"A explosão no primeiro passo começa num agachamento bem feito.",
+"Treinar com calma é a forma mais rápida de ficar forte.",
+"Come como um atleta, dorme como um bebé, treina como um profissional.",
+"O jogo começa muito antes do apito.",
+"As pernas levam-te até à bola. Trata delas.",
+"Consistência bate intensidade. Sempre.",
+"O ginásio não dá golos. Dá as pernas para os marcar.",
+"Faz o simples muito bem e o difícil fica mais perto.",
+"Disciplina é fazer o que está marcado mesmo no dia em que não apetece.",
+"A tua única competição a sério é o Rodrigo de há um mês.",
+"Força sem técnica é um acidente à espera. Técnica sem força é uma oportunidade perdida.",
+"Confia no plano. Ele foi feito para ti.",
+"Não é o salto mais alto. É a aterragem mais suave.",
+"A recuperação não é descanso do treino. É parte do treino.",
+"O respeito ganha-se no treino, confirma-se no jogo.",
+"Hoje tens 40 minutos para seres melhor do que eras.",
+"Grandes jogadores têm grandes hábitos. Começa pelos pequenos.",
+"Uma série de cada vez. Um jogo de cada vez.",
+"A energia vem do prato. O músculo vem do sono. O jogo vem dos dois.",
+"Se dói abaixo do joelho, pára. Ser inteligente também é ser duro.",
+"Quem treina com calma aos 14 joga com força aos 20.",
+"O suor de hoje é o fôlego de domingo.",
+"Treina os isquiotibiais que ninguém vê e corre como todos querem.",
+"Não há atalhos. Há repetições.",
+"A motivação traz-te aqui. O hábito traz-te de volta.",
+"Mais vale 8 bem feitas do que 12 a trapalhar.",
+"O corpo faz o que a cabeça repete.",
+"Hoje é um treino. Amanhã é um dia melhor em campo.",
+"Ganhar é bom. Melhorar é garantido.",
+"O vento está sempre contra quem está a subir.",
+"Postura alta, peito aberto. É assim que se entra em campo.",
+"Os teus 40 minutos valem mais do que as 2 horas de quem só faz de conta.",
+"Treina para o jogador que queres ser, não para o que já és.",
+"Respira. Aperta o core. Vamos."
+];
+
+/* ---------- intro antes de cada treino (o quê e para quê) ---------- */
+var INTRO = {
+  A: {what:"Pernas a dois apoios e empurrar: agachamento, flexões ou supino, dobradiça da anca e remada. Antes disso, dois exercícios de potência.", gains:["Primeiro passo mais explosivo e remate mais forte","Pernas que aguentam os 90 minutos sem perder velocidade","Isquiotibiais e virilhas protegidas, as lesões mais comuns no futebol","Tronco forte para ganhar os duelos de ombro"]},
+  B: {what:"Uma perna de cada vez e puxar: step-up ou afundos, puxada, glúteo e ombros. Antes disso, saltos em comprimento e laterais.", gains:["Equilíbrio e força numa perna só, como nas mudanças de direção","Glúteo forte para acelerar e saltar mais alto","Costas e ombros direitos: postura de jogador","Tornozelos e gémeos preparados para travar e arrancar"]},
+  vespera: {what:"12 minutos a soltar as ancas, os tornozelos e as costas, e a acordar o glúteo. Sem cansar nada.", gains:["Chegar ao jogo solto e com o corpo a responder","Menos risco de lesão nos primeiros minutos"]},
+  recup: {what:"15 minutos de bicicleta leve e alongamentos longos.", gains:["Tirar o peso das pernas do jogo","Recuperar mais depressa para o treino de terça"]},
+  pregame: {what:"8 minutos para acordar o corpo antes do jogo.", gains:["Entrar em campo já quente","Primeiro sprint sem surpresas"]},
+  rapido: {what:"3 voltas de um circuito sem material: agachamento, flexões, ponte, afundos e core.", gains:["Não perder o ritmo num dia sem ginásio","Força geral e core em 20 minutos"]},
+  mob_clube: {what:"10 minutos de mobilidade de ancas e tornozelos.", gains:["Chegar ao treino do clube com o corpo pronto","Amplitude para o remate e para os passes longos"]},
+  mob_postura: {what:"10 minutos para as costas e os ombros.", gains:["Desfazer as horas de sofá e telemóvel","Postura alta e peito aberto"]},
+  mob_pernas: {what:"10 minutos de alongamentos longos para as pernas.", gains:["Pernas mais soltas no dia seguinte","Menos tensão nos isquiotibiais e nos adutores"]}
+};
 /* ===================== MOTOR =====================
    Rodrigo FC — app de treino para o Rodrigo. Lógica: a app decide o treino do dia
    a partir da semana (ginásio, clube, folga, jogo) e segue a sequência A1→B1→A2→B2→A3→B3.
@@ -1099,6 +1169,9 @@ function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace
 function enName(n){ return EX_EN[n] || look(EX_EN, n) || n.split(" (")[0]; }
 function ptName(n){ var p = n.split(" (")[0].split(" – ")[0]; return p === enName(n) ? "" : p; }
 function feelOf(n){ return FEEL[n] || look(FEEL, n) || null; }
+function videoUrl(name){ return "https://www.youtube.com/results?search_query=" + encodeURIComponent(enName(name) + " exercise form") + "&sp=EgIYAQ%253D%253D"; }
+function videoBtn(name){ return '<a class="vid" href="' + videoUrl(name) + '" target="_blank" rel="noopener">' + PLAY + ' Ver em vídeo</a>'; }
+var PLAY = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M6.5 6v4l3.5-2z" fill="currentColor"/></svg>';
 function fig(name, cls){
   var spec = look(FIG, name); if (!spec) return "";
   var out = '<svg class="fig ' + (cls||"") + '" viewBox="0 0 160 120" aria-hidden="true"><polyline class="P" points="8,112 152,112"/>';
@@ -1116,10 +1189,12 @@ function fig(name, cls){
 
 /* ---------- estado ---------- */
 var KEY = "rfc1";
-var st = {v:1, cfg:null, seq:0, firstDate:null, weights:{}, last:{}, effort:{}, swaps:{}, week:{}, log:[], sess:null, sound:false, keepAwake:true};
+var st = {v:1, opens:0, cfg:null, seq:0, firstDate:null, weights:{}, last:{}, effort:{}, swaps:{}, week:{}, log:[], sess:null, sound:false, keepAwake:true};
 var ui = {tab:"home", rest:null, viewDone:null, fin:null};
 try { var raw = localStorage.getItem(KEY); if (raw){ var o = JSON.parse(raw); for (var k in o) st[k] = o[k]; } } catch(e){}
 st.cfg = Object.assign({}, CFG_DEFAULT, st.cfg || {});
+st.opens = (st.opens || 0) + 1;
+function quoteOfDay(){ return QUOTES[(st.opens * 7 + Math.floor(Date.now() / 86400000)) % QUOTES.length]; }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} }
 function exportData(){
   var blob = new Blob([JSON.stringify(st, null, 1)], {type:"application/json"});
@@ -1250,6 +1325,7 @@ function exRow(it, extra, dark){
 function renderHome(){
   var d = new Date(), w = weekState(d), plan = planFor(d), done = doneOn(today());
   var h = topBar();
+  h += '<div class="quote">“' + esc(quoteOfDay()) + '”</div>';
   if (w.game == null){
     h += '<div class="card gold"><div class="kicker" style="color:#6B5A0A">Esta semana</div><div class="disp" style="font-size:26px">Tens jogo no domingo?</div><div class="q"><button class="btn dark" data-game="yes">Sim</button><button class="btn dark" data-game="no">Não</button><button class="btn dark" data-game="other">Outro dia</button></div></div>';
   }
@@ -1370,7 +1446,7 @@ function openInfo(name){
   var ex = EX[name] || {}, f = feelOf(name);
   var h = sheetHead(enName(name)) + '<div class="card white"><div class="figbox">' + fig(name) + '</div><div class="pt muted" style="margin-bottom:8px">' + esc(ptName(name)) + '</div>' +
     (f ? '<div class="feel"><b>O que sentir</b>' + esc(f[0]) + '</div><div class="feel no"><b>Evitar</b>' + esc(f[1]) + '</div>' : '') +
-    '<div class="howto" style="margin-top:8px"><b>Posição</b><p>' + esc(ex.setup) + '</p><b style="display:block;margin-top:8px">Como fazer</b><p>' + esc(ex.howto) + '</p></div></div>';
+    '<div class="howto" style="margin-top:8px"><b>Posição</b><p>' + esc(ex.setup) + '</p><b style="display:block;margin-top:8px">Como fazer</b><p>' + esc(ex.howto) + '</p>' + videoBtn(name) + '</div></div>';
   openSheet(h);
 }
 function openSwap(bi, ii){
@@ -1391,6 +1467,16 @@ function nextSetIdx(bi, ii, n){ for (var k = 0; k < n; k++){ if (!st.sess.done[b
 function isComplete(x){ return doneOf(x.bi, x.ii, x.n) >= x.n; }
 function firstPending(day){ var xs = allItems(day); for (var i = 0; i < xs.length; i++){ if (!isComplete(xs[i])) return xs[i]; } return null; }
 function elapsed(){ var s = st.sess; if (!s) return 0; return (s.accum + (s.running ? Date.now() - s.startedAt : 0)) / 1000; }
+function introOf(key){ var d = sessionDef(key); return INTRO[key] || (d && d.fam ? INTRO[d.fam] : null); }
+function openIntro(key, light){
+  var day = resolveSession(key, light), it = introOf(key);
+  if (!it){ startSession(key, light); return; }
+  var h = sheetHead(day.title) + '<div class="card white"><div class="kicker" style="color:var(--card-ink2)">O que vais fazer' + (light ? ' · versão leve' : '') + '</div><div style="font-size:15px;line-height:1.45">' + esc(it.what) + '</div>' +
+    '<div class="kicker" style="color:var(--card-ink2);margin-top:14px">Para que serve</div><ul class="gains">' + it.gains.map(function(g){ return '<li>' + esc(g) + '</li>'; }).join("") + '</ul>' +
+    '<div class="tiny" style="color:var(--card-ink2);margin-top:10px">~' + day.mins + ' min · ' + countSets(day) + ' séries · ' + day.blocks.length + ' blocos</div></div>' +
+    '<button class="btn primary" data-go="' + key + '" data-light="' + (light ? 1 : 0) + '">Vamos treinar</button>';
+  openSheet(h);
+}
 function startSession(key, light){
   if (st.sess && st.sess.key !== key){ if (!confirm("Tens um treino a meio (" + sessionDef(st.sess.key).title + "). Deitar fora e começar este?")) return; st.sess = null; }
   if (!st.sess){
@@ -1471,7 +1557,7 @@ function renderWorkout(){
     h += '<div class="excard"><span class="code">' + esc(b.name) + (b.ss ? " · " + (f.ii === 0 ? "A1" : "A2") : "") + '</span><h2>' + esc(enName(name)) + '</h2><div class="pt">' + esc(ptName(name)) + (ex.setup ? ' · ' + esc(ex.setup) : '') + '</div>';
     h += '<div class="figbox">' + fig(name) + '</div>';
     if (fe) h += '<div class="feel"><b>O que sentir</b>' + esc(fe[0]) + '</div><div class="feel no"><b>Evitar</b>' + esc(fe[1]) + '</div>';
-    h += '<details class="howto"><summary>Como fazer</summary><p>' + esc(ex.howto) + '</p></details>';
+    h += '<details class="howto"><summary>Como fazer</summary><p>' + esc(ex.howto) + '</p>' + videoBtn(name) + '</details>';
     if (b.kind === "str") h += '<div class="hint">🎯 Pára quando ainda conseguias fazer 3. Nunca vais até ao fim.</div>';
     if (b.kind === "power") h += '<div class="hint">⚡ Cada salto é à séria: aterra em silêncio e descansa o tempo todo entre séries.</div>';
     if (name.indexOf("Nordic") === 0) h += '<div class="hint">🐢 Descida de 3–4 segundos. Só 3 repetições, todas perfeitas.</div>';
@@ -1555,7 +1641,8 @@ document.addEventListener("click", function(e){
   var t = e.target.closest("button, label, [data-tab]"); if (!t) return;
   var d = t.dataset || {};
   if (d.tab){ ui.tab = d.tab; render(); return; }
-  if (d.start != null){ startSession(d.start, d.light === "1"); return; }
+  if (d.start != null){ if (st.sess && st.sess.key === d.start) startSession(d.start, st.sess.light); else openIntro(d.start, d.light === "1"); return; }
+  if (d.go != null){ startSession(d.go, d.light === "1"); return; }
   if (d.game){ if (d.game === "yes") setWeek(new Date(), {game:true}); else if (d.game === "no") setWeek(new Date(), {game:false}); else openWeekEdit(); return; }
   if (d.gameday != null){ setWeek(new Date(), {game:(d.gameday === "none" ? false : parseInt(d.gameday, 10))}); closeSheet(); return; }
   if (d.week === "edit"){ openWeekEdit(); return; }

@@ -287,3 +287,70 @@ var COACH_CHECK = [
     "Lanche de recuperação na primeira hora."
   ]]
 ];
+
+/* ---------- frases para abrir a app (rodam) ---------- */
+var QUOTES = [
+"O treino de hoje é o jogo de domingo a ser ganho.",
+"Ninguém vê o ginásio. Toda a gente vê o sprint aos 85 minutos.",
+"Não é para ser o mais forte do ginásio. É para ser o mais forte no relvado.",
+"Técnica perfeita hoje, peso a sério amanhã.",
+"Os melhores não treinam quando lhes apetece. Treinam quando está marcado.",
+"Cada série feita bem é uma lesão que não vais ter.",
+"Rápido no campo nasce forte nas pernas.",
+"Pára quando ainda conseguias fazer 3. A paciência também é força.",
+"A diferença está nos dias em que ninguém está a ver.",
+"Joga com a cabeça, treina com o corpo, descansa com os dois.",
+"Dormir bem é o treino que fazes de olhos fechados.",
+"Hoje um bocadinho melhor que ontem. Só isso.",
+"A bola é redonda, mas o trabalho é em linha reta.",
+"Um corpo preparado aguenta 90 minutos. E os 5 de compensação.",
+"Não compares o teu capítulo 1 com o capítulo 20 de outro.",
+"O talento marca golos. O trabalho marca presença todos os jogos.",
+"A explosão no primeiro passo começa num agachamento bem feito.",
+"Treinar com calma é a forma mais rápida de ficar forte.",
+"Come como um atleta, dorme como um bebé, treina como um profissional.",
+"O jogo começa muito antes do apito.",
+"As pernas levam-te até à bola. Trata delas.",
+"Consistência bate intensidade. Sempre.",
+"O ginásio não dá golos. Dá as pernas para os marcar.",
+"Faz o simples muito bem e o difícil fica mais perto.",
+"Disciplina é fazer o que está marcado mesmo no dia em que não apetece.",
+"A tua única competição a sério é o Rodrigo de há um mês.",
+"Força sem técnica é um acidente à espera. Técnica sem força é uma oportunidade perdida.",
+"Confia no plano. Ele foi feito para ti.",
+"Não é o salto mais alto. É a aterragem mais suave.",
+"A recuperação não é descanso do treino. É parte do treino.",
+"O respeito ganha-se no treino, confirma-se no jogo.",
+"Hoje tens 40 minutos para seres melhor do que eras.",
+"Grandes jogadores têm grandes hábitos. Começa pelos pequenos.",
+"Uma série de cada vez. Um jogo de cada vez.",
+"A energia vem do prato. O músculo vem do sono. O jogo vem dos dois.",
+"Se dói abaixo do joelho, pára. Ser inteligente também é ser duro.",
+"Quem treina com calma aos 14 joga com força aos 20.",
+"O suor de hoje é o fôlego de domingo.",
+"Treina os isquiotibiais que ninguém vê e corre como todos querem.",
+"Não há atalhos. Há repetições.",
+"A motivação traz-te aqui. O hábito traz-te de volta.",
+"Mais vale 8 bem feitas do que 12 a trapalhar.",
+"O corpo faz o que a cabeça repete.",
+"Hoje é um treino. Amanhã é um dia melhor em campo.",
+"Ganhar é bom. Melhorar é garantido.",
+"O vento está sempre contra quem está a subir.",
+"Postura alta, peito aberto. É assim que se entra em campo.",
+"Os teus 40 minutos valem mais do que as 2 horas de quem só faz de conta.",
+"Treina para o jogador que queres ser, não para o que já és.",
+"Respira. Aperta o core. Vamos."
+];
+
+/* ---------- intro antes de cada treino (o quê e para quê) ---------- */
+var INTRO = {
+  A: {what:"Pernas a dois apoios e empurrar: agachamento, flexões ou supino, dobradiça da anca e remada. Antes disso, dois exercícios de potência.", gains:["Primeiro passo mais explosivo e remate mais forte","Pernas que aguentam os 90 minutos sem perder velocidade","Isquiotibiais e virilhas protegidas, as lesões mais comuns no futebol","Tronco forte para ganhar os duelos de ombro"]},
+  B: {what:"Uma perna de cada vez e puxar: step-up ou afundos, puxada, glúteo e ombros. Antes disso, saltos em comprimento e laterais.", gains:["Equilíbrio e força numa perna só, como nas mudanças de direção","Glúteo forte para acelerar e saltar mais alto","Costas e ombros direitos: postura de jogador","Tornozelos e gémeos preparados para travar e arrancar"]},
+  vespera: {what:"12 minutos a soltar as ancas, os tornozelos e as costas, e a acordar o glúteo. Sem cansar nada.", gains:["Chegar ao jogo solto e com o corpo a responder","Menos risco de lesão nos primeiros minutos"]},
+  recup: {what:"15 minutos de bicicleta leve e alongamentos longos.", gains:["Tirar o peso das pernas do jogo","Recuperar mais depressa para o treino de terça"]},
+  pregame: {what:"8 minutos para acordar o corpo antes do jogo.", gains:["Entrar em campo já quente","Primeiro sprint sem surpresas"]},
+  rapido: {what:"3 voltas de um circuito sem material: agachamento, flexões, ponte, afundos e core.", gains:["Não perder o ritmo num dia sem ginásio","Força geral e core em 20 minutos"]},
+  mob_clube: {what:"10 minutos de mobilidade de ancas e tornozelos.", gains:["Chegar ao treino do clube com o corpo pronto","Amplitude para o remate e para os passes longos"]},
+  mob_postura: {what:"10 minutos para as costas e os ombros.", gains:["Desfazer as horas de sofá e telemóvel","Postura alta e peito aberto"]},
+  mob_pernas: {what:"10 minutos de alongamentos longos para as pernas.", gains:["Pernas mais soltas no dia seguinte","Menos tensão nos isquiotibiais e nos adutores"]}
+};

@@ -10,6 +10,9 @@ function esc(s){ return String(s == null ? "" : s).replace(/&/g,"&amp;").replace
 function enName(n){ return EX_EN[n] || look(EX_EN, n) || n.split(" (")[0]; }
 function ptName(n){ var p = n.split(" (")[0].split(" – ")[0]; return p === enName(n) ? "" : p; }
 function feelOf(n){ return FEEL[n] || look(FEEL, n) || null; }
+function videoUrl(name){ return "https://www.youtube.com/results?search_query=" + encodeURIComponent(enName(name) + " exercise form") + "&sp=EgIYAQ%253D%253D"; }
+function videoBtn(name){ return '<a class="vid" href="' + videoUrl(name) + '" target="_blank" rel="noopener">' + PLAY + ' Ver em vídeo</a>'; }
+var PLAY = '<svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><rect x="1.5" y="3" width="13" height="10" rx="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M6.5 6v4l3.5-2z" fill="currentColor"/></svg>';
 function fig(name, cls){
   var spec = look(FIG, name); if (!spec) return "";
   var out = '<svg class="fig ' + (cls||"") + '" viewBox="0 0 160 120" aria-hidden="true"><polyline class="P" points="8,112 152,112"/>';
@@ -27,10 +30,12 @@ function fig(name, cls){
 
 /* ---------- estado ---------- */
 var KEY = "rfc1";
-var st = {v:1, cfg:null, seq:0, firstDate:null, weights:{}, last:{}, effort:{}, swaps:{}, week:{}, log:[], sess:null, sound:false, keepAwake:true};
+var st = {v:1, opens:0, cfg:null, seq:0, firstDate:null, weights:{}, last:{}, effort:{}, swaps:{}, week:{}, log:[], sess:null, sound:false, keepAwake:true};
 var ui = {tab:"home", rest:null, viewDone:null, fin:null};
 try { var raw = localStorage.getItem(KEY); if (raw){ var o = JSON.parse(raw); for (var k in o) st[k] = o[k]; } } catch(e){}
 st.cfg = Object.assign({}, CFG_DEFAULT, st.cfg || {});
+st.opens = (st.opens || 0) + 1;
+function quoteOfDay(){ return QUOTES[(st.opens * 7 + Math.floor(Date.now() / 86400000)) % QUOTES.length]; }
 function save(){ try { localStorage.setItem(KEY, JSON.stringify(st)); } catch(e){} }
 function exportData(){
   var blob = new Blob([JSON.stringify(st, null, 1)], {type:"application/json"});
@@ -161,6 +166,7 @@ function exRow(it, extra, dark){
 function renderHome(){
   var d = new Date(), w = weekState(d), plan = planFor(d), done = doneOn(today());
   var h = topBar();
+  h += '<div class="quote">“' + esc(quoteOfDay()) + '”</div>';
   if (w.game == null){
     h += '<div class="card gold"><div class="kicker" style="color:#6B5A0A">Esta semana</div><div class="disp" style="font-size:26px">Tens jogo no domingo?</div><div class="q"><button class="btn dark" data-game="yes">Sim</button><button class="btn dark" data-game="no">Não</button><button class="btn dark" data-game="other">Outro dia</button></div></div>';
   }
@@ -281,7 +287,7 @@ function openInfo(name){
   var ex = EX[name] || {}, f = feelOf(name);
   var h = sheetHead(enName(name)) + '<div class="card white"><div class="figbox">' + fig(name) + '</div><div class="pt muted" style="margin-bottom:8px">' + esc(ptName(name)) + '</div>' +
     (f ? '<div class="feel"><b>O que sentir</b>' + esc(f[0]) + '</div><div class="feel no"><b>Evitar</b>' + esc(f[1]) + '</div>' : '') +
-    '<div class="howto" style="margin-top:8px"><b>Posição</b><p>' + esc(ex.setup) + '</p><b style="display:block;margin-top:8px">Como fazer</b><p>' + esc(ex.howto) + '</p></div></div>';
+    '<div class="howto" style="margin-top:8px"><b>Posição</b><p>' + esc(ex.setup) + '</p><b style="display:block;margin-top:8px">Como fazer</b><p>' + esc(ex.howto) + '</p>' + videoBtn(name) + '</div></div>';
   openSheet(h);
 }
 function openSwap(bi, ii){
@@ -302,6 +308,16 @@ function nextSetIdx(bi, ii, n){ for (var k = 0; k < n; k++){ if (!st.sess.done[b
 function isComplete(x){ return doneOf(x.bi, x.ii, x.n) >= x.n; }
 function firstPending(day){ var xs = allItems(day); for (var i = 0; i < xs.length; i++){ if (!isComplete(xs[i])) return xs[i]; } return null; }
 function elapsed(){ var s = st.sess; if (!s) return 0; return (s.accum + (s.running ? Date.now() - s.startedAt : 0)) / 1000; }
+function introOf(key){ var d = sessionDef(key); return INTRO[key] || (d && d.fam ? INTRO[d.fam] : null); }
+function openIntro(key, light){
+  var day = resolveSession(key, light), it = introOf(key);
+  if (!it){ startSession(key, light); return; }
+  var h = sheetHead(day.title) + '<div class="card white"><div class="kicker" style="color:var(--card-ink2)">O que vais fazer' + (light ? ' · versão leve' : '') + '</div><div style="font-size:15px;line-height:1.45">' + esc(it.what) + '</div>' +
+    '<div class="kicker" style="color:var(--card-ink2);margin-top:14px">Para que serve</div><ul class="gains">' + it.gains.map(function(g){ return '<li>' + esc(g) + '</li>'; }).join("") + '</ul>' +
+    '<div class="tiny" style="color:var(--card-ink2);margin-top:10px">~' + day.mins + ' min · ' + countSets(day) + ' séries · ' + day.blocks.length + ' blocos</div></div>' +
+    '<button class="btn primary" data-go="' + key + '" data-light="' + (light ? 1 : 0) + '">Vamos treinar</button>';
+  openSheet(h);
+}
 function startSession(key, light){
   if (st.sess && st.sess.key !== key){ if (!confirm("Tens um treino a meio (" + sessionDef(st.sess.key).title + "). Deitar fora e começar este?")) return; st.sess = null; }
   if (!st.sess){
@@ -382,7 +398,7 @@ function renderWorkout(){
     h += '<div class="excard"><span class="code">' + esc(b.name) + (b.ss ? " · " + (f.ii === 0 ? "A1" : "A2") : "") + '</span><h2>' + esc(enName(name)) + '</h2><div class="pt">' + esc(ptName(name)) + (ex.setup ? ' · ' + esc(ex.setup) : '') + '</div>';
     h += '<div class="figbox">' + fig(name) + '</div>';
     if (fe) h += '<div class="feel"><b>O que sentir</b>' + esc(fe[0]) + '</div><div class="feel no"><b>Evitar</b>' + esc(fe[1]) + '</div>';
-    h += '<details class="howto"><summary>Como fazer</summary><p>' + esc(ex.howto) + '</p></details>';
+    h += '<details class="howto"><summary>Como fazer</summary><p>' + esc(ex.howto) + '</p>' + videoBtn(name) + '</details>';
     if (b.kind === "str") h += '<div class="hint">🎯 Pára quando ainda conseguias fazer 3. Nunca vais até ao fim.</div>';
     if (b.kind === "power") h += '<div class="hint">⚡ Cada salto é à séria: aterra em silêncio e descansa o tempo todo entre séries.</div>';
     if (name.indexOf("Nordic") === 0) h += '<div class="hint">🐢 Descida de 3–4 segundos. Só 3 repetições, todas perfeitas.</div>';
@@ -466,7 +482,8 @@ document.addEventListener("click", function(e){
   var t = e.target.closest("button, label, [data-tab]"); if (!t) return;
   var d = t.dataset || {};
   if (d.tab){ ui.tab = d.tab; render(); return; }
-  if (d.start != null){ startSession(d.start, d.light === "1"); return; }
+  if (d.start != null){ if (st.sess && st.sess.key === d.start) startSession(d.start, st.sess.light); else openIntro(d.start, d.light === "1"); return; }
+  if (d.go != null){ startSession(d.go, d.light === "1"); return; }
   if (d.game){ if (d.game === "yes") setWeek(new Date(), {game:true}); else if (d.game === "no") setWeek(new Date(), {game:false}); else openWeekEdit(); return; }
   if (d.gameday != null){ setWeek(new Date(), {game:(d.gameday === "none" ? false : parseInt(d.gameday, 10))}); closeSheet(); return; }
   if (d.week === "edit"){ openWeekEdit(); return; }
