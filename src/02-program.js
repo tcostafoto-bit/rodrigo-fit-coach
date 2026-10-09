@@ -358,40 +358,43 @@ var INTRO = {
 
 /* ---------- desafios de futebol (pequenos objetivos) ---------- */
 var GOALS = [
-  {g:"Controlo de bola", items:[
-    ["Toques sem cair","20 toques seguidos com o pé direito, depois 20 com o esquerdo.","Fácil"],
-    ["Toques alternados","50 toques seguidos a alternar pé direito e esquerdo.","Médio"],
-    ["Toques só com o pé fraco","25 toques seguidos só com o pé fraco.","Médio"],
-    ["Coxa, pé, coxa","20 toques seguidos a alternar coxa e pé.","Médio"],
-    ["100 toques","100 toques seguidos sem a bola cair, qualquer pé.","Difícil"],
-    ["Bola alta controlada","5 bolas atiradas ao ar por ti, recebidas e mortas ao primeiro toque, 5 em 5.","Médio"]
+  {g:"Toques", items:[
+    ["10 toques","10 toques seguidos sem a bola cair, qualquer pé.","Fácil"],
+    ["20 toques","20 toques seguidos sem a bola cair.","Fácil"],
+    ["10 com o pé fraco","10 toques seguidos só com o pé fraco.","Médio"],
+    ["Direito, esquerdo","20 toques seguidos a alternar pé direito e esquerdo.","Médio"],
+    ["Coxas","10 toques seguidos só com as coxas.","Fácil"],
+    ["50 toques","50 toques seguidos sem a bola cair.","Médio"],
+    ["Pé, coxa, cabeça","Um toque com o pé, um com a coxa e um com a cabeça, seguidos, sem cair.","Difícil"]
   ]},
-  {g:"Passe", items:[
-    ["Parede 20","20 passes seguidos contra uma parede sem perder o controlo, pé direito.","Fácil"],
-    ["Parede com o fraco","15 passes seguidos contra a parede só com o pé fraco.","Médio"],
-    ["Passe ao cone","De 10 passes a 10 metros, acertar 7 num cone ou garrafa.","Médio"],
-    ["Passe longo","De 10 passes a 25 metros, 6 a cair num quadrado de 3×3 metros.","Difícil"],
-    ["Primeiro toque e passe","20 passes seguidos contra a parede a dois toques (receber + passar), sem a bola parar.","Médio"]
+  {g:"Parede", items:[
+    ["10 passes à parede","10 passes seguidos contra uma parede sem a bola fugir.","Fácil"],
+    ["25 passes à parede","25 passes seguidos contra a parede, pé direito.","Fácil"],
+    ["Parede com o pé fraco","10 passes seguidos contra a parede só com o pé fraco.","Médio"],
+    ["Dois toques","15 passes seguidos à parede a receber primeiro e passar depois, sem a bola parar.","Médio"],
+    ["Alternado","20 passes seguidos à parede a trocar de pé em cada passe.","Difícil"],
+    ["Bola alta à parede","Atira a bola alta à parede e mata-a ao primeiro toque, 5 em 5.","Médio"]
   ]},
-  {g:"Remate", items:[
-    ["Canto da baliza","De 10 remates de fora da área, 5 no canto que escolheste antes de rematar.","Médio"],
-    ["Ao poste","3 remates seguidos a acertar no poste a 15 metros.","Difícil"],
-    ["Pé fraco à baliza","De 10 remates com o pé fraco a 12 metros, 6 dentro da baliza.","Médio"],
-    ["Meia volta","5 em 10 remates de primeira, depois de receber a bola de costas e rodar.","Difícil"],
-    ["Cabeça","10 cabeceamentos seguidos à baliza a partir de bola lançada por alguém, 7 dentro.","Médio"]
+  {g:"Pontaria", items:[
+    ["Acertar na garrafa","Põe uma garrafa a 8 passos e acerta-lhe 3 vezes em 10 passes.","Fácil"],
+    ["Garrafa a 12 passos","A mesma garrafa a 12 passos, 3 em 10.","Médio"],
+    ["Garrafa com o pé fraco","Garrafa a 8 passos, 3 em 10 com o pé fraco.","Médio"],
+    ["O canto da baliza","Com uma baliza (ou duas mochilas), escolhe o canto antes de rematar e acerta 5 em 10.","Médio"],
+    ["Ao poste","Acerta 1 vez no poste em 10 remates a 10 passos.","Médio"],
+    ["3 postes","Acerta 3 vezes no poste em 10 remates.","Difícil"]
   ]},
-  {g:"Velocidade e agilidade", items:[
-    ["Sprint 20 m","Baixar o teu tempo de 20 metros em 0,1 s (mede com o telemóvel de um amigo).","Médio"],
-    ["Ida e volta","5 sprints de 10 m ida e volta, a tocar no cone, sem baixar o ritmo no último.","Fácil"],
-    ["Zigue-zague com bola","Conduzir a bola entre 6 cones (1 m entre cada) ida e volta sem tocar em nenhum, 3 vezes seguidas.","Médio"],
-    ["Mudança de direção","Em 30 segundos, 12 mudanças de direção entre dois cones a 5 metros, com bola.","Difícil"]
+  {g:"Condução", items:[
+    ["Cones sem tocar","Conduz a bola entre 5 objetos (sapatos servem) ida e volta sem tocar em nenhum.","Fácil"],
+    ["Cones com o pé fraco","O mesmo, só com o pé fraco.","Médio"],
+    ["Cones a correr","Entre os 5 objetos ida e volta em menos de 15 segundos sem tocar (conta tu).","Médio"],
+    ["Parar a bola","Conduz a correr e pára a bola em seco debaixo do pé, 5 vezes seguidas sem ela escapar.","Fácil"],
+    ["Sola, sola","20 toques seguidos com a sola, a alternar pés, com a bola a rolar de lado para lado.","Fácil"]
   ]},
-  {g:"Cabeça e atitude", items:[
-    ["Chegar 10 min antes","Uma semana inteira a chegar 10 minutos antes ao treino do clube.","Fácil"],
-    ["Pé fraco um treino inteiro","Um treino do clube só a passar com o pé fraco quando dá.","Médio"],
-    ["Falar no campo","Um jogo inteiro a falar com os colegas: pedir a bola, avisar, encorajar.","Médio"],
-    ["Ver um jogo com atenção","Ver um jogo de televisão só a seguir um jogador da tua posição, sem a bola, durante 15 min.","Fácil"],
-    ["Alongar 5 dias","Cinco dias seguidos a fazer uma mobilidade da app.","Fácil"],
-    ["Dormir 8 h","Sete noites seguidas a dormir pelo menos 8 horas.","Médio"]
+  {g:"Hábitos", items:[
+    ["Alongar 3 dias","Três dias seguidos a fazer uma mobilidade da app.","Fácil"],
+    ["Garrafa de água","Uma semana a levar garrafa de água para todos os treinos.","Fácil"],
+    ["10 min antes","Uma semana a chegar 10 minutos antes ao treino do clube.","Fácil"],
+    ["Dormir 8 h","Cinco noites seguidas a dormir pelo menos 8 horas.","Médio"],
+    ["Ver um jogo com atenção","Num jogo na televisão, segue só um jogador da tua posição durante 15 min, mesmo sem bola.","Fácil"]
   ]}
 ];

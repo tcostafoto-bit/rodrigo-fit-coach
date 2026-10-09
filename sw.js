@@ -1,5 +1,5 @@
 /* Rodrigo FC – service worker. Muda a versão a cada atualização para os telemóveis apanharem a nova. */
-var VERSION = "rfc-v7";
+var VERSION = "rfc-v8";
 var FILES = ["./", "./index.html", "./manifest.webmanifest", "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./data/liga.json"];
 self.addEventListener("install", function(e){
   e.waitUntil(caches.open(VERSION).then(function(c){ return c.addAll(FILES); }).then(function(){ return self.skipWaiting(); }));
