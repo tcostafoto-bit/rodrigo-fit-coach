@@ -1,37 +1,37 @@
 {
-  "updated": "2026-10-10",
+  "updated": "2026-10-12",
   "benfica": {
-    "pos": 2, "pts": 16, "played": 7, "w": 5, "d": 1, "l": 1,
-    "last": {"date": "2026-09-20", "comp": "Liga", "home": "FC Porto", "away": "Benfica", "score": "3-1"},
+    "pos": 2, "pts": 19, "played": 8, "w": 6, "d": 1, "l": 1,
+    "last": {"date": "2026-10-11", "comp": "Liga", "home": "Benfica", "away": "V. Guimarães", "score": "2-0"},
     "next": [
-      {"date": "2026-10-11", "time": "18:00", "comp": "Liga", "home": "Benfica", "away": "V. Guimarães"},
       {"date": "2026-10-15", "time": "20:00", "comp": "Europa", "home": "Benfica", "away": "Celtic"},
-      {"date": "2026-10-22", "time": "20:00", "comp": "Europa", "home": "Omonia", "away": "Benfica"}
+      {"date": "2026-10-22", "time": "20:00", "comp": "Europa", "home": "Omonia", "away": "Benfica"},
+      {"date": "2026-10-26", "time": "19:45", "comp": "Liga", "home": "Santa Clara", "away": "Benfica"}
     ]
   },
   "table": [
-    {"pos": 1, "team": "FC Porto", "p": 7, "pts": 21},
-    {"pos": 2, "team": "Benfica", "p": 7, "pts": 16},
-    {"pos": 3, "team": "Sporting", "p": 7, "pts": 15},
-    {"pos": 4, "team": "Santa Clara", "p": 7, "pts": 15},
-    {"pos": 5, "team": "Arouca", "p": 7, "pts": 11},
-    {"pos": 6, "team": "Braga", "p": 6, "pts": 11},
-    {"pos": 7, "team": "Académico Viseu", "p": 7, "pts": 11},
-    {"pos": 8, "team": "Estrela Amadora", "p": 7, "pts": 10},
-    {"pos": 9, "team": "Gil Vicente", "p": 6, "pts": 8},
+    {"pos": 1, "team": "FC Porto", "p": 8, "pts": 24},
+    {"pos": 2, "team": "Benfica", "p": 8, "pts": 19},
+    {"pos": 3, "team": "Sporting", "p": 8, "pts": 18},
+    {"pos": 4, "team": "Santa Clara", "p": 8, "pts": 18},
+    {"pos": 5, "team": "Académico Viseu", "p": 8, "pts": 14},
+    {"pos": 6, "team": "Arouca", "p": 7, "pts": 11},
+    {"pos": 7, "team": "Gil Vicente", "p": 7, "pts": 11},
+    {"pos": 8, "team": "Braga", "p": 7, "pts": 11},
+    {"pos": 9, "team": "Estrela Amadora", "p": 7, "pts": 10},
     {"pos": 10, "team": "Alverca", "p": 7, "pts": 8},
-    {"pos": 11, "team": "Marítimo", "p": 7, "pts": 8},
-    {"pos": 12, "team": "Moreirense", "p": 7, "pts": 8},
+    {"pos": 11, "team": "Marítimo", "p": 8, "pts": 8},
+    {"pos": 12, "team": "Moreirense", "p": 8, "pts": 8},
     {"pos": 13, "team": "Famalicão", "p": 7, "pts": 7},
-    {"pos": 14, "team": "V. Guimarães", "p": 7, "pts": 5},
+    {"pos": 14, "team": "V. Guimarães", "p": 8, "pts": 5},
     {"pos": 15, "team": "Nacional", "p": 7, "pts": 4},
     {"pos": 16, "team": "Rio Ave", "p": 7, "pts": 4},
-    {"pos": 17, "team": "Casa Pia", "p": 7, "pts": 4},
-    {"pos": 18, "team": "Estoril", "p": 7, "pts": 2}
+    {"pos": 17, "team": "Casa Pia", "p": 8, "pts": 4},
+    {"pos": 18, "team": "Estoril", "p": 8, "pts": 2}
   ],
   "news": [
-    {"d": "2026-10-10", "t": "O Benfica está em 2.º com 16 pontos, a 5 do FC Porto, que ainda não perdeu nenhum jogo."},
-    {"d": "2026-10-10", "t": "Domingo, às 18h, a Luz recebe o Vitória de Guimarães, que está em 14.º e não ganha desde 23 de agosto."},
-    {"d": "2026-10-10", "t": "Na Liga Europa, o Celtic vem à Luz na quinta-feira, dia 15 de outubro."}
+    {"d": "2026-10-11", "t": "O Benfica venceu o Vitória por 2-0 na Luz, com golos de Dahl e Sudakov, e subiu para o 2.º lugar com 19 pontos."},
+    {"d": "2026-10-12", "t": "O FC Porto continua imparável: oito jogos, oito vitórias e 24 pontos, a cinco do Benfica."},
+    {"d": "2026-10-12", "t": "Na quinta-feira, dia 15, a Luz recebe o Celtic para a Liga Europa."}
   ]
 }
