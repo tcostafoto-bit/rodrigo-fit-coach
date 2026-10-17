@@ -1,12 +1,12 @@
 {
-  "updated": "2026-10-15",
+  "updated": "2026-10-17",
   "benfica": {
     "pos": 2, "pts": 19, "played": 8, "w": 6, "d": 1, "l": 1,
-    "last": {"date": "2026-10-11", "comp": "Liga", "home": "Benfica", "away": "V. Guimarães", "score": "2-0"},
+    "last": {"date": "2026-10-15", "comp": "Europa", "home": "Benfica", "away": "Celtic", "score": "4-1"},
     "next": [
-      {"date": "2026-10-15", "time": "20:00", "comp": "Europa", "home": "Benfica", "away": "Celtic"},
       {"date": "2026-10-22", "time": "20:00", "comp": "Europa", "home": "Omonia", "away": "Benfica"},
-      {"date": "2026-10-26", "time": "18:45", "comp": "Liga", "home": "Santa Clara", "away": "Benfica"}
+      {"date": "2026-10-26", "time": "18:45", "comp": "Liga", "home": "Santa Clara", "away": "Benfica"},
+      {"date": "2026-10-29", "time": "20:45", "comp": "Taça", "home": "Benfica", "away": "Gil Vicente"}
     ]
   },
   "table": [
@@ -30,8 +30,7 @@
     {"pos": 18, "team": "Estoril", "p": 8, "pts": 2}
   ],
   "news": [
-    {"d": "2026-10-15", "t": "Logo à noite a Luz recebe o Celtic, às 20h, na Liga Europa. O Benfica chega com seis vitórias em oito jogos."},
-    {"d": "2026-10-11", "t": "Sudakov entrou do banco e marcou dois minutos depois, na vitória por 2-0 sobre o Vitória."},
-    {"d": "2026-10-15", "t": "O FC Porto continua sem perder: oito jogos, oito vitórias e 24 pontos na liderança."}
+    {"d": "2026-10-15", "t": "Na Luz, o Benfica não deu hipóteses ao Celtic e ganhou por 4-1 na Liga Europa."},
+    {"d": "2026-10-17", "t": "Quinta-feira, dia 22, há Omonia em Nicósia. Depois vem Santa Clara, já no campeonato."}
   ]
 }
