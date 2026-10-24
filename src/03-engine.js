@@ -131,12 +131,11 @@ function planFor(d){
 var TAB_ICON = {
   home:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>',
   treinos:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 9v6M20 9v6M7 7v10M17 7v10M7 12h10"/></svg>',
-  liga:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7l4.5 3.3-1.7 5.2H9.2L7.5 10.3z"/><path d="M12 7V3M16.5 10.3l3.8-1.4M14.8 15.5l2.4 3.2M9.2 15.5l-2.4 3.2M7.5 10.3L3.7 8.9"/></svg>',
   goals:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor"/></svg>',
   nutri:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 3v7a3 3 0 006 0V3M9 3v18M17 3c-2 2-3 5-3 8h3v10"/></svg>',
   perfil:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>'
 };
-var TABS = [["home","Hoje"],["liga","Benfica"],["goals","Desafios"],["nutri","Comer"],["treinos","Treinos"],["perfil","Eu"]];
+var TABS = [["home","Hoje"],["goals","Desafios"],["nutri","Comer"],["treinos","Treinos"],["perfil","Eu"]];
 function renderTabs(){
   document.getElementById("tabs").innerHTML = TABS.map(function(t){ return '<button class="tab ' + (ui.tab === t[0] ? "on" : "") + '" data-tab="' + t[0] + '">' + TAB_ICON[t[0]] + '<span>' + t[1] + '</span></button>'; }).join("");
 }
@@ -146,7 +145,6 @@ function render(){
   if (ui.tab === "home") app.innerHTML = renderHome();
   else if (ui.tab === "treinos") app.innerHTML = renderTreinos();
   else if (ui.tab === "nutri") app.innerHTML = renderNutri();
-  else if (ui.tab === "liga") app.innerHTML = renderLiga();
   else if (ui.tab === "goals") app.innerHTML = renderGoals();
   else app.innerHTML = renderPerfil();
   window.scrollTo(0, 0);
@@ -207,7 +205,7 @@ function renderHome(){
   }
   var gl = w.game === false ? "Sem jogo" : "Jogo " + DOW[gameDow(w)];
   h += '<div class="card"><div class="row between" style="margin-bottom:8px"><div class="kicker" style="margin:0">Semana</div><button class="chip sm" data-week="edit">' + gl + (w.big ? " · importante" : "") + ' · mudar</button></div><div class="week">' + cells + '</div></div>';
-  h += ligaSnippet();
+  h += '<div class="card"><div class="kicker" style="margin-top:0">O meu clube</div><div class="acts" style="margin-top:6px"><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/search?q=Sacavenense+resultados+jogos">Ver resultados</a><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/search?q=Sacavenense+classifica%C3%A7%C3%A3o+estat%C3%ADsticas">Ver classificação</a></div></div>';
   h += '<div class="tiny" style="text-align:center;padding:4px 10px 0"><button class="chip sm" data-sheet="alert">Dor no joelho ou no calcanhar? Lê isto</button></div>';
   return h;
 }
@@ -223,27 +221,6 @@ function renderTreinos(){
   MOB_LIST.forEach(function(k){ var d = SPECIAL[k]; h += '<button class="exrow dark" data-preview="' + k + '"><div class="grow"><div class="n">' + esc(d.title) + '</div><div class="pt">' + esc(d.sub) + '</div></div><span class="sch">' + d.mins + '′</span></button>'; });
   h += '</div><div class="card"><div class="kicker">Como funciona</div><div class="muted">Dois treinos de ginásio por semana, 40 min, sempre a 2 dias de distância do jogo. A app alterna A (pernas a dois apoios + empurrar) e B (uma perna + puxar) e vai rodando 3 versões de cada para não ser sempre igual. Semanas 1 a 3 são de técnica com peso leve; a partir da 4.ª semana a app sugere subir o peso quando o treino anterior foi fácil.</div></div>';
   h += '<div class="alert"><span>⚠</span><div>' + ALERT.long + '</div></div>';
-  return h;
-}
-var LIGA = null;
-function loadLiga(){ fetch("./data/liga.json?v=" + Math.floor(Date.now() / 3600000)).then(function(r){ return r.json(); }).then(function(j){ LIGA = j; if (ui.tab === "liga" || ui.tab === "home") render(); }).catch(function(){}); }
-function fmtD(s){ var p = s.split("-"); return p[2] + "/" + p[1]; }
-function matchRow(m){ var isB = function(n){ return /Benfica/.test(n); }; return '<div class="mrow"><span class="tiny">' + fmtD(m.date) + (m.time ? " · " + m.time : "") + ' · ' + esc(m.comp) + '</span><span class="mt"><b class="' + (isB(m.home) ? "b" : "") + '">' + esc(m.home) + '</b> <span class="mono">' + (m.score || "vs") + '</span> <b class="' + (isB(m.away) ? "b" : "") + '">' + esc(m.away) + '</b></span></div>'; }
-function ligaSnippet(){
-  if (!LIGA) return "";
-  var b = LIGA.benfica, n = b.next && b.next[0];
-  return '<button class="card liga-mini" data-tab="liga" style="width:100%;text-align:left"><div class="row between"><div><div class="kicker" style="margin:0 0 4px">Benfica · ' + b.pos + '.º lugar · ' + b.pts + ' pts</div>' + (n ? '<div style="font-size:15px">Próximo: <b>' + esc(n.home) + ' – ' + esc(n.away) + '</b> · ' + fmtD(n.date) + (n.time ? ' ' + n.time : '') + '</div>' : '') + '</div><span class="tiny">ver →</span></div></button>';
-}
-function renderLiga(){
-  var h = topBar();
-  if (!LIGA) return h + '<div class="card"><div class="muted">A carregar a Liga…</div></div>';
-  var b = LIGA.benfica;
-  h += '<div class="card hero"><div class="kicker">Benfica · Liga 2026/27</div><h1 class="disp" style="font-size:40px">' + b.pos + '.º lugar</h1><div class="sub">' + b.pts + ' pontos em ' + b.played + ' jogos · ' + b.w + 'V ' + b.d + 'E ' + b.l + 'D</div>' +
-    '<div class="kicker" style="margin-top:6px">Próximos jogos</div>' + (b.next || []).map(matchRow).join("") +
-    (b.last ? '<div class="kicker" style="margin-top:12px">Último jogo</div>' + matchRow(b.last) : '') + '</div>';
-  h += '<div class="card"><div class="kicker">Classificação</div><table class="tbl"><tr><th></th><th style="text-align:left">Equipa</th><th>J</th><th>Pts</th></tr>' + LIGA.table.map(function(r){ return '<tr class="' + (/Benfica/.test(r.team) ? "b" : "") + '"><td>' + r.pos + '</td><td style="text-align:left">' + esc(r.team) + '</td><td>' + r.p + '</td><td><b>' + r.pts + '</b></td></tr>'; }).join("") + '</table></div>';
-  if (LIGA.news && LIGA.news.length) h += '<div class="card"><div class="kicker">Em resumo</div>' + LIGA.news.map(function(x){ return '<div class="kv" style="display:block"><div class="tiny">' + fmtD(x.d) + '</div><div>' + esc(x.t) + '</div></div>'; }).join("") + '</div>';
-  h += '<div class="tiny" style="text-align:center;padding:6px">Atualizado a ' + fmtD(LIGA.updated) + '. A app atualiza isto sozinha todos os dias.</div>';
   return h;
 }
 function goalKey(gi, ii){ return gi + "." + ii; }
@@ -567,7 +544,6 @@ document.addEventListener("click", function(e){ var r = e.target.closest(".exrow
 document.addEventListener("click", function(e){ var t = e.target.closest(".excard .figbox"); if (!t) return; var day = sessDay(); if (!day) return; var f = focusItem(day); if (f) openInfo(day.blocks[f.bi].items[f.ii][0]); });
 if ("serviceWorker" in navigator){ window.addEventListener("load", function(){ navigator.serviceWorker.register("./sw.js").catch(function(){}); }); }
 render();
-loadLiga();
 if (st.sess){ showWorkout(true); renderWorkout(); }
 </script>
 </body>
