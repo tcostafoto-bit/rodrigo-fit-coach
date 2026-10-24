@@ -205,7 +205,7 @@ function renderHome(){
   }
   var gl = w.game === false ? "Sem jogo" : "Jogo " + DOW[gameDow(w)];
   h += '<div class="card"><div class="row between" style="margin-bottom:8px"><div class="kicker" style="margin:0">Semana</div><button class="chip sm" data-week="edit">' + gl + (w.big ? " · importante" : "") + ' · mudar</button></div><div class="week">' + cells + '</div></div>';
-  h += '<div class="card"><div class="kicker" style="margin-top:0">O meu clube</div><div class="acts" style="margin-top:6px"><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/search?q=Sacavenense+resultados+jogos">Ver resultados</a><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/search?q=Sacavenense+classifica%C3%A7%C3%A3o+estat%C3%ADsticas">Ver classificação</a></div></div>';
+  h += '<div class="card"><div class="kicker" style="margin-top:0">O meu clube</div><div class="acts" style="margin-top:6px"><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/search?q=Sacavenense+sub-15+resultados+jogos">Ver resultados</a><a class="btn ghost" target="_blank" rel="noopener" href="https://www.google.com/search?q=Sacavenense+sub-15+classifica%C3%A7%C3%A3o">Ver classificação</a></div></div>';
   h += '<div class="tiny" style="text-align:center;padding:4px 10px 0"><button class="chip sm" data-sheet="alert">Dor no joelho ou no calcanhar? Lê isto</button></div>';
   return h;
 }
